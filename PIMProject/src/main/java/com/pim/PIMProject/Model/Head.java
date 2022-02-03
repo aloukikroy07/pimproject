@@ -8,6 +8,23 @@ public class Head {
 	private String orgId;
 	private String msgId;
 	
+	public Head() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	public Head(String ver, Timestamp ts, String orgId, String msgId) {
+		super();
+		this.ver = ver;
+		this.ts = ts;
+		this.orgId = orgId;
+		this.msgId = msgId;
+	}
+
+
+
 	public String getVer() {
 		return ver;
 	}

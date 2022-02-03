@@ -5,6 +5,18 @@ public class Cred {
 	private String subtype;
 	private String Data;
 	
+	public Cred() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Cred(String type, String subtype, String data) {
+		super();
+		this.type = type;
+		this.subtype = subtype;
+		Data = data;
+	}
+
 	public String getType() {
 		return type;
 	}

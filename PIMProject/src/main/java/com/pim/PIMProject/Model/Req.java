@@ -7,6 +7,20 @@ public class Req {
 	private String note;
 	private Timestamp ts;
 	private String type;
+	
+	public Req() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Req(String id, String note, Timestamp ts, String type) {
+		super();
+		this.id = id;
+		this.note = note;
+		this.ts = ts;
+		this.type = type;
+	}
+
 	public String getId() {
 		return id;
 	}
