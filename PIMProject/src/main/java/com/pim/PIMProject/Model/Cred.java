@@ -4,6 +4,7 @@ public class Cred {
 	private String type;
 	private String subtype;
 	private String Data;
+	
 	public String getType() {
 		return type;
 	}
