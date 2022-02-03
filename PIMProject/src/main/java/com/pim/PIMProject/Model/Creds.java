@@ -1,5 +1,7 @@
 package com.pim.PIMProject.Model;
 
-public class Creds {
+import java.util.List;
 
+public class Creds {
+	public List<Cred> creds; 
 }
