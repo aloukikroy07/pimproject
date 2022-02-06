@@ -1,5 +1,8 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class OtherInfo {
 	private String Channel;
 

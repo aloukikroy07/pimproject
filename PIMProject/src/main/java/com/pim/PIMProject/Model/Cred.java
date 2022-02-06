@@ -1,8 +1,18 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+@XmlRootElement
 public class Cred {
+	
+	@JacksonXmlProperty(isAttribute = true)
 	private String type;
+	
+	@JacksonXmlProperty(isAttribute = true)
 	private String subtype;
+	
 	private String Data;
 	
 	public Cred() {

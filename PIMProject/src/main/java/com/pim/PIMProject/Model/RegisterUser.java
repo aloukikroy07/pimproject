@@ -1,5 +1,8 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class RegisterUser {
 	public Head head;
 	public Req req;
@@ -22,7 +25,5 @@ public class RegisterUser {
 	}
 	public void setEntity(Entity entity) {
 		this.entity = entity;
-	}
-	
-	
+	}	
 }

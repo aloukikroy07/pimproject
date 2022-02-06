@@ -1,11 +1,21 @@
 package com.pim.PIMProject.Model;
 
-import java.sql.Timestamp;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+@XmlRootElement
 public class Req {
+	@JacksonXmlProperty(isAttribute = true)
 	private String id;
+	
+	@JacksonXmlProperty(isAttribute = true)
 	private String note;
-	private Timestamp ts;
+	
+	@JacksonXmlProperty(isAttribute = true)
+	private String ts;
+	
+	@JacksonXmlProperty(isAttribute = true)
 	private String type;
 	
 	public Req() {
@@ -13,7 +23,7 @@ public class Req {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Req(String id, String note, Timestamp ts, String type) {
+	public Req(String id, String note, String ts, String type) {
 		super();
 		this.id = id;
 		this.note = note;
@@ -33,10 +43,10 @@ public class Req {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public Timestamp getTs() {
+	public String getTs() {
 		return ts;
 	}
-	public void setTs(Timestamp ts) {
+	public void setTs(String ts) {
 		this.ts = ts;
 	}
 	public String getType() {

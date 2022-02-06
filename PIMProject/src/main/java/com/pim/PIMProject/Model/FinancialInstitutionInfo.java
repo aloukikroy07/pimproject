@@ -1,5 +1,8 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class FinancialInstitutionInfo {
 	private Integer idFinancialInstitutionKey;
 	private String FinancialInstitution;

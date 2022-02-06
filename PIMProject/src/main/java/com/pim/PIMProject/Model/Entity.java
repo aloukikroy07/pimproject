@@ -1,13 +1,50 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+@XmlRootElement
 public class Entity {
-	public Info info;
-	public DeviceInfo deviceInfo;
-	public FinancialInstitutionInfo financialInstitutionInfo;
-	public ContactReference contactReference;
-	public Creds creds;
-	public RequestedVirtualID requestedVirtualID;
-	public OtherInfo otherInfo;
+	
+	@JacksonXmlProperty(isAttribute = true)
+	private String seqNum;
+	
+	private Info info;
+	private DeviceInfo deviceInfo;
+	private FinancialInstitutionInfo financialInstitutionInfo;
+	private ContactReference contactReference;
+	private Creds creds;
+	private RequestedVirtualID requestedVirtualID;
+	private OtherInfo otherInfo;
+	
+	public Entity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Entity(String seqNum, Info info, DeviceInfo deviceInfo, FinancialInstitutionInfo financialInstitutionInfo,
+			ContactReference contactReference, Creds creds, RequestedVirtualID requestedVirtualID,
+			OtherInfo otherInfo) {
+		super();
+		this.seqNum = seqNum;
+		this.info = info;
+		this.deviceInfo = deviceInfo;
+		this.financialInstitutionInfo = financialInstitutionInfo;
+		this.contactReference = contactReference;
+		this.creds = creds;
+		this.requestedVirtualID = requestedVirtualID;
+		this.otherInfo = otherInfo;
+	}
+
+
+
+	public String getSeqNum() {
+		return seqNum;
+	}
+	public void setSeqNum(String seqNum) {
+		this.seqNum = seqNum;
+	}
 	public Info getInfo() {
 		return info;
 	}
@@ -50,6 +87,5 @@ public class Entity {
 	public void setOtherInfo(OtherInfo otherInfo) {
 		this.otherInfo = otherInfo;
 	}
-	
 	
 }
