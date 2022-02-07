@@ -272,10 +272,4 @@ public class Info {
 	public void setPassword(String password) {
 		Password = password;
 	}
-
-	
-
-	
-	
-	
 }
