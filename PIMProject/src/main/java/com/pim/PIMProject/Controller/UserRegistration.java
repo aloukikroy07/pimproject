@@ -82,7 +82,7 @@ public class UserRegistration {
 		financialInstitutionInfo.setFinancialInstitution(userReg.getEntity().getFinancialInstitutionInfo().getFinancialInstitution());
 		financialInstitutionInfo.setBranchName(userReg.getEntity().getFinancialInstitutionInfo().getBranchName());
 		financialInstitutionInfo.setRoutingNumber(userReg.getEntity().getFinancialInstitutionInfo().getRoutingNumber());
-		financialInstitutionInfo.setAccountingNumber(userReg.getEntity().getFinancialInstitutionInfo().getAccountingNumber());
+		financialInstitutionInfo.setAccountNumber(userReg.getEntity().getFinancialInstitutionInfo().getAccountNumber());
 		
 		contactReference.setContactPersonName(userReg.getEntity().getContactReference().getContactPersonName());
 		contactReference.setDesignation(userReg.getEntity().getContactReference().getDesignation());

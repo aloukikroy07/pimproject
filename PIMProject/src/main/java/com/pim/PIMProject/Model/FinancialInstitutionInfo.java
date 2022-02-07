@@ -17,21 +17,22 @@ public class FinancialInstitutionInfo {
 	@JacksonXmlProperty(localName = "RoutingNumber")
 	private String routingNumber;
 	
-	@JacksonXmlProperty(localName = "AccountingNumber")
-	private String accountingNumber;
-	
+	@JacksonXmlProperty(localName = "AccountNumber")
+	private String accountNumber;
+
 	public FinancialInstitutionInfo() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public FinancialInstitutionInfo(Integer idFinancialInstitutionKey, String financialInstitution, String branchName,
-			String routingNumber, String accountingNumber) {
+			String routingNumber, String accountNumber) {
 		super();
 		this.idFinancialInstitutionKey = idFinancialInstitutionKey;
 		this.financialInstitution = financialInstitution;
 		this.branchName = branchName;
 		this.routingNumber = routingNumber;
-		this.accountingNumber = accountingNumber;
+		this.accountNumber = accountNumber;
 	}
 
 	public Integer getIdFinancialInstitutionKey() {
@@ -66,15 +67,11 @@ public class FinancialInstitutionInfo {
 		this.routingNumber = routingNumber;
 	}
 
-	public String getAccountingNumber() {
-		return accountingNumber;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setAccountingNumber(String accountingNumber) {
-		this.accountingNumber = accountingNumber;
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
-
-	
-	
-	
 }
