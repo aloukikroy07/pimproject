@@ -39,7 +39,7 @@ public class Info {
 	private String cBAccountNumber;
 	@JacksonXmlProperty(localName = "NID")
 	private String nID;
-	@JacksonXmlProperty(localName = "Head")
+	@JacksonXmlProperty(localName = "TIN")
 	private String tIN;
 	@JacksonXmlProperty(localName = "BIN")
 	private String bIN;
