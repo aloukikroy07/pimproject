@@ -8,26 +8,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class ContactReference {
 		private Integer idContactReferenceKey;
 		@JacksonXmlProperty(localName = "ContactPersonName")
-		private String ContactPersonName;
+		private String contactPersonName;
 		@JacksonXmlProperty(localName = "Designation")
-		private String Designation;
+		private String designation;
 		@JacksonXmlProperty(localName = "ContactNumber")
-		private String ContactNumber;
+		private String contactNumber;
 		@JacksonXmlProperty(localName = "Email")
-		private String Email;
+		private String email;
 		
 		public ContactReference() {
 			super();
+			// TODO Auto-generated constructor stub
 		}
 
 		public ContactReference(Integer idContactReferenceKey, String contactPersonName, String designation,
 				String contactNumber, String email) {
 			super();
 			this.idContactReferenceKey = idContactReferenceKey;
-			ContactPersonName = contactPersonName;
-			Designation = designation;
-			ContactNumber = contactNumber;
-			Email = email;
+			this.contactPersonName = contactPersonName;
+			this.designation = designation;
+			this.contactNumber = contactNumber;
+			this.email = email;
 		}
 
 		public Integer getIdContactReferenceKey() {
@@ -39,37 +40,34 @@ public class ContactReference {
 		}
 
 		public String getContactPersonName() {
-			return ContactPersonName;
+			return contactPersonName;
 		}
 
 		public void setContactPersonName(String contactPersonName) {
-			ContactPersonName = contactPersonName;
+			this.contactPersonName = contactPersonName;
 		}
 
 		public String getDesignation() {
-			return Designation;
+			return designation;
 		}
 
 		public void setDesignation(String designation) {
-			Designation = designation;
+			this.designation = designation;
 		}
 
 		public String getContactNumber() {
-			return ContactNumber;
+			return contactNumber;
 		}
 
 		public void setContactNumber(String contactNumber) {
-			ContactNumber = contactNumber;
+			this.contactNumber = contactNumber;
 		}
 
 		public String getEmail() {
-			return Email;
+			return email;
 		}
 
 		public void setEmail(String email) {
-			Email = email;
-		}
-		
-		
-		
+			this.email = email;
+		}	
 }
