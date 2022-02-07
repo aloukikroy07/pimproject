@@ -7,14 +7,18 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 @XmlRootElement
 public class FinancialInstitutionInfo {
 	private Integer idFinancialInstitutionKey;
+	
 	@JacksonXmlProperty(localName = "FinancialInstitution")
-	private String FinancialInstitution;
+	private String financialInstitution;
+	
 	@JacksonXmlProperty(localName = "BranchName")
-	private String BranchName;
+	private String branchName;
+	
 	@JacksonXmlProperty(localName = "RoutingNumber")
-	private String RoutingNumber;
+	private String routingNumber;
+	
 	@JacksonXmlProperty(localName = "AccountingNumber")
-	private String AccountingNumber;
+	private String accountingNumber;
 	
 	public FinancialInstitutionInfo() {
 		super();
@@ -24,10 +28,10 @@ public class FinancialInstitutionInfo {
 			String routingNumber, String accountingNumber) {
 		super();
 		this.idFinancialInstitutionKey = idFinancialInstitutionKey;
-		FinancialInstitution = financialInstitution;
-		BranchName = branchName;
-		RoutingNumber = routingNumber;
-		AccountingNumber = accountingNumber;
+		this.financialInstitution = financialInstitution;
+		this.branchName = branchName;
+		this.routingNumber = routingNumber;
+		this.accountingNumber = accountingNumber;
 	}
 
 	public Integer getIdFinancialInstitutionKey() {
@@ -39,36 +43,38 @@ public class FinancialInstitutionInfo {
 	}
 
 	public String getFinancialInstitution() {
-		return FinancialInstitution;
+		return financialInstitution;
 	}
 
 	public void setFinancialInstitution(String financialInstitution) {
-		FinancialInstitution = financialInstitution;
+		this.financialInstitution = financialInstitution;
 	}
 
 	public String getBranchName() {
-		return BranchName;
+		return branchName;
 	}
 
 	public void setBranchName(String branchName) {
-		BranchName = branchName;
+		this.branchName = branchName;
 	}
 
 	public String getRoutingNumber() {
-		return RoutingNumber;
+		return routingNumber;
 	}
 
 	public void setRoutingNumber(String routingNumber) {
-		RoutingNumber = routingNumber;
+		this.routingNumber = routingNumber;
 	}
 
 	public String getAccountingNumber() {
-		return AccountingNumber;
+		return accountingNumber;
 	}
 
 	public void setAccountingNumber(String accountingNumber) {
-		AccountingNumber = accountingNumber;
+		this.accountingNumber = accountingNumber;
 	}
+
+	
 	
 	
 }
