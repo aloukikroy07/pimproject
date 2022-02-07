@@ -77,7 +77,7 @@ public class UserRegistration {
 		deviceInfo.setDevice_ID(userReg.getEntity().getDeviceInfo().getDevice_ID());
 		deviceInfo.setMobile_No(userReg.getEntity().getDeviceInfo().getMobile_No());
 		deviceInfo.setLocation(userReg.getEntity().getDeviceInfo().getLocation());
-		deviceInfo.setIP(userReg.getEntity().getDeviceInfo().getIP());
+		deviceInfo.setiP(userReg.getEntity().getDeviceInfo().getiP());
 		
 		financialInstitutionInfo.setFinancialInstitution(userReg.getEntity().getFinancialInstitutionInfo().getFinancialInstitution());
 		financialInstitutionInfo.setBranchName(userReg.getEntity().getFinancialInstitutionInfo().getBranchName());
