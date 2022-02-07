@@ -98,6 +98,8 @@ public class UserRegistration {
 		cred2.setData(userReg.getEntity().getCreds().getCreds().get(1).getData());
 		
 		List<Cred> creds = new ArrayList<>();
+		creds.add(cred1);
+		creds.add(cred2);
 		credentials.setCreds(creds);
 		
 		requestedVirtualID.setValue(userReg.getEntity().getRequestedVirtualID().getValue());
