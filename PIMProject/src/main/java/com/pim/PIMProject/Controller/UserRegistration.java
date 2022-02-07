@@ -65,11 +65,11 @@ public class UserRegistration {
 		info.setNameOfDivision("");
 		info.setTypeOfFinancialInstitution("");
 		info.setSwiftCode("");
-		info.setCBAccountNumber("");
-		info.setNID(userReg.getEntity().getInfo().getNID());
-		info.setTIN(userReg.getEntity().getInfo().getTIN());
-		info.setBIN(userReg.getEntity().getInfo().getBIN());
-		info.setIDTPKey(userReg.getEntity().getInfo().getIDTPKey());
+		info.setcBAccountNumber("");
+		info.setnID(userReg.getEntity().getInfo().getnID());
+		info.settIN(userReg.getEntity().getInfo().gettIN());
+		info.setbIN(userReg.getEntity().getInfo().getbIN());
+		info.setiDTPKey(userReg.getEntity().getInfo().getiDTPKey());
 		info.setDateOfBirth(userReg.getEntity().getInfo().getDateOfBirth());
 		info.setCallBackURL(userReg.getEntity().getInfo().getCallBackURL());
 		info.setPassword(userReg.getEntity().getInfo().getPassword());

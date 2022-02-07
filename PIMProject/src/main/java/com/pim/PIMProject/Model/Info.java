@@ -8,52 +8,53 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class Info {
 	private Integer idInfoKey;
 	@JacksonXmlProperty(localName = "EntityType")
-	private String EntityType;
+	private String entityType;
 	@JacksonXmlProperty(localName = "Name")
-	private String Name;
+	private String name;
 	@JacksonXmlProperty(localName = "AddressLine1")
-	private String AddressLine1;
+	private String addressLine1;
 	@JacksonXmlProperty(localName = "AddressLine2")
-	private String AddressLine2;
+	private String addressLine2;
 	@JacksonXmlProperty(localName = "District")
-	private String District;
+	private String district;
 	@JacksonXmlProperty(localName = "PostalCode")
-	private String PostalCode;
+	private String postalCode;
 	@JacksonXmlProperty(localName = "MobileNumber")
-	private String MobileNumber;
+	private String mobileNumber;
 	@JacksonXmlProperty(localName = "Email")
-	private String Email;
+	private String email;
 	@JacksonXmlProperty(localName = "TypeOfOwnership")
-	private String TypeOfOwnership;
+	private String typeOfOwnership;
 	@JacksonXmlProperty(localName = "TypeOfBusiness")
-	private String TypeOfBusiness;
+	private String typeOfBusiness;
 	@JacksonXmlProperty(localName = "NameOfMinistry")
-	private String NameOfMinistry;
+	private String nameOfMinistry;
 	@JacksonXmlProperty(localName = "NameOfDivision")
-	private String NameOfDivision;
+	private String nameOfDivision;
 	@JacksonXmlProperty(localName = "TypeOfFinancialInstitution")
-	private String TypeOfFinancialInstitution;
+	private String typeOfFinancialInstitution;
 	@JacksonXmlProperty(localName = "SwiftCode")
-	private String SwiftCode;
+	private String swiftCode;
 	@JacksonXmlProperty(localName = "CBAccountNumber")
-	private String CBAccountNumber;
+	private String cBAccountNumber;
 	@JacksonXmlProperty(localName = "NID")
-	private String NID;
+	private String nID;
 	@JacksonXmlProperty(localName = "Head")
-	private String TIN;
+	private String tIN;
 	@JacksonXmlProperty(localName = "BIN")
-	private String BIN;
+	private String bIN;
 	@JacksonXmlProperty(localName = "IDTPKey")
-	private String IDTPKey;
+	private String iDTPKey;
 	@JacksonXmlProperty(localName = "DateOfBirth")
-	private String DateOfBirth;
+	private String dateOfBirth;
 	@JacksonXmlProperty(localName = "CallBackURL")
-	private String CallBackURL;
+	private String callBackURL;
 	@JacksonXmlProperty(localName = "Password")
-	private String Password;
+	private String password;
 	
 	public Info() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Info(Integer idInfoKey, String entityType, String name, String addressLine1, String addressLine2,
@@ -63,31 +64,29 @@ public class Info {
 			String dateOfBirth, String callBackURL, String password) {
 		super();
 		this.idInfoKey = idInfoKey;
-		EntityType = entityType;
-		Name = name;
-		AddressLine1 = addressLine1;
-		AddressLine2 = addressLine2;
-		District = district;
-		PostalCode = postalCode;
-		MobileNumber = mobileNumber;
-		Email = email;
-		TypeOfOwnership = typeOfOwnership;
-		TypeOfBusiness = typeOfBusiness;
-		NameOfMinistry = nameOfMinistry;
-		NameOfDivision = nameOfDivision;
-		TypeOfFinancialInstitution = typeOfFinancialInstitution;
-		SwiftCode = swiftCode;
-		CBAccountNumber = cBAccountNumber;
-		NID = nID;
-		TIN = tIN;
-		BIN = bIN;
-		IDTPKey = iDTPKey;
-		DateOfBirth = dateOfBirth;
-		CallBackURL = callBackURL;
-		Password = password;
+		this.entityType = entityType;
+		this.name = name;
+		this.addressLine1 = addressLine1;
+		this.addressLine2 = addressLine2;
+		this.district = district;
+		this.postalCode = postalCode;
+		this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.typeOfOwnership = typeOfOwnership;
+		this.typeOfBusiness = typeOfBusiness;
+		this.nameOfMinistry = nameOfMinistry;
+		this.nameOfDivision = nameOfDivision;
+		this.typeOfFinancialInstitution = typeOfFinancialInstitution;
+		this.swiftCode = swiftCode;
+		this.cBAccountNumber = cBAccountNumber;
+		this.nID = nID;
+		this.tIN = tIN;
+		this.bIN = bIN;
+		this.iDTPKey = iDTPKey;
+		this.dateOfBirth = dateOfBirth;
+		this.callBackURL = callBackURL;
+		this.password = password;
 	}
-
-
 
 	public Integer getIdInfoKey() {
 		return idInfoKey;
@@ -98,178 +97,180 @@ public class Info {
 	}
 
 	public String getEntityType() {
-		return EntityType;
+		return entityType;
 	}
 
 	public void setEntityType(String entityType) {
-		EntityType = entityType;
+		this.entityType = entityType;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getAddressLine1() {
-		return AddressLine1;
+		return addressLine1;
 	}
 
 	public void setAddressLine1(String addressLine1) {
-		AddressLine1 = addressLine1;
+		this.addressLine1 = addressLine1;
 	}
 
 	public String getAddressLine2() {
-		return AddressLine2;
+		return addressLine2;
 	}
 
 	public void setAddressLine2(String addressLine2) {
-		AddressLine2 = addressLine2;
+		this.addressLine2 = addressLine2;
 	}
 
 	public String getDistrict() {
-		return District;
+		return district;
 	}
 
 	public void setDistrict(String district) {
-		District = district;
+		this.district = district;
 	}
 
 	public String getPostalCode() {
-		return PostalCode;
+		return postalCode;
 	}
 
 	public void setPostalCode(String postalCode) {
-		PostalCode = postalCode;
+		this.postalCode = postalCode;
 	}
 
 	public String getMobileNumber() {
-		return MobileNumber;
+		return mobileNumber;
 	}
 
 	public void setMobileNumber(String mobileNumber) {
-		MobileNumber = mobileNumber;
+		this.mobileNumber = mobileNumber;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
 	public String getTypeOfOwnership() {
-		return TypeOfOwnership;
+		return typeOfOwnership;
 	}
 
 	public void setTypeOfOwnership(String typeOfOwnership) {
-		TypeOfOwnership = typeOfOwnership;
+		this.typeOfOwnership = typeOfOwnership;
 	}
 
 	public String getTypeOfBusiness() {
-		return TypeOfBusiness;
+		return typeOfBusiness;
 	}
 
 	public void setTypeOfBusiness(String typeOfBusiness) {
-		TypeOfBusiness = typeOfBusiness;
+		this.typeOfBusiness = typeOfBusiness;
 	}
 
 	public String getNameOfMinistry() {
-		return NameOfMinistry;
+		return nameOfMinistry;
 	}
 
 	public void setNameOfMinistry(String nameOfMinistry) {
-		NameOfMinistry = nameOfMinistry;
+		this.nameOfMinistry = nameOfMinistry;
 	}
 
 	public String getNameOfDivision() {
-		return NameOfDivision;
+		return nameOfDivision;
 	}
 
 	public void setNameOfDivision(String nameOfDivision) {
-		NameOfDivision = nameOfDivision;
+		this.nameOfDivision = nameOfDivision;
 	}
 
 	public String getTypeOfFinancialInstitution() {
-		return TypeOfFinancialInstitution;
+		return typeOfFinancialInstitution;
 	}
 
 	public void setTypeOfFinancialInstitution(String typeOfFinancialInstitution) {
-		TypeOfFinancialInstitution = typeOfFinancialInstitution;
+		this.typeOfFinancialInstitution = typeOfFinancialInstitution;
 	}
 
 	public String getSwiftCode() {
-		return SwiftCode;
+		return swiftCode;
 	}
 
 	public void setSwiftCode(String swiftCode) {
-		SwiftCode = swiftCode;
+		this.swiftCode = swiftCode;
 	}
 
-	public String getCBAccountNumber() {
-		return CBAccountNumber;
+	public String getcBAccountNumber() {
+		return cBAccountNumber;
 	}
 
-	public void setCBAccountNumber(String cBAccountNumber) {
-		CBAccountNumber = cBAccountNumber;
+	public void setcBAccountNumber(String cBAccountNumber) {
+		this.cBAccountNumber = cBAccountNumber;
 	}
 
-	public String getNID() {
-		return NID;
+	public String getnID() {
+		return nID;
 	}
 
-	public void setNID(String nID) {
-		NID = nID;
+	public void setnID(String nID) {
+		this.nID = nID;
 	}
 
-	public String getTIN() {
-		return TIN;
+	public String gettIN() {
+		return tIN;
 	}
 
-	public void setTIN(String tIN) {
-		TIN = tIN;
+	public void settIN(String tIN) {
+		this.tIN = tIN;
 	}
 
-	public String getBIN() {
-		return BIN;
+	public String getbIN() {
+		return bIN;
 	}
 
-	public void setBIN(String bIN) {
-		BIN = bIN;
+	public void setbIN(String bIN) {
+		this.bIN = bIN;
 	}
 
-	public String getIDTPKey() {
-		return IDTPKey;
+	public String getiDTPKey() {
+		return iDTPKey;
 	}
 
-	public void setIDTPKey(String iDTPKey) {
-		IDTPKey = iDTPKey;
+	public void setiDTPKey(String iDTPKey) {
+		this.iDTPKey = iDTPKey;
 	}
 
 	public String getDateOfBirth() {
-		return DateOfBirth;
+		return dateOfBirth;
 	}
 
 	public void setDateOfBirth(String dateOfBirth) {
-		DateOfBirth = dateOfBirth;
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	public String getCallBackURL() {
-		return CallBackURL;
+		return callBackURL;
 	}
 
 	public void setCallBackURL(String callBackURL) {
-		CallBackURL = callBackURL;
+		this.callBackURL = callBackURL;
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
+	
+	
 }
