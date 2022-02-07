@@ -2,12 +2,18 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 @XmlRootElement
 public class ContactReference {
 		private Integer idContactReferenceKey;
+		@JacksonXmlProperty(localName = "ContactPersonName")
 		private String ContactPersonName;
+		@JacksonXmlProperty(localName = "Designation")
 		private String Designation;
+		@JacksonXmlProperty(localName = "ContactNumber")
 		private String ContactNumber;
+		@JacksonXmlProperty(localName = "Email")
 		private String Email;
 		
 		public ContactReference() {

@@ -12,7 +12,7 @@ public class Cred {
 	
 	@JacksonXmlProperty(isAttribute = true)
 	private String subtype;
-	
+	@JacksonXmlProperty(localName = "Data")
 	private String Data;
 	
 	public Cred() {

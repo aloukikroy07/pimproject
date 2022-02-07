@@ -2,12 +2,18 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 @XmlRootElement
 public class DeviceInfo {
 	private Integer idDeviceKey;
+	@JacksonXmlProperty(localName = "Device_ID")
 	private String Device_ID;
+	@JacksonXmlProperty(localName = "Mobile_No")
 	private String Mobile_No;
+	@JacksonXmlProperty(localName = "Location")
 	private String Location;
+	@JacksonXmlProperty(localName = "IP")
 	private String IP;
 	
 	public DeviceInfo() {

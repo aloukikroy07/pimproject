@@ -9,13 +9,19 @@ public class Entity {
 	
 	@JacksonXmlProperty(isAttribute = true)
 	private String seqNum;
-	
+	@JacksonXmlProperty(localName = "Info")
 	private Info info;
+	@JacksonXmlProperty(localName = "DeviceInfo")
 	private DeviceInfo deviceInfo;
+	@JacksonXmlProperty(localName = "FinancialInstitutionInfo")
 	private FinancialInstitutionInfo financialInstitutionInfo;
+	@JacksonXmlProperty(localName = "ContactReference")
 	private ContactReference contactReference;
+	@JacksonXmlProperty(localName = "Creds")
 	private Creds creds;
+	@JacksonXmlProperty(localName = "RequestedVirtualID")
 	private RequestedVirtualID requestedVirtualID;
+	@JacksonXmlProperty(localName = "OtherInfo")
 	private OtherInfo otherInfo;
 	
 	public Entity() {

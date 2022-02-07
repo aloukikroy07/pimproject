@@ -2,12 +2,18 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 @XmlRootElement
 public class FinancialInstitutionInfo {
 	private Integer idFinancialInstitutionKey;
+	@JacksonXmlProperty(localName = "FinancialInstitution")
 	private String FinancialInstitution;
+	@JacksonXmlProperty(localName = "BranchName")
 	private String BranchName;
+	@JacksonXmlProperty(localName = "RoutingNumber")
 	private String RoutingNumber;
+	@JacksonXmlProperty(localName = "AccountingNumber")
 	private String AccountingNumber;
 	
 	public FinancialInstitutionInfo() {

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class Creds {
 	@JacksonXmlProperty(localName = "Cred")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	public List<Cred> creds= new ArrayList<>();
+	private List<Cred> creds= new ArrayList<>();
 
 	public List<Cred> getCreds() {
 		return creds;

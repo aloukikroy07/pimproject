@@ -2,11 +2,16 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 @XmlRootElement
 public class RegisterUser {
-	public Head head;
-	public Req req;
-	public Entity entity;
+	@JacksonXmlProperty(localName = "Head")
+	private Head head;
+	@JacksonXmlProperty(localName = "Req")
+	private Req req;
+	@JacksonXmlProperty(localName = "Entity")
+	private Entity entity;
 	
 	public Head getHead() {
 		return head;
@@ -25,5 +30,6 @@ public class RegisterUser {
 	}
 	public void setEntity(Entity entity) {
 		this.entity = entity;
-	}	
+	}
+		
 }

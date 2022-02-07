@@ -2,30 +2,54 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 @XmlRootElement
 public class Info {
 	private Integer idInfoKey;
+	@JacksonXmlProperty(localName = "EntityType")
 	private String EntityType;
+	@JacksonXmlProperty(localName = "Name")
 	private String Name;
+	@JacksonXmlProperty(localName = "AddressLine1")
 	private String AddressLine1;
+	@JacksonXmlProperty(localName = "AddressLine2")
 	private String AddressLine2;
+	@JacksonXmlProperty(localName = "District")
 	private String District;
+	@JacksonXmlProperty(localName = "PostalCode")
 	private String PostalCode;
+	@JacksonXmlProperty(localName = "MobileNumber")
 	private String MobileNumber;
+	@JacksonXmlProperty(localName = "Email")
 	private String Email;
+	@JacksonXmlProperty(localName = "TypeOfOwnership")
 	private String TypeOfOwnership;
+	@JacksonXmlProperty(localName = "TypeOfBusiness")
 	private String TypeOfBusiness;
+	@JacksonXmlProperty(localName = "NameOfMinistry")
 	private String NameOfMinistry;
+	@JacksonXmlProperty(localName = "NameOfDivision")
 	private String NameOfDivision;
+	@JacksonXmlProperty(localName = "TypeOfFinancialInstitution")
 	private String TypeOfFinancialInstitution;
+	@JacksonXmlProperty(localName = "SwiftCode")
 	private String SwiftCode;
+	@JacksonXmlProperty(localName = "CBAccountNumber")
 	private String CBAccountNumber;
+	@JacksonXmlProperty(localName = "NID")
 	private String NID;
+	@JacksonXmlProperty(localName = "Head")
 	private String TIN;
+	@JacksonXmlProperty(localName = "BIN")
 	private String BIN;
+	@JacksonXmlProperty(localName = "IDTPKey")
 	private String IDTPKey;
+	@JacksonXmlProperty(localName = "DateOfBirth")
 	private String DateOfBirth;
+	@JacksonXmlProperty(localName = "CallBackURL")
 	private String CallBackURL;
+	@JacksonXmlProperty(localName = "Password")
 	private String Password;
 	
 	public Info() {
@@ -62,6 +86,8 @@ public class Info {
 		CallBackURL = callBackURL;
 		Password = password;
 	}
+
+
 
 	public Integer getIdInfoKey() {
 		return idInfoKey;
@@ -246,6 +272,8 @@ public class Info {
 	public void setPassword(String password) {
 		Password = password;
 	}
+
+	
 
 	
 	
