@@ -46,7 +46,7 @@ public class UserRegistrationRepository {
 //			return insertion;
 //		}
 //		else {
-//			return 0;
+			return 0;
 //		}
 	}
 }
