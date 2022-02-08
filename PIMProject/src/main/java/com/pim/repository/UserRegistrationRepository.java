@@ -44,15 +44,15 @@ public class UserRegistrationRepository {
 		if (userData.isEmpty()) {
 			String sql = "insert into t_customer_profiles (APPLICATION_ID, ENTITY_TYPE, MOBILE_NO, EMAIL, BRANCH_ID, CUSTOMER_ID,"
 					+ " CUSTOMER_NAME, CUSTOMER_ADDRESS,"+ " GENDER, POST_CODE, NID, TIN_NO, PASSWORD, IDTP_PIN, APP_PASSWORD, "
-					+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE,"+ " REGISTRATION_DATE, ACTIVATION_DATE, REMARKS, "
+					+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE, REMARKS, "
 					+ "TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
 					
 					+ " values (0, '"+info.getEntityType()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
 					+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
-					+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+formattedDate+"', 'dd-mm-yyyy'),"
+					+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
 							+ "to_date('"+formattedDate+"', 'dd-mm-yyyy'), to_date('"+formattedDate+"', 'dd-mm-yyyy'), 'Remarks', 0, 0, 0, 0)";
 			
-			int insertion = jdbcTemplate.update(sql); /*"+info.getDateOfBirth()+"'*/
+			int insertion = jdbcTemplate.update(sql);
 			
 			return insertion;
 		}
