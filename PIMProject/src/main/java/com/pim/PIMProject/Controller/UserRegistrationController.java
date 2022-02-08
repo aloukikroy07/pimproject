@@ -3,6 +3,7 @@ package com.pim.PIMProject.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +21,13 @@ import com.pim.PIMProject.Model.OtherInfo;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.Req;
 import com.pim.PIMProject.Model.RequestedVirtualID;
+import com.pim.service.UserRegistrationService;
 
 @RestController
 public class UserRegistrationController {
+	
+	@Autowired
+	private UserRegistrationService userRegService;
 	
 	@PostMapping(value="/", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
@@ -119,7 +124,7 @@ public class UserRegistrationController {
 		registerUser.setReq(req);
 		registerUser.setEntity(entity);
 
-		
+		userRegService.insertUserRegistrationData(registerUser);
 		
 		return registerUser;
 	}
