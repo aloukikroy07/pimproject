@@ -2,10 +2,12 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @XmlRootElement
 public class Info {
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Integer idInfoKey;
 	@JacksonXmlProperty(localName = "EntityType")
 	private String entityType;

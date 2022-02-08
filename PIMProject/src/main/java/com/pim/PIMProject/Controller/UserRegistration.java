@@ -24,7 +24,7 @@ import com.pim.PIMProject.Model.RequestedVirtualID;
 @RestController
 public class UserRegistration {
 	
-	@PostMapping(value="/", produces=MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	@PostMapping(value="/", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
 		RegisterUser registerUser = new RegisterUser();
 		ContactReference contactReference = new ContactReference();
