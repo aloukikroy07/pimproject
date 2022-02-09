@@ -1,18 +1,24 @@
 package com.pim.PIMProject.Model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@XmlRootElement
+@JacksonXmlRootElement 
 public class RegisterUser {
+	@JacksonXmlProperty(localName = "xmlns:idtp", isAttribute = true)
+	private String xmlns="http://example.com";
 	@JacksonXmlProperty(localName = "Head")
 	private Head head;
 	@JacksonXmlProperty(localName = "Req")
 	private Req req;
 	@JacksonXmlProperty(localName = "Entity")
 	private Entity entity;
-	
+	public String getXmlns() {
+		return xmlns;
+	}
+	public void setXmlns(String xmlns) {
+		this.xmlns = xmlns;
+	}
 	public Head getHead() {
 		return head;
 	}

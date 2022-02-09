@@ -29,7 +29,7 @@ public class UserRegistrationController {
 	@Autowired
 	private UserRegistrationService userRegService;
 	
-	@PostMapping(value="/", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
 		RegisterUser registerUser = new RegisterUser();
 		ContactReference contactReference = new ContactReference();
