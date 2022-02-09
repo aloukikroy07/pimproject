@@ -65,7 +65,6 @@ public class UserRegistrationRepository {
 			}
 			
 			if (insertion == 1) {
-				userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
 				String sql2 = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
 						+ " values (1, "+1+", "+0+", "+0+", to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+"REQUEST_NAME"+"','REQUEST_PARAM', 'RESPONSE', to_date('"+formattedDate+"', 'dd-mm-yyyy'),'1')";
 				
