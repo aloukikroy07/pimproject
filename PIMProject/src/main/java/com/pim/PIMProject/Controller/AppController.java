@@ -24,7 +24,7 @@ import com.pim.PIMProject.Model.RequestedVirtualID;
 import com.pim.service.UserRegistrationService;
 
 @RestController
-public class UserRegistrationController {
+public class AppController {
 	
 	@Autowired
 	private UserRegistrationService userRegService;
