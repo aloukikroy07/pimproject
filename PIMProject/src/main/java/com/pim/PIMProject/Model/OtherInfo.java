@@ -4,25 +4,25 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 //@XmlRootElement
 public class OtherInfo {
-	@JacksonXmlProperty(localName = "Channel")
-	private String channel;
+	@JacksonXmlProperty(localName = "Call_From")
+	private String callFrom;
 
 	public OtherInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public OtherInfo(String channel) {
+	public OtherInfo(String callFrom) {
 		super();
-		this.channel = channel;
+		this.callFrom = callFrom;
 	}
 
-	public String getChannel() {
-		return channel;
+	public String getCallFrom() {
+		return callFrom;
 	}
 
-	public void setChannel(String channel) {
-		this.channel = channel;
+	public void setCallFrom(String callFrom) {
+		this.callFrom = callFrom;
 	}
 	
 }

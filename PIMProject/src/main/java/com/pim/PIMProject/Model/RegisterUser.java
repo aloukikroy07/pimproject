@@ -11,8 +11,22 @@ public class RegisterUser {
 	private Head head;
 	@JacksonXmlProperty(localName = "Req")
 	private Req req;
+	@JacksonXmlProperty(localName = "ChannelInfo")
+	private ChannelInfo channelInfo;
 	@JacksonXmlProperty(localName = "Entity")
 	private Entity entity;
+	public RegisterUser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public RegisterUser(String xmlns, Head head, Req req, ChannelInfo channelInfo, Entity entity) {
+		super();
+		this.xmlns = xmlns;
+		this.head = head;
+		this.req = req;
+		this.channelInfo = channelInfo;
+		this.entity = entity;
+	}
 	public String getXmlns() {
 		return xmlns;
 	}
@@ -31,11 +45,16 @@ public class RegisterUser {
 	public void setReq(Req req) {
 		this.req = req;
 	}
+	public ChannelInfo getChannelInfo() {
+		return channelInfo;
+	}
+	public void setChannelInfo(ChannelInfo channelInfo) {
+		this.channelInfo = channelInfo;
+	}
 	public Entity getEntity() {
 		return entity;
 	}
 	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}
-		
 }

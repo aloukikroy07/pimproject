@@ -35,7 +35,7 @@ public class AppController {
 		registerUser.setHead(userReg.getHead());
 		registerUser.setEntity(userReg.getEntity());
 		registerUser.setReq(userReg.getReq());
-
+		registerUser.setChannelInfo(userReg.getChannelInfo());
 		//userRegService.insertUserRegistrationData(registerUser);
 		
 		return registerUser;
