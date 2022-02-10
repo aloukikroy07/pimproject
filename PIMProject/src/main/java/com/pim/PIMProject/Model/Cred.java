@@ -2,9 +2,11 @@ package com.pim.PIMProject.Model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Cred {
 	
 	@JacksonXmlProperty(isAttribute = true)

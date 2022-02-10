@@ -2,7 +2,7 @@ package com.pim.PIMProject.Model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-public class TransactionInfo {
+public class RequestInfo {
 	@JacksonXmlProperty(isAttribute = true)
 	private String addr;
 	@JacksonXmlProperty(isAttribute = true)
@@ -19,11 +19,11 @@ public class TransactionInfo {
 	private OtherInfoFT otherInfoFT;
 	@JacksonXmlProperty(localName = "Creds")
 	private Creds creds;
-	public TransactionInfo() {
+	public RequestInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public TransactionInfo(String addr, String type, SenderInfo senderInfo, DeviceInfo deviceInfo,
+	public RequestInfo(String addr, String type, SenderInfo senderInfo, DeviceInfo deviceInfo,
 			ReceiverInfo receiverInfo, ReqInfo reqInfo, OtherInfoFT otherInfoFT, Creds creds) {
 		super();
 		this.addr = addr;
@@ -83,5 +83,4 @@ public class TransactionInfo {
 	public void setCreds(Creds creds) {
 		this.creds = creds;
 	}
-	
 }
