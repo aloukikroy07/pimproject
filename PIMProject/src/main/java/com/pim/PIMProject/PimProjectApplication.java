@@ -9,14 +9,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 public class PimProjectApplication {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PimProjectApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(PimProjectApplication.class);
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PimProjectApplication.class, args);
 		
-		LOGGER.info("Info level log message");
-        LOGGER.debug("Debug level log message");
-        LOGGER.error("Error level log message");
+//		LOGGER.info("Info level log message");
+//        LOGGER.debug("Debug level log message");
+//        LOGGER.error("Error level log message");
 	}
 
 }
