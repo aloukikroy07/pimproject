@@ -18,6 +18,7 @@ import com.pim.PIMProject.Model.Entity;
 import com.pim.PIMProject.Model.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Head;
 import com.pim.PIMProject.Model.Info;
+import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.OtherInfo;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.Req;
@@ -61,5 +62,15 @@ public class AppController {
 		createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 		createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 		return createRTP;
+	}
+	
+	@PostMapping(value="/initiatefundtransfer", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public InitiateFundTransfer initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
+		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
+		initiateFundTransfer.setHead(fundTransferInitiate.getHead());
+		initiateFundTransfer.setReq(fundTransferInitiate.getReq());
+		initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
+		initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
+		return initiateFundTransfer;
 	}
 }
