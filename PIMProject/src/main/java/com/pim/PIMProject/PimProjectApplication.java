@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication(scanBasePackages={"com.pim.PIMProject", "com.pim.controller", "com.pim.service", "com.pim.repository", "com.pim.model"})
 
 public class PimProjectApplication {
