@@ -1,7 +1,5 @@
 package com.pim.PIMProject.Controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,20 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pim.PIMProject.PimProjectApplication;
-import com.pim.PIMProject.Model.ContactReference;
 import com.pim.PIMProject.Model.CreateRTP;
-import com.pim.PIMProject.Model.Cred;
-import com.pim.PIMProject.Model.Creds;
-import com.pim.PIMProject.Model.DeviceInfo;
-import com.pim.PIMProject.Model.Entity;
-import com.pim.PIMProject.Model.FinancialInstitutionInfo;
-import com.pim.PIMProject.Model.Head;
-import com.pim.PIMProject.Model.Info;
 import com.pim.PIMProject.Model.InitiateFundTransfer;
-import com.pim.PIMProject.Model.OtherInfo;
 import com.pim.PIMProject.Model.RegisterUser;
-import com.pim.PIMProject.Model.Req;
-import com.pim.PIMProject.Model.RequestedVirtualID;
 import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.service.UserRegistrationService;
 
