@@ -5,6 +5,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ReqInfo {
+	@JacksonXmlProperty(localName = "DeviceInfo")
+	private DeviceInfo deviceInfo;
 	@JacksonXmlProperty(localName = "FIInfo")
 	private FIInfo fiInfo;
 	@JacksonXmlProperty(localName = "UserInfo")
@@ -21,15 +23,22 @@ public class ReqInfo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ReqInfo(FIInfo fiInfo, UserInfo userInfo, String addrType, ReferenceNo referenceNo, ReqAmount reqAmount,
-			OtherInfo otherInfo) {
+	public ReqInfo(DeviceInfo deviceInfo, FIInfo fiInfo, UserInfo userInfo, String addrType, ReferenceNo referenceNo,
+			ReqAmount reqAmount, OtherInfo otherInfo) {
 		super();
+		this.deviceInfo = deviceInfo;
 		this.fiInfo = fiInfo;
 		this.userInfo = userInfo;
 		this.addrType = addrType;
 		this.referenceNo = referenceNo;
 		this.reqAmount = reqAmount;
 		this.otherInfo = otherInfo;
+	}
+	public DeviceInfo getDeviceInfo() {
+		return deviceInfo;
+	}
+	public void setDeviceInfo(DeviceInfo deviceInfo) {
+		this.deviceInfo = deviceInfo;
 	}
 	public FIInfo getFiInfo() {
 		return fiInfo;
@@ -67,5 +76,6 @@ public class ReqInfo {
 	public void setOtherInfo(OtherInfo otherInfo) {
 		this.otherInfo = otherInfo;
 	}
+	
 	
 }

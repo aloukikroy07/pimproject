@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pim.PIMProject.PimProjectApplication;
 import com.pim.PIMProject.Model.CreateRTP;
+import com.pim.PIMProject.Model.GetFIUserInfo;
+import com.pim.PIMProject.Model.GetRTPListReceived;
 import com.pim.PIMProject.Model.GetRTPListSent;
 import com.pim.PIMProject.Model.GetTransactionsbyFI;
 import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
+import com.pim.PIMProject.Model.ValidateFIUser;
+import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.UserRegistrationService;
 
 @RestController
@@ -101,5 +105,47 @@ public class AppController {
 		getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
 		getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
 		return getRTPListSent;
+	}
+	
+	@PostMapping(value="/getrtplistreceived", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public GetRTPListReceived getRTPListReceived(@RequestBody GetRTPListReceived getListReceivedRTP){
+		GetRTPListReceived getRTPListReceived = new GetRTPListReceived();
+		getRTPListReceived.setHead(getListReceivedRTP.getHead());
+		getRTPListReceived.setReq(getListReceivedRTP.getReq());
+		getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
+		getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
+		return getRTPListReceived;
+	}
+	
+	@PostMapping(value="/validatefiuser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public ValidateFIUser validateFIUser(@RequestBody ValidateFIUser userFIValidate){
+		ValidateFIUser validateFIUser = new ValidateFIUser();
+		validateFIUser.setHead(userFIValidate.getHead());
+		validateFIUser.setReq(userFIValidate.getReq());
+		validateFIUser.setUserInfo(userFIValidate.getUserInfo());
+		validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
+		return validateFIUser;
+	}
+	
+	@PostMapping(value="/notifyidtpaccountchange", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public NotifyIDTPAccountChange notifyIDTPAccountChange(@RequestBody NotifyIDTPAccountChange accountChangeNotifyIDTPAccountChange){
+		NotifyIDTPAccountChange notifyIDTPAccountChange = new NotifyIDTPAccountChange();
+		notifyIDTPAccountChange.setHead(accountChangeNotifyIDTPAccountChange.getHead());
+		notifyIDTPAccountChange.setReq(accountChangeNotifyIDTPAccountChange.getReq());
+		notifyIDTPAccountChange.setChannelInfo(accountChangeNotifyIDTPAccountChange.getChannelInfo());
+		notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
+		notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
+		return notifyIDTPAccountChange;
+	}
+	
+	@PostMapping(value="/getfiuserinfo", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public GetFIUserInfo getFIUserInfo(@RequestBody GetFIUserInfo getInfoFIUser){
+		GetFIUserInfo getFIUserInfo = new GetFIUserInfo();
+		getFIUserInfo.setHead(getInfoFIUser.getHead());
+		getFIUserInfo.setReq(getInfoFIUser.getReq());
+		getFIUserInfo.setChannelInfo(getInfoFIUser.getChannelInfo());
+		getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
+		getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
+		return getFIUserInfo;
 	}
 }
