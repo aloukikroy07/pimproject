@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pim.PIMProject.PimProjectApplication;
 import com.pim.PIMProject.Model.CreateRTP;
+import com.pim.PIMProject.Model.GetRTPListSent;
+import com.pim.PIMProject.Model.GetTransactionsbyFI;
 import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
@@ -79,5 +81,25 @@ public class AppController {
 		
 		logger.info("Response Data: "+initiateFundTransfer);
 		return initiateFundTransfer;
+	}
+	
+	@PostMapping(value="/gettransactionsbyfi", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public GetTransactionsbyFI getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
+		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();
+		getTransactionsbyFI.setHead(getFITransactions.getHead());
+		getTransactionsbyFI.setReq(getFITransactions.getReq());
+		getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
+		getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
+		return getTransactionsbyFI;
+	}
+	
+	@PostMapping(value="/getrtplistsent", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public GetRTPListSent getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
+		GetRTPListSent getRTPListSent = new GetRTPListSent();
+		getRTPListSent.setHead(getListSentRTP.getHead());
+		getRTPListSent.setReq(getListSentRTP.getReq());
+		getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
+		getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
+		return getRTPListSent;
 	}
 }
