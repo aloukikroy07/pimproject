@@ -33,119 +33,221 @@ public class AppController {
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
 		logger.info("Request Info: "+userReg);
-		RegisterUser registerUser = new RegisterUser();
-		registerUser.setHead(userReg.getHead());
-		registerUser.setEntity(userReg.getEntity());
-		registerUser.setReq(userReg.getReq());
-		registerUser.setChannelInfo(userReg.getChannelInfo());
-		//userRegService.insertUserRegistrationData(registerUser);
+		RegisterUser registerUser = new RegisterUser();	
 		
-		logger.info("Response Data: "+registerUser);
+		try {			
+			registerUser.setHead(userReg.getHead());
+			registerUser.setEntity(userReg.getEntity());
+			registerUser.setReq(userReg.getReq());
+			registerUser.setChannelInfo(userReg.getChannelInfo());
+			//userRegService.insertUserRegistrationData(registerUser);
+			
+			logger.info("Response Data: "+registerUser);
+			
+			return registerUser;
+		}
 		
-		return registerUser;
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return registerUser;
+		}
+		
 	}
 	
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer){
 		logger.info("Request Info: "+fundTransfer);
-		
 		TransferFunds transferFunds = new TransferFunds();
-		transferFunds.setHead(fundTransfer.getHead());
-		transferFunds.setReq(fundTransfer.getReq());
-		transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
-		transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 		
-		logger.info("Response Data: "+transferFunds);
-		return transferFunds;
+		try {						
+			transferFunds.setHead(fundTransfer.getHead());
+			transferFunds.setReq(fundTransfer.getReq());
+			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
+			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
+			
+			logger.info("Response Data: "+transferFunds);
+			return transferFunds;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return transferFunds;
+		}
+		
 	}
 	
 	@PostMapping(value="/creatertp", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public CreateRTP createRTP(@RequestBody CreateRTP rtpCreation){
 		logger.info("Request Info: "+rtpCreation);
-		
 		CreateRTP createRTP = new CreateRTP();
-		createRTP.setHead(rtpCreation.getHead());
-		createRTP.setReq(rtpCreation.getReq());
-		createRTP.setChannelInfo(rtpCreation.getChannelInfo());
-		createRTP.setRequestInfo(rtpCreation.getRequestInfo());
+			
+		try {				
+			createRTP.setHead(rtpCreation.getHead());
+			createRTP.setReq(rtpCreation.getReq());
+			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
+			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
+			
+			logger.info("Response Data: "+createRTP);
+			return createRTP;
+		}
 		
-		logger.info("Response Data: "+createRTP);
-		return createRTP;
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return createRTP;
+		}
+		
 	}
 	
 	@PostMapping(value="/initiatefundtransfer", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public InitiateFundTransfer initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
 		logger.info("Request Info: "+fundTransferInitiate);
-		
 		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
-		initiateFundTransfer.setHead(fundTransferInitiate.getHead());
-		initiateFundTransfer.setReq(fundTransferInitiate.getReq());
-		initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
-		initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 		
-		logger.info("Response Data: "+initiateFundTransfer);
-		return initiateFundTransfer;
+		try {
+			initiateFundTransfer.setHead(fundTransferInitiate.getHead());
+			initiateFundTransfer.setReq(fundTransferInitiate.getReq());
+			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
+			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
+			
+			logger.info("Response Data: "+initiateFundTransfer);
+			return initiateFundTransfer;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return initiateFundTransfer;
+		}
+		
 	}
 	
 	@PostMapping(value="/gettransactionsbyfi", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetTransactionsbyFI getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
-		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();
-		getTransactionsbyFI.setHead(getFITransactions.getHead());
-		getTransactionsbyFI.setReq(getFITransactions.getReq());
-		getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
-		getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
-		return getTransactionsbyFI;
+		logger.info("Request Info: "+getFITransactions);
+		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();	
+		
+		try {	
+			getTransactionsbyFI.setHead(getFITransactions.getHead());
+			getTransactionsbyFI.setReq(getFITransactions.getReq());
+			getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
+			getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
+			
+			logger.info("Response Data: "+getTransactionsbyFI);
+			return getTransactionsbyFI;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return getTransactionsbyFI;
+		}
+		
 	}
 	
 	@PostMapping(value="/getrtplistsent", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetRTPListSent getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
-		GetRTPListSent getRTPListSent = new GetRTPListSent();
-		getRTPListSent.setHead(getListSentRTP.getHead());
-		getRTPListSent.setReq(getListSentRTP.getReq());
-		getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
-		getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
-		return getRTPListSent;
+		logger.info("Request Info: "+getListSentRTP);
+		GetRTPListSent getRTPListSent = new GetRTPListSent();	
+		
+		try {
+			getRTPListSent.setHead(getListSentRTP.getHead());
+			getRTPListSent.setReq(getListSentRTP.getReq());
+			getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
+			getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
+			
+			logger.info("Response Data: "+getRTPListSent);
+			return getRTPListSent;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return getRTPListSent;
+		}
 	}
 	
 	@PostMapping(value="/getrtplistreceived", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetRTPListReceived getRTPListReceived(@RequestBody GetRTPListReceived getListReceivedRTP){
+		logger.info("Request Info: "+getListReceivedRTP);
 		GetRTPListReceived getRTPListReceived = new GetRTPListReceived();
-		getRTPListReceived.setHead(getListReceivedRTP.getHead());
-		getRTPListReceived.setReq(getListReceivedRTP.getReq());
-		getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
-		getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
-		return getRTPListReceived;
+			
+		try {		
+			getRTPListReceived.setHead(getListReceivedRTP.getHead());
+			getRTPListReceived.setReq(getListReceivedRTP.getReq());
+			getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
+			getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
+			
+			logger.info("Response Data: "+getRTPListReceived);
+			return getRTPListReceived;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return getRTPListReceived;
+		}
+		
 	}
 	
 	@PostMapping(value="/validatefiuser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public ValidateFIUser validateFIUser(@RequestBody ValidateFIUser userFIValidate){
+		logger.info("Request Info: "+userFIValidate);
 		ValidateFIUser validateFIUser = new ValidateFIUser();
-		validateFIUser.setHead(userFIValidate.getHead());
-		validateFIUser.setReq(userFIValidate.getReq());
-		validateFIUser.setUserInfo(userFIValidate.getUserInfo());
-		validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
-		return validateFIUser;
+			
+		try {
+			validateFIUser.setHead(userFIValidate.getHead());
+			validateFIUser.setReq(userFIValidate.getReq());
+			validateFIUser.setUserInfo(userFIValidate.getUserInfo());
+			validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
+			
+			logger.info("Response Data: "+validateFIUser);
+			return validateFIUser;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return validateFIUser;
+		}
+		
 	}
 	
 	@PostMapping(value="/notifyidtpaccountchange", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public NotifyIDTPAccountChange notifyIDTPAccountChange(@RequestBody NotifyIDTPAccountChange accountChangeNotifyIDTPAccountChange){
+		logger.info("Request Info: "+accountChangeNotifyIDTPAccountChange);
 		NotifyIDTPAccountChange notifyIDTPAccountChange = new NotifyIDTPAccountChange();
-		notifyIDTPAccountChange.setHead(accountChangeNotifyIDTPAccountChange.getHead());
-		notifyIDTPAccountChange.setReq(accountChangeNotifyIDTPAccountChange.getReq());
-		notifyIDTPAccountChange.setChannelInfo(accountChangeNotifyIDTPAccountChange.getChannelInfo());
-		notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
-		notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
-		return notifyIDTPAccountChange;
+			
+		try {
+			notifyIDTPAccountChange.setHead(accountChangeNotifyIDTPAccountChange.getHead());
+			notifyIDTPAccountChange.setReq(accountChangeNotifyIDTPAccountChange.getReq());
+			notifyIDTPAccountChange.setChannelInfo(accountChangeNotifyIDTPAccountChange.getChannelInfo());
+			notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
+			notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
+			
+			logger.info("Response Data: "+notifyIDTPAccountChange);
+			return notifyIDTPAccountChange;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return notifyIDTPAccountChange;
+		}
 	}
 	
 	@PostMapping(value="/getfiuserinfo", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetFIUserInfo getFIUserInfo(@RequestBody GetFIUserInfo getInfoFIUser){
+		logger.info("Request Info: "+getInfoFIUser);
 		GetFIUserInfo getFIUserInfo = new GetFIUserInfo();
-		getFIUserInfo.setHead(getInfoFIUser.getHead());
-		getFIUserInfo.setReq(getInfoFIUser.getReq());
-		getFIUserInfo.setChannelInfo(getInfoFIUser.getChannelInfo());
-		getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
-		getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
-		return getFIUserInfo;
+		
+		try {
+			getFIUserInfo.setHead(getInfoFIUser.getHead());
+			getFIUserInfo.setReq(getInfoFIUser.getReq());
+			getFIUserInfo.setChannelInfo(getInfoFIUser.getChannelInfo());
+			getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
+			getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
+			
+			logger.info("Response Data: "+getFIUserInfo);
+			return getFIUserInfo;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data: "+ e);
+			return getFIUserInfo;
+		}
 	}
 }
