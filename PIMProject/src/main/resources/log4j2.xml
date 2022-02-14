@@ -22,7 +22,7 @@
     <Loggers>
         <Logger name="com.pim.PIMProject" additivity="false">
             <AppenderRef ref="appLog" />
-            <AppenderRef ref="Console" />
+			<AppenderRef ref="Console" />
         </Logger>
         <Root level="debug">
             <AppenderRef ref="Console" />

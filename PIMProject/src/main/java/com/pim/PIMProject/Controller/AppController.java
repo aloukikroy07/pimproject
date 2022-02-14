@@ -25,7 +25,7 @@ import com.pim.service.UserRegistrationService;
 @RestController
 public class AppController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PimProjectApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppController.class);
 	
 	@Autowired
 	private UserRegistrationService userRegService;
