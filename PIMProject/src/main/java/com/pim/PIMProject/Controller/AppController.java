@@ -1,25 +1,8 @@
 package com.pim.PIMProject.Controller;
 
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.soap.SOAPHandler;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
 
-import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pim.PIMProject.PimProjectApplication;
 import com.pim.PIMProject.Model.CreateRTP;
 import com.pim.PIMProject.Model.GetFIUserInfo;
 import com.pim.PIMProject.Model.GetRTPListReceived;
@@ -37,7 +19,7 @@ import com.pim.PIMProject.Model.GetTransactionsbyFI;
 import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
-import com.pim.PIMProject.Model.ValidateFIUser;
+import com.pim.PIMProject.Model.validateFIUser;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.UserRegistrationService;
 import com.pim.util.CommonFunctions;
@@ -68,6 +50,15 @@ public class AppController<T> {
 			logger.info("Response Data: "+registerUser);
 			
 			return registerUser;
+			
+//			RestTemplate restTemplate = new RestTemplate();
+//			HttpHeaders headers = new HttpHeaders();
+//			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
+//			getFIUserInfo = restTemplate.postForEntity("http://localhost:8080/getfiuserinfo/", request, GetFIUserInfo.class);
+//			
+//			logger.info("Response Data: "+registerUser);			
+//			
+//			return getFIUserInfo.getBody();
 		}
 		
 		catch (Exception e) {
@@ -213,24 +204,24 @@ public class AppController<T> {
 		
 	}
 	
-	@PostMapping(value="/validatefiuser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public ValidateFIUser validateFIUser(@RequestBody ValidateFIUser userFIValidate){
+	@PostMapping(value="/ValidateFIUser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public validateFIUser ValidateFIUser(@RequestBody validateFIUser userFIValidate){
 		logger.info("Request Info: "+userFIValidate);
-		ValidateFIUser validateFIUser = new ValidateFIUser();
+		validateFIUser ValidateFIUser = new validateFIUser();
 			
 		try {
-			validateFIUser.setHead(userFIValidate.getHead());
-			validateFIUser.setReq(userFIValidate.getReq());
-			validateFIUser.setUserInfo(userFIValidate.getUserInfo());
-			validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
+			ValidateFIUser.setHead(userFIValidate.getHead());
+			ValidateFIUser.setReq(userFIValidate.getReq());
+			ValidateFIUser.setUserInfo(userFIValidate.getUserInfo());
+			ValidateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
 			
-			logger.info("Response Data: "+validateFIUser);
-			return validateFIUser;
+			logger.info("Response Data: "+ValidateFIUser);
+			return ValidateFIUser;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return validateFIUser;
+			return ValidateFIUser;
 		}
 		
 	}

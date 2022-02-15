@@ -1,8 +1,10 @@
 package com.pim.PIMProject.Model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-public class ValidateFIUser {
+@JacksonXmlRootElement(localName = "ValidateFIUser")
+public class validateFIUser {
 	@JacksonXmlProperty(localName = "xmlns:idtp", isAttribute = true)
 	private String xmlns="http://example.com";
 	@JacksonXmlProperty(localName = "Head")
@@ -13,11 +15,11 @@ public class ValidateFIUser {
 	private UserInfo userInfo;
 	@JacksonXmlProperty(localName = "OtherInfo")
 	private OtherInfo otherInfo;
-	public ValidateFIUser() {
+	public validateFIUser() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ValidateFIUser(String xmlns, Head head, Req req, UserInfo userInfo, OtherInfo otherInfo) {
+	public validateFIUser(String xmlns, Head head, Req req, UserInfo userInfo, OtherInfo otherInfo) {
 		super();
 		this.xmlns = xmlns;
 		this.head = head;
