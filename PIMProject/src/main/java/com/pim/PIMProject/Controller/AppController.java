@@ -296,6 +296,5 @@ public class AppController<T> {
 			return getFIUserInfo;
 		}
 		
-		
 	}
 }
