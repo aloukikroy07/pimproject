@@ -7,20 +7,41 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pim.PIMProject.Model.CustomerProfiles;
 import com.pim.PIMProject.Model.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Info;
+import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
 
 @Repository
 public class UserRegistrationRepository {
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserRegistrationRepository.class);
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	public Integer setIntegerDefaultVal (Integer val) {
+		if (val.equals(null) || val.equals("")) {
+			val = 0;
+		}
+		return val;
+	}
+	
+	public String setStringDefaultVal (String val){
+		if (val == null || val.equals("")) {
+			val = "None";
+		}
+		return val;
+	}
 	
 	public String formatedDate(String value) throws ParseException {
 //		Date date = new Date();
@@ -78,4 +99,34 @@ public class UserRegistrationRepository {
 			return 0;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public  <T extends InterfaceLogs> int insertInterfaceLogs(T  ifl) throws Exception { // extends InterfaceLogs
+	    int insertionStatus = 0;
+		LocalDateTime myDateObj = LocalDateTime.now();   
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
+	    String formattedDate = myDateObj.format(myFormatObj);
+	    
+	    ObjectMapper om = new ObjectMapper();
+	    
+	    String requestInfo = om.writeValueAsString(ifl.getRequestParams());
+	    
+	    logger.info(requestInfo);
+	    
+		try {
+			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
+					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
+					+ifl.getRequestName()+"', '"+requestInfo+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+setStringDefaultVal(ifl.getResponseResult())+"')";
+			
+			insertionStatus = jdbcTemplate.update(sql);
+			
+		} catch (Exception e) {
+			logger.error("Error Info: "+e);
+		}
+		
+		return insertionStatus;
+	}
+	
+	
+	
 }

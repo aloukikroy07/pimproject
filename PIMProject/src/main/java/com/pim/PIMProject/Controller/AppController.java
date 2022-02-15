@@ -65,6 +65,8 @@ public class AppController {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
+			userRegService.interfaceLogsInsert(transferFunds);
+			
 			logger.info("Response Data: "+transferFunds);
 			return transferFunds;
 		}
@@ -249,5 +251,7 @@ public class AppController {
 			logger.error("Error Data: "+ e);
 			return getFIUserInfo;
 		}
+		
+		
 	}
 }

@@ -2,7 +2,7 @@ package com.pim.PIMProject.Model;
 
 import java.sql.Timestamp;
 
-public class InterfaceLogs {
+public class InterfaceLogs<T> {
 	private int id;
 	private int companyId;
 	private int apiProvidersId;
@@ -10,7 +10,7 @@ public class InterfaceLogs {
 	private String requestId;
 	private Timestamp requestTime;
 	private String requestName;
-	private String requestParams;
+	private T requestParams;
 	private String response;
 	private Timestamp responseTime;
 	private String responseResult;
@@ -23,7 +23,7 @@ public class InterfaceLogs {
 	}
 
 	public InterfaceLogs(int id, int companyId, int apiProvidersId, int apiClassesId, String requestId,
-			Timestamp requestTime, String requestName, String requestParams, String response, Timestamp responseTime,
+			Timestamp requestTime, String requestName, T requestParams, String response, Timestamp responseTime,
 			String responseResult, Timestamp createdAt, Timestamp updatedAt) {
 		super();
 		this.id = id;
@@ -97,12 +97,12 @@ public class InterfaceLogs {
 		this.requestName = requestName;
 	}
 
-	public String getRequestParams() {
+	public T getRequestParams() {
 		return requestParams;
 	}
 
-	public void setRequestParams(String requestParams) {
-		this.requestParams = requestParams;
+	public void setRequestParams(T tf) {
+		this.requestParams = tf;
 	}
 
 	public String getResponse() {
