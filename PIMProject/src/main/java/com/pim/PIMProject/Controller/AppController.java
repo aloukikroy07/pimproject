@@ -247,7 +247,7 @@ public class AppController<T> {
 		
 	}
 	
-	@PostMapping(value="/notifyidtpaccountchange", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	@PostMapping(value="/NotifyIDTPAccountChange", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public NotifyIDTPAccountChange notifyIDTPAccountChange(@RequestBody NotifyIDTPAccountChange accountChangeNotifyIDTPAccountChange){
 		logger.info("Request Info: "+accountChangeNotifyIDTPAccountChange);
 		NotifyIDTPAccountChange notifyIDTPAccountChange = new NotifyIDTPAccountChange();
@@ -272,7 +272,7 @@ public class AppController<T> {
 		}
 	}
 	
-	@PostMapping(value="/getfiuserinfo", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	@PostMapping(value="/GetFIUserInfo", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetFIUserInfo getFIUserInfo(@RequestBody GetFIUserInfo getInfoFIUser){
 		logger.info("Request Info: "+getInfoFIUser);
 		GetFIUserInfo getFIUserInfo = new GetFIUserInfo();
