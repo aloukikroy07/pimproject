@@ -1,6 +1,25 @@
 package com.pim.PIMProject.Controller;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
+
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +40,15 @@ import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.PIMProject.Model.ValidateFIUser;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.UserRegistrationService;
+import com.pim.util.CommonFunctions;
 
 @RestController
-public class AppController {
+public class AppController<T> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+	
+	@Autowired
+	private CommonFunctions<T> commonFunctions;
 	
 	@Autowired
 	private UserRegistrationService userRegService;
@@ -55,8 +78,11 @@ public class AppController {
 	}
 	
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer){
-		logger.info("Request Info: "+fundTransfer);
+	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{
+		//logger.info("Request Info: "+fundTransfer);
+		
+		commonFunctions.convertModelToXml((T) fundTransfer, JAXBContext.newInstance(TransferFunds.class));
+		
 		TransferFunds transferFunds = new TransferFunds();
 		
 		try {						
@@ -65,7 +91,7 @@ public class AppController {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			userRegService.interfaceLogsInsert(transferFunds);
+			//userRegService.interfaceLogsInsert(transferFunds);
 			
 			logger.info("Response Data: "+transferFunds);
 			return transferFunds;

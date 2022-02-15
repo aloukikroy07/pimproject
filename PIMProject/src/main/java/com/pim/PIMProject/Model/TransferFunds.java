@@ -1,7 +1,11 @@
 package com.pim.PIMProject.Model;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@XmlRootElement 
 public class TransferFunds {
 	@JacksonXmlProperty(localName = "xmlns:idtp", isAttribute = true)
 	private String xmlns="http://example.com";
