@@ -71,9 +71,7 @@ public class AppController<T> {
 	}
 	
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{
-		//logger.info("Request Info: "+fundTransfer);
-		
+	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
 		TransferFunds transferFunds = new TransferFunds();
 		
 		try {				
@@ -100,7 +98,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/creatertp", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public CreateRTP createRTP(@RequestBody CreateRTP rtpCreation){
-		logger.info("Request Info: "+rtpCreation);
 		CreateRTP createRTP = new CreateRTP();
 			
 		try {			
@@ -125,7 +122,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/initiatefundtransfer", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public InitiateFundTransfer initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
-		logger.info("Request Info: "+fundTransferInitiate);
 		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
 		
 		try {
@@ -150,7 +146,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/gettransactionsbyfi", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetTransactionsbyFI getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
-		logger.info("Request Info: "+getFITransactions);
 		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();	
 		
 		try {	
@@ -175,7 +170,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/getrtplistsent", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetRTPListSent getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
-		logger.info("Request Info: "+getListSentRTP);
 		GetRTPListSent getRTPListSent = new GetRTPListSent();	
 		
 		try {
@@ -199,7 +193,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/getrtplistreceived", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetRTPListReceived getRTPListReceived(@RequestBody GetRTPListReceived getListReceivedRTP){
-		logger.info("Request Info: "+getListReceivedRTP);
 		GetRTPListReceived getRTPListReceived = new GetRTPListReceived();
 			
 		try {	
@@ -224,7 +217,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/ValidateFIUser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public ValidateFIUser validateFIUser(@RequestBody ValidateFIUser userFIValidate){
-		logger.info("Request Info: "+userFIValidate);
 		ValidateFIUser validateFIUser = new ValidateFIUser();
 			
 		try {
@@ -249,7 +241,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/NotifyIDTPAccountChange", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public NotifyIDTPAccountChange notifyIDTPAccountChange(@RequestBody NotifyIDTPAccountChange accountChangeNotifyIDTPAccountChange){
-		logger.info("Request Info: "+accountChangeNotifyIDTPAccountChange);
 		NotifyIDTPAccountChange notifyIDTPAccountChange = new NotifyIDTPAccountChange();
 			
 		try {
@@ -274,7 +265,6 @@ public class AppController<T> {
 	
 	@PostMapping(value="/GetFIUserInfo", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetFIUserInfo getFIUserInfo(@RequestBody GetFIUserInfo getInfoFIUser){
-		logger.info("Request Info: "+getInfoFIUser);
 		GetFIUserInfo getFIUserInfo = new GetFIUserInfo();
 		
 		try {
