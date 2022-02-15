@@ -20,28 +20,18 @@ import com.pim.PIMProject.Model.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Info;
 import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
+import com.pim.util.CommonFunctions;
 
 @Repository
-public class UserRegistrationRepository {
+public class UserRegistrationRepository<T> {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserRegistrationRepository.class);
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	public Integer setIntegerDefaultVal (Integer val) {
-		if (val.equals(null) || val.equals("")) {
-			val = 0;
-		}
-		return val;
-	}
-	
-	public String setStringDefaultVal (String val){
-		if (val == null || val.equals("")) {
-			val = "None";
-		}
-		return val;
-	}
+	@Autowired
+	private CommonFunctions<T> commonFunctions;
 	
 	public String formatedDate(String value) throws ParseException {
 //		Date date = new Date();
@@ -115,8 +105,8 @@ public class UserRegistrationRepository {
 	    
 		try {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
-					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
-					+ifl.getRequestName()+"', '"+requestInfo+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+setStringDefaultVal(ifl.getResponseResult())+"')";
+					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ commonFunctions.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
+					+ifl.getRequestName()+"', '"+requestInfo+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+commonFunctions.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			

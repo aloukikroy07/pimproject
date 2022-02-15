@@ -81,7 +81,7 @@ public class AppController<T> {
 	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{
 		//logger.info("Request Info: "+fundTransfer);
 		
-		logger.info(commonFunctions.convertToXmlFromModel((T) fundTransfer, JAXBContext.newInstance(TransferFunds.class)));
+		logger.info(commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(TransferFunds.class), (T) fundTransfer));
 		
 		TransferFunds transferFunds = new TransferFunds();
 		
@@ -91,7 +91,7 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			//userRegService.interfaceLogsInsert(transferFunds);
+			userRegService.interfaceLogsInsert(transferFunds);
 			
 			logger.info("Response Data: "+transferFunds);
 			return transferFunds;

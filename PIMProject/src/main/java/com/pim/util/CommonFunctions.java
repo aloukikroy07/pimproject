@@ -5,21 +5,12 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.pim.PIMProject.Controller.AppController;
-import com.pim.PIMProject.Model.TransferFunds;
 
 @Configuration
 public class CommonFunctions<T> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AppController.class);
-	
-	public String convertToXmlFromModel(T request, JAXBContext classType ) 
+	public String convertToXmlFromModel(JAXBContext classType, T requestValue) 
 	  {
 		String xmlContent = "";
 	      try
@@ -37,7 +28,7 @@ public class CommonFunctions<T> {
 	          StringWriter sw = new StringWriter();
 	           
 	          //Write XML to StringWriter
-	          jaxbMarshaller.marshal(request, sw);
+	          jaxbMarshaller.marshal(requestValue, sw);
 	           
 	          //Verify XML Content
 	          xmlContent = sw.toString();
@@ -46,5 +37,19 @@ public class CommonFunctions<T> {
 	          e.printStackTrace();
 	      }
 		return xmlContent;
+	}
+	
+	public Integer setIntegerDefaultVal (Integer val) {
+		if (val.equals(null) || val.equals("")) {
+			val = 0;
+		}
+		return val;
+	}
+	
+	public String setStringDefaultVal (String val){
+		if (val == null || val.equals("")) {
+			val = "None";
+		}
+		return val;
 	}
 }
