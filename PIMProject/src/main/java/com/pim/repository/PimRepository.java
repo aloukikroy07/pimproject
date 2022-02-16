@@ -23,18 +23,18 @@ import com.pim.PIMProject.Model.Info;
 import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
-import com.pim.util.CommonFunctions;
+import com.pim.util.CommonMethods;
 
 @Repository
-public class UserRegistrationRepository<T> {
+public class PimRepository<T> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserRegistrationRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(PimRepository.class);
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	private CommonFunctions<T> cf;
+	private CommonMethods<T> cf;
 	
 	public String formatedDate(String value) throws ParseException {
 //		Date date = new Date();
@@ -101,9 +101,7 @@ public class UserRegistrationRepository<T> {
 		LocalDateTime myDateObj = LocalDateTime.now();   
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
 	    String formattedDate = myDateObj.format(myFormatObj);
-	    
 	    String requestInfoXml =cf.makeXmlForInterfaceLogs(reqClass, ifl.getRequestParams());
-	    System.out.println(requestInfoXml);
 	    
 		try {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"

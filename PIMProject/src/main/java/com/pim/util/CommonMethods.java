@@ -11,7 +11,7 @@ import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.TransferFunds;
 
 @Configuration
-public class CommonFunctions<T> {
+public class CommonMethods<T> {
 	
 	public String makeXmlForInterfaceLogs(JAXBContext reqClass, Object object) 
 	  {

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
-import com.pim.repository.UserRegistrationRepository;
+import com.pim.repository.PimRepository;
 
 @Service
-public class UserRegistrationService {
+public class PimService {
 
 	@Autowired
-	private UserRegistrationRepository urRepository;
+	private PimRepository urRepository;
 	
 	public int insertUserRegistrationData(JAXBContext reqClass, RegisterUser registerUser) {
 		return urRepository.insertUserRegistration(reqClass, registerUser);

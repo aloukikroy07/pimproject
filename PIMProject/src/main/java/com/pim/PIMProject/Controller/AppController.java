@@ -22,8 +22,8 @@ import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.PIMProject.Model.ValidateFIUser;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
-import com.pim.service.UserRegistrationService;
-import com.pim.util.CommonFunctions;
+import com.pim.service.PimService;
+import com.pim.util.CommonMethods;
 
 @RestController
 public class AppController<T> {
@@ -31,10 +31,10 @@ public class AppController<T> {
 	private static final Logger logger = LoggerFactory.getLogger(AppController.class);
 	
 	@Autowired
-	private CommonFunctions<T> commonFunctions;
+	private CommonMethods<T> commonFunctions;
 	
 	@Autowired
-	private UserRegistrationService userRegService;
+	private PimService userRegService;
 	
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
