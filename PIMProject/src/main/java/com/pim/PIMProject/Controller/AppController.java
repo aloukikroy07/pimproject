@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pim.PIMProject.ISO.Model.DataPDU;
 import com.pim.PIMProject.Model.CreateRTP;
 import com.pim.PIMProject.Model.GetFIUserInfo;
 import com.pim.PIMProject.Model.GetRTPListReceived;
@@ -285,6 +286,14 @@ public class AppController<T> {
 			logger.error("Error Data: "+ e);
 			return getFIUserInfo;
 		}
+	}
+	
+	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public DataPDU dataPDU(@RequestBody DataPDU pduData) {
+		DataPDU dataPDU = new DataPDU();
+		dataPDU.setRevision(pduData.getRevision());
+		dataPDU.setBody(pduData.getBody());
 		
+		return dataPDU;
 	}
 }
