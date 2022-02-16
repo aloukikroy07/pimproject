@@ -2,7 +2,10 @@ package com.pim.PIMProject.Model;
 
 import java.sql.Timestamp;
 
-public class InterfaceLogs<T> {
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class InterfaceLogs<T, Class> {
 	private int id;
 	private int companyId;
 	private int apiProvidersId;

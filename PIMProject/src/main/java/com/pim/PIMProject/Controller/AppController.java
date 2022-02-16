@@ -48,7 +48,7 @@ public class AppController<T> {
 			registerUser.setReq(userReg.getReq());
 			registerUser.setChannelInfo(userReg.getChannelInfo());
 			
-			userRegService.insertUserRegistrationData(registerUser);
+			userRegService.insertUserRegistrationData(JAXBContext.newInstance(TransferFunds.class), registerUser);
 			
 			logger.info("Response Data for RegisterUser: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(RegisterUser.class), (T) registerUser));
 			
@@ -83,7 +83,7 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			userRegService.interfaceLogsInsert(transferFunds);
+			userRegService.interfaceLogsInsert(JAXBContext.newInstance(TransferFunds.class), transferFunds);
 			
 			logger.info("Response Data for TransferFunds: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(TransferFunds.class), (T) transferFunds));
 			

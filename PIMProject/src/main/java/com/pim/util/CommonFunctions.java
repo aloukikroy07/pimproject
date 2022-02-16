@@ -7,10 +7,21 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.springframework.context.annotation.Configuration;
 
+import com.pim.PIMProject.Model.InterfaceLogs;
+import com.pim.PIMProject.Model.TransferFunds;
+
 @Configuration
 public class CommonFunctions<T> {
 	
-	public String convertToXmlFromModel(JAXBContext classType, T requestValue) 
+	public String makeXmlForInterfaceLogs(JAXBContext reqClass, Object object) 
+	  {
+		String xmlContent = convertToXmlFromModel(reqClass, (T) object);
+		System.out.println(xmlContent);
+		return xmlContent;
+	}
+	
+	
+	public String convertToXmlFromModel(JAXBContext classType, T t) 
 	  {
 		String xmlContent = "";
 	      try
@@ -28,7 +39,7 @@ public class CommonFunctions<T> {
 	          StringWriter sw = new StringWriter();
 	           
 	          //Write XML to StringWriter
-	          jaxbMarshaller.marshal(requestValue, sw);
+	          jaxbMarshaller.marshal(t, sw);
 	           
 	          //Verify XML Content
 	          xmlContent = sw.toString();
@@ -40,7 +51,7 @@ public class CommonFunctions<T> {
 	}
 	
 	public Integer setIntegerDefaultVal (Integer val) {
-		if (val.equals(null) || val.equals("")) {
+		if (val == null || val.equals("")) {
 			val = 0;
 		}
 		return val;
@@ -52,4 +63,7 @@ public class CommonFunctions<T> {
 		}
 		return val;
 	}
+
+
+
 }

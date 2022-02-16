@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.pim.PIMProject.Model.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Info;
 import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
+import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.util.CommonFunctions;
 
 @Repository
@@ -31,7 +34,7 @@ public class UserRegistrationRepository<T> {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	private CommonFunctions<T> commonFunctions;
+	private CommonFunctions<T> cf;
 	
 	public String formatedDate(String value) throws ParseException {
 //		Date date = new Date();
@@ -43,7 +46,7 @@ public class UserRegistrationRepository<T> {
 		return formattedDate;
 	}
 	
-	public int insertUserRegistration(RegisterUser ru) {
+	public int insertUserRegistration(JAXBContext reqClass, RegisterUser ru) {
 		LocalDateTime myDateObj = LocalDateTime.now();   
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
 	    String formattedDate = myDateObj.format(myFormatObj);
@@ -90,23 +93,22 @@ public class UserRegistrationRepository<T> {
 		}
 	}
 	
+
 	@SuppressWarnings("unchecked")
-	public  <T extends InterfaceLogs> int insertInterfaceLogs(T  ifl) throws Exception { // extends InterfaceLogs
+	public  <T extends InterfaceLogs> int insertInterfaceLogs(JAXBContext reqClass, T ifl) throws Exception { 
+		
 	    int insertionStatus = 0;
 		LocalDateTime myDateObj = LocalDateTime.now();   
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
 	    String formattedDate = myDateObj.format(myFormatObj);
 	    
-	    ObjectMapper om = new ObjectMapper();
-	    
-	    String requestInfo = om.writeValueAsString(ifl.getRequestParams());
-	    
-	    logger.info(requestInfo);
+	    String requestInfoXml =cf.makeXmlForInterfaceLogs(reqClass, ifl.getRequestParams());
+	    System.out.println(requestInfoXml);
 	    
 		try {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
-					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ commonFunctions.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
-					+ifl.getRequestName()+"', '"+requestInfo+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+commonFunctions.setStringDefaultVal(ifl.getResponseResult())+"')";
+					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cf.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
+					+ifl.getRequestName()+"', '"+requestInfoXml+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+cf.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			
@@ -116,6 +118,8 @@ public class UserRegistrationRepository<T> {
 		
 		return insertionStatus;
 	}
+
+	
 	
 	
 	

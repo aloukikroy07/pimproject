@@ -1,5 +1,7 @@
 package com.pim.service;
 
+import javax.xml.bind.JAXBContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +16,18 @@ public class UserRegistrationService {
 	@Autowired
 	private UserRegistrationRepository urRepository;
 	
-	public int insertUserRegistrationData(RegisterUser registerUser) {
-		return urRepository.insertUserRegistration(registerUser);
+	public int insertUserRegistrationData(JAXBContext reqClass, RegisterUser registerUser) {
+		return urRepository.insertUserRegistration(reqClass, registerUser);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public int interfaceLogsInsert(TransferFunds tf) throws Exception {
+	public <T> int interfaceLogsInsert(JAXBContext reqClass, T tf) throws Exception {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    ifl.setRequestParams(tf);
 	    
-		return urRepository.insertInterfaceLogs(ifl);
+		return urRepository.insertInterfaceLogs(reqClass, ifl);
 	}
+
 	
 }
