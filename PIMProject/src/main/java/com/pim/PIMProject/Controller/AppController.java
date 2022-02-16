@@ -316,7 +316,7 @@ public class AppController<T> {
 			dataPDU.setBody(pduData.getBody());
 			
 			userRegService.interfaceLogsInsert(jc, pduData);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) pduData));
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
 		}
