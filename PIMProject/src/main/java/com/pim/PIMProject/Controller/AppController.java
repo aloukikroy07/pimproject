@@ -40,17 +40,17 @@ public class AppController<T> {
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
 		RegisterUser registerUser = new RegisterUser();	
 		
-		try {			
-			logger.info("Request to RegisterUser info: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(RegisterUser.class), (T) userReg));
+		try {
+			JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
+			logger.info("Request to RegisterUser info: "+commonFunctions.convertToXmlFromModel(jc, (T) userReg));
 			
 			registerUser.setHead(userReg.getHead());
 			registerUser.setEntity(userReg.getEntity());
 			registerUser.setReq(userReg.getReq());
 			registerUser.setChannelInfo(userReg.getChannelInfo());
 			
-			userRegService.insertUserRegistrationData(JAXBContext.newInstance(TransferFunds.class), registerUser);
-			
-			logger.info("Response Data for RegisterUser: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(RegisterUser.class), (T) registerUser));
+			userRegService.insertUserRegistrationData(jc, registerUser);
+			logger.info("Response Data for RegisterUser: "+commonFunctions.convertToXmlFromModel(jc, (T) registerUser));
 			
 			return registerUser;
 			
@@ -75,17 +75,17 @@ public class AppController<T> {
 	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
 		TransferFunds transferFunds = new TransferFunds();
 		
-		try {				
-			logger.info("Request to TransferFunds info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(TransferFunds.class), (T) fundTransfer));
+		try {	
+			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
+			logger.info("Request to TransferFunds info : "+commonFunctions.convertToXmlFromModel(jc, (T) fundTransfer));
 			
 			transferFunds.setHead(fundTransfer.getHead());
 			transferFunds.setReq(fundTransfer.getReq());
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			userRegService.interfaceLogsInsert(JAXBContext.newInstance(TransferFunds.class), transferFunds);
-			
-			logger.info("Response Data for TransferFunds: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(TransferFunds.class), (T) transferFunds));
+			userRegService.interfaceLogsInsert(jc, transferFunds);
+			logger.info("Response Data for TransferFunds: "+commonFunctions.convertToXmlFromModel(jc, (T) transferFunds));
 			
 			return transferFunds;
 		}
@@ -101,15 +101,17 @@ public class AppController<T> {
 	public CreateRTP createRTP(@RequestBody CreateRTP rtpCreation){
 		CreateRTP createRTP = new CreateRTP();
 			
-		try {			
-			logger.info("Request to CreateRTP info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(CreateRTP.class), (T) rtpCreation));
+		try {	
+			JAXBContext jc = JAXBContext.newInstance(CreateRTP.class);
+			logger.info("Request to CreateRTP info : "+commonFunctions.convertToXmlFromModel(jc, (T) rtpCreation));
 			
 			createRTP.setHead(rtpCreation.getHead());
 			createRTP.setReq(rtpCreation.getReq());
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
-			logger.info("Response Data for CreateRTP: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(CreateRTP.class), (T) createRTP));
+			userRegService.interfaceLogsInsert(jc, createRTP);
+			logger.info("Response Data for CreateRTP: "+commonFunctions.convertToXmlFromModel(jc, (T) createRTP));
 			
 			return createRTP;
 		}
@@ -126,14 +128,16 @@ public class AppController<T> {
 		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
 		
 		try {
-			logger.info("Request to InitiateFundTransfer info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(InitiateFundTransfer.class), (T) fundTransferInitiate));
+			JAXBContext jc = JAXBContext.newInstance(InitiateFundTransfer.class);
+			logger.info("Request to InitiateFundTransfer info : "+commonFunctions.convertToXmlFromModel(jc, (T) fundTransferInitiate));
 			
 			initiateFundTransfer.setHead(fundTransferInitiate.getHead());
 			initiateFundTransfer.setReq(fundTransferInitiate.getReq());
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
-			logger.info("Response Data for InitiateFundTransfer: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(InitiateFundTransfer.class), (T) initiateFundTransfer));
+			userRegService.interfaceLogsInsert(jc, initiateFundTransfer);
+			logger.info("Response Data for InitiateFundTransfer: "+commonFunctions.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
 			return initiateFundTransfer;
 		}
@@ -150,14 +154,16 @@ public class AppController<T> {
 		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();	
 		
 		try {	
-			logger.info("Request to GetTransactionsbyFI info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetTransactionsbyFI.class), (T) getFITransactions));
+			JAXBContext jc = JAXBContext.newInstance(GetTransactionsbyFI.class);
+			logger.info("Request to GetTransactionsbyFI info : "+commonFunctions.convertToXmlFromModel(jc, (T) getFITransactions));
 			
 			getTransactionsbyFI.setHead(getFITransactions.getHead());
 			getTransactionsbyFI.setReq(getFITransactions.getReq());
 			getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
 			getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
 			
-			logger.info("Response Data for GetTransactionsbyFI: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetTransactionsbyFI.class), (T) getTransactionsbyFI));
+			userRegService.interfaceLogsInsert(jc, getTransactionsbyFI);
+			logger.info("Response Data for GetTransactionsbyFI: "+commonFunctions.convertToXmlFromModel(jc, (T) getTransactionsbyFI));
 			
 			return getTransactionsbyFI;
 		}
@@ -174,14 +180,16 @@ public class AppController<T> {
 		GetRTPListSent getRTPListSent = new GetRTPListSent();	
 		
 		try {
-			logger.info("Request to GetRTPListSent info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetRTPListSent.class), (T) getListSentRTP));
+			JAXBContext jc = JAXBContext.newInstance(GetRTPListSent.class);
+			logger.info("Request to GetRTPListSent info : "+commonFunctions.convertToXmlFromModel(jc, (T) getListSentRTP));
 			
 			getRTPListSent.setHead(getListSentRTP.getHead());
 			getRTPListSent.setReq(getListSentRTP.getReq());
 			getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
 			getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
 			
-			logger.info("Response Data for GetRTPListSent: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetRTPListSent.class), (T) getRTPListSent));
+			userRegService.interfaceLogsInsert(jc, getRTPListSent);
+			logger.info("Response Data for GetRTPListSent: "+commonFunctions.convertToXmlFromModel(jc, (T) getRTPListSent));
 			
 			return getRTPListSent;
 		}
@@ -197,14 +205,16 @@ public class AppController<T> {
 		GetRTPListReceived getRTPListReceived = new GetRTPListReceived();
 			
 		try {	
-			logger.info("Request to GetRTPListReceived info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetRTPListReceived.class), (T) getListReceivedRTP));
+			JAXBContext jc = JAXBContext.newInstance(GetRTPListReceived.class);
+			logger.info("Request to GetRTPListReceived info : "+commonFunctions.convertToXmlFromModel(jc, (T) getListReceivedRTP));
 			
 			getRTPListReceived.setHead(getListReceivedRTP.getHead());
 			getRTPListReceived.setReq(getListReceivedRTP.getReq());
 			getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
 			getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
 			
-			logger.info("Response Data for GetRTPListReceived: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetRTPListReceived.class), (T) getRTPListReceived));
+			userRegService.interfaceLogsInsert(jc, getRTPListReceived);
+			logger.info("Response Data for GetRTPListReceived: "+commonFunctions.convertToXmlFromModel(jc, (T) getRTPListReceived));
 			
 			return getRTPListReceived;
 		}
@@ -221,14 +231,16 @@ public class AppController<T> {
 		ValidateFIUser validateFIUser = new ValidateFIUser();
 			
 		try {
-			logger.info("Request to ValidateFIUser info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(ValidateFIUser.class), (T) userFIValidate));
+			JAXBContext jc = JAXBContext.newInstance(ValidateFIUser.class);
+			logger.info("Request to ValidateFIUser info : "+commonFunctions.convertToXmlFromModel(jc, (T) userFIValidate));
 			
 			validateFIUser.setHead(userFIValidate.getHead());
 			validateFIUser.setReq(userFIValidate.getReq());
 			validateFIUser.setUserInfo(userFIValidate.getUserInfo());
 			validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
 			
-			logger.info("Response Data for ValidateFIUser: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(ValidateFIUser.class), (T) validateFIUser));
+			userRegService.interfaceLogsInsert(jc, validateFIUser);
+			logger.info("Response Data for ValidateFIUser: "+commonFunctions.convertToXmlFromModel(jc, (T) validateFIUser));
 			
 			return validateFIUser;
 		}
@@ -245,7 +257,8 @@ public class AppController<T> {
 		NotifyIDTPAccountChange notifyIDTPAccountChange = new NotifyIDTPAccountChange();
 			
 		try {
-			logger.info("Request to NotifyIDTPAccountChange info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(NotifyIDTPAccountChange.class), (T) accountChangeNotifyIDTPAccountChange));
+			JAXBContext jc = JAXBContext.newInstance(NotifyIDTPAccountChange.class);
+			logger.info("Request to NotifyIDTPAccountChange info : "+commonFunctions.convertToXmlFromModel(jc, (T) accountChangeNotifyIDTPAccountChange));
 			
 			notifyIDTPAccountChange.setHead(accountChangeNotifyIDTPAccountChange.getHead());
 			notifyIDTPAccountChange.setReq(accountChangeNotifyIDTPAccountChange.getReq());
@@ -253,7 +266,8 @@ public class AppController<T> {
 			notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
 			notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
 			
-			logger.info("Response Data for NotifyIDTPAccountChange: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(NotifyIDTPAccountChange.class), (T) notifyIDTPAccountChange));
+			userRegService.interfaceLogsInsert(jc, notifyIDTPAccountChange);
+			logger.info("Response Data for NotifyIDTPAccountChange: "+commonFunctions.convertToXmlFromModel(jc, (T) notifyIDTPAccountChange));
 			
 			return notifyIDTPAccountChange;
 		}
@@ -269,7 +283,8 @@ public class AppController<T> {
 		GetFIUserInfo getFIUserInfo = new GetFIUserInfo();
 		
 		try {
-			logger.info("Request to GetFIUserInfo info : "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetFIUserInfo.class), (T) getInfoFIUser));
+			JAXBContext jc = JAXBContext.newInstance(GetFIUserInfo.class);
+			logger.info("Request to GetFIUserInfo info : "+commonFunctions.convertToXmlFromModel(jc, (T) getInfoFIUser));
 			
 			getFIUserInfo.setHead(getInfoFIUser.getHead());
 			getFIUserInfo.setReq(getInfoFIUser.getReq());
@@ -277,7 +292,8 @@ public class AppController<T> {
 			getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
 			getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
 			
-			logger.info("Response Data for GetFIUserInfo: "+commonFunctions.convertToXmlFromModel(JAXBContext.newInstance(GetFIUserInfo.class), (T) getFIUserInfo));
+			userRegService.interfaceLogsInsert(jc, getInfoFIUser);
+			logger.info("Response Data for GetFIUserInfo: "+commonFunctions.convertToXmlFromModel(jc, (T) getFIUserInfo));
 			
 			return getFIUserInfo;
 		}
@@ -291,9 +307,23 @@ public class AppController<T> {
 	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public DataPDU dataPDU(@RequestBody DataPDU pduData) {
 		DataPDU dataPDU = new DataPDU();
-		dataPDU.setRevision(pduData.getRevision());
-		dataPDU.setBody(pduData.getBody());
 		
-		return dataPDU;
+		try {
+			JAXBContext jc = JAXBContext.newInstance(DataPDU.class);
+			logger.info("Request to GetFIUserInfo info : "+commonFunctions.convertToXmlFromModel(jc, (T) pduData));
+			
+			dataPDU.setRevision(pduData.getRevision());
+			dataPDU.setBody(pduData.getBody());
+			
+			userRegService.interfaceLogsInsert(jc, pduData);
+			logger.info("Response Data for GetFIUserInfo: "+commonFunctions.convertToXmlFromModel(jc, (T) pduData));
+			
+			return dataPDU;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return dataPDU;
+		}
 	}
 }
