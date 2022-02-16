@@ -34,8 +34,5 @@ public class IntrBkSttlmAmt {
 
 	public void setTxIntrBkSttlmAmt(String txIntrBkSttlmAmt) {
 		this.txIntrBkSttlmAmt = txIntrBkSttlmAmt;
-	}
-
-	
-	
+	}	
 }
