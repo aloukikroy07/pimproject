@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pim.PIMProject.ISO.Model.DataPDU;
+import com.pim.PIMProject.ISO.Model.RequestDataPDU;
 import com.pim.PIMProject.Model.CreateRTP;
 import com.pim.PIMProject.Model.GetFIUserInfo;
 import com.pim.PIMProject.Model.GetRTPListReceived;
@@ -305,11 +305,11 @@ public class AppController<T> {
 	}
 	
 	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public DataPDU dataPDU(@RequestBody DataPDU pduData) {
-		DataPDU dataPDU = new DataPDU();
+	public RequestDataPDU dataPDU(@RequestBody RequestDataPDU pduData) {
+		RequestDataPDU dataPDU = new RequestDataPDU();
 		
 		try {
-			JAXBContext jc = JAXBContext.newInstance(DataPDU.class);
+			JAXBContext jc = JAXBContext.newInstance(RequestDataPDU.class);
 			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
 			
 			dataPDU.setRevision(pduData.getRevision());

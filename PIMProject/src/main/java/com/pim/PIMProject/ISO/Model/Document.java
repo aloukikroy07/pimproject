@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class Document {
 	@JacksonXmlProperty(isAttribute = true)
-	private String xmlns= "urn:iso:std:iso:20022:tech:xsd:pacs.008.001.06";
+	private String xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.06";
 	@JacksonXmlProperty(localName = "FIToFICstmrCdtTrf")
 	private FIToFICstmrCdtTrf fiToFICstmrCdtTrf;
 	public Document() {

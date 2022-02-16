@@ -1,19 +1,21 @@
 package com.pim.PIMProject.ISO.Model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-public class DataPDU {
+@JacksonXmlRootElement(localName="DataPDU")
+public class RequestDataPDU {
 	@JacksonXmlProperty(isAttribute = true)
 	private String xmlns="urn:swift:saa:xsd:saa.2.0";
 	@JacksonXmlProperty(localName = "Revision")
 	private String revision;
 	@JacksonXmlProperty(localName = "Body")
 	private Body body;
-	public DataPDU() {
+	public RequestDataPDU() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DataPDU(String revision, Body body) {
+	public RequestDataPDU(String revision, Body body) {
 		super();
 		this.revision = revision;
 		this.body = body;
@@ -30,6 +32,4 @@ public class DataPDU {
 	public void setBody(Body body) {
 		this.body = body;
 	}
-	
-	
 }
