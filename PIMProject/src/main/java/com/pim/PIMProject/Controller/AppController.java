@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pim.PIMProject.ISO.Model.RequestDataPDU;
 import com.pim.PIMProject.Model.CreateRTP;
 import com.pim.PIMProject.Model.GetFIUserInfo;
 import com.pim.PIMProject.Model.GetRTPListReceived;
@@ -21,10 +20,12 @@ import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.PIMProject.Model.ValidateFIUser;
+import com.pim.PIMProject.Model.ISO.PACS00200105.DataPDUPACS05;
+import com.pim.PIMProject.Model.ISO.PACS00800106.DataPDUPACS06;
+import com.pim.PIMProject.Model.ISO.PAIN01300106.Pain06RequestBody;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
-import com.pim.PIMProject.Model.Response.ISO.ResponseDataPDU;
 
 @RestController
 public class AppController<T> {
@@ -306,11 +307,11 @@ public class AppController<T> {
 	}
 	
 	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public RequestDataPDU dataPDU(@RequestBody RequestDataPDU pduData) {
-		RequestDataPDU dataPDU = new RequestDataPDU();
+	public DataPDUPACS06 transferFundsISO(@RequestBody DataPDUPACS06 pduData) {
+		DataPDUPACS06 dataPDU = new DataPDUPACS06();
 		
 		try {
-			JAXBContext jc = JAXBContext.newInstance(RequestDataPDU.class);
+			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
 			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
 			
 			dataPDU.setRevision(pduData.getRevision());
@@ -328,26 +329,27 @@ public class AppController<T> {
 		}
 	}
 	
-	@PostMapping(value="/responsefundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public ResponseDataPDU responsedataPDU(@RequestBody ResponseDataPDU pduData) {
-		ResponseDataPDU dataPDU = new ResponseDataPDU();
+	@PostMapping(value="/creatertpiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public Pain06RequestBody createRTPISO(@RequestBody Pain06RequestBody rtpISOCreate) {
+		Pain06RequestBody createRTPISO = new Pain06RequestBody();
 		
 		try {
-			JAXBContext jc = JAXBContext.newInstance(ResponseDataPDU.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
+			JAXBContext jc = JAXBContext.newInstance(Pain06RequestBody.class);
+			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) rtpISOCreate));
 			
-			dataPDU.setRevision(pduData.getRevision());
-			dataPDU.setResponseBody(pduData.getResponseBody());
+			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
+			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
-			userRegService.interfaceLogsInsert(jc, pduData);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
+			userRegService.interfaceLogsInsert(jc, rtpISOCreate);
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
-			return dataPDU;
+			return createRTPISO;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data for DataPDU: "+ e);
-			return dataPDU;
+			return createRTPISO;
 		}
 	}
+	
 }
