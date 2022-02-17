@@ -1,7 +1,9 @@
 package com.pim.PIMProject.Model.ISO.PACS00200105;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class StsRsnInf {
 	@JacksonXmlProperty(localName = "Rsn")
 	private Rsn rsn;

@@ -22,7 +22,8 @@ import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.PIMProject.Model.ValidateFIUser;
 import com.pim.PIMProject.Model.ISO.PACS00200105.DataPDUPACS05;
 import com.pim.PIMProject.Model.ISO.PACS00800106.DataPDUPACS06;
-import com.pim.PIMProject.Model.ISO.PAIN01300106.Pain06RequestBody;
+import com.pim.PIMProject.Model.ISO.PAIN01300106.BodyPAIN01300106;
+import com.pim.PIMProject.Model.ISO.PAIN01400106.BodyPAIN01400106;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
@@ -329,12 +330,36 @@ public class AppController<T> {
 		}
 	}
 	
-	@PostMapping(value="/creatertpiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public Pain06RequestBody createRTPISO(@RequestBody Pain06RequestBody rtpISOCreate) {
-		Pain06RequestBody createRTPISO = new Pain06RequestBody();
+	//
+	@PostMapping(value="/ProcessFundTransferRequest", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public DataPDUPACS06 processFundTransferRequest(@RequestBody DataPDUPACS06 pduData) {
+		DataPDUPACS06 dataPDU = new DataPDUPACS06();
 		
 		try {
-			JAXBContext jc = JAXBContext.newInstance(Pain06RequestBody.class);
+			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
+			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
+			
+			dataPDU.setRevision(pduData.getRevision());
+			dataPDU.setBody(pduData.getBody());
+			
+			userRegService.interfaceLogsInsert(jc, pduData);
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
+			
+			return dataPDU;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return dataPDU;
+		}
+	}
+	
+	@PostMapping(value="/creatertpiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public BodyPAIN01300106 createRTPISO(@RequestBody BodyPAIN01300106 rtpISOCreate) {
+		BodyPAIN01300106 createRTPISO = new BodyPAIN01300106();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
 			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) rtpISOCreate));
 			
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
@@ -352,4 +377,49 @@ public class AppController<T> {
 		}
 	}
 	
+	@PostMapping(value="/ProcessRTPRequest", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public BodyPAIN01300106 processRTPRequest(@RequestBody BodyPAIN01300106 isoCreateRTP) {
+		BodyPAIN01300106 processRTPRequest = new BodyPAIN01300106();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
+			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) isoCreateRTP));
+			
+			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
+			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
+			
+			userRegService.interfaceLogsInsert(jc, processRTPRequest);
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
+			
+			return processRTPRequest;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return processRTPRequest;
+		}
+	}
+	
+	@PostMapping(value="/ProcessRTPDeclinedResponse", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public BodyPAIN01300106 processRTPDeclinedResponse(@RequestBody BodyPAIN01300106 rtpDeclinedResponseProcess) {
+		BodyPAIN01300106 processRTPDeclinedResponse = new BodyPAIN01300106();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
+			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) rtpDeclinedResponseProcess));
+			
+			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
+			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
+			
+			userRegService.interfaceLogsInsert(jc, processRTPDeclinedResponse);
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
+			
+			return processRTPDeclinedResponse;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return processRTPDeclinedResponse;
+		}
+	}
 }

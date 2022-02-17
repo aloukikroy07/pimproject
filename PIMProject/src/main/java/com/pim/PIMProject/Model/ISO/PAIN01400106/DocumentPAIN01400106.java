@@ -1,19 +1,20 @@
-package com.pim.PIMProject.Model.ISO.PAIN01300106;
+package com.pim.PIMProject.Model.ISO.PAIN01400106;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.pim.PIMProject.Model.ISO.PAIN01300106.CdtrPmtActvtnReq;
 
-public class Pain06Document {
+public class DocumentPAIN01400106 {
 	@JacksonXmlProperty(isAttribute = true,localName = "xmlns:xsi")
 	private String xsi = "http://www.w3.org/2001/XMLSchema-instance";
 	@JacksonXmlProperty(isAttribute = true)
-	private String xmlns = "urn:iso:std:iso:20022:tech:xsd:pain.013.001.06";
+	private String xmlns = "urn:iso:std:iso:20022:tech:xsd:pain.014.001.06";
 	@JacksonXmlProperty(localName = "CdtrPmtActvtnReq")
 	private CdtrPmtActvtnReq cdtrPmtActvtnReq;
-	public Pain06Document() {
+	public DocumentPAIN01400106() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Pain06Document(String xsi, String xmlns, CdtrPmtActvtnReq cdtrPmtActvtnReq) {
+	public DocumentPAIN01400106(String xsi, String xmlns, CdtrPmtActvtnReq cdtrPmtActvtnReq) {
 		super();
 		this.xsi = xsi;
 		this.xmlns = xmlns;

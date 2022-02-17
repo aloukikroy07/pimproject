@@ -8,16 +8,16 @@ import com.pim.PIMProject.Model.ISO.PACS00800106.AppHdr;
 
 @XmlRootElement
 @JacksonXmlRootElement(localName = "Body")
-public class Pain06RequestBody {
+public class BodyPAIN01300106 {
 	@JacksonXmlProperty(localName = "AppHdr")
 	private AppHdr appHdr;
 	@JacksonXmlProperty(localName = "Document")
-	private Pain06Document pain06Document;
-	public Pain06RequestBody() {
+	private DocumentPAIN01300106 pain06Document;
+	public BodyPAIN01300106() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Pain06RequestBody(AppHdr appHdr, Pain06Document pain06Document) {
+	public BodyPAIN01300106(AppHdr appHdr, DocumentPAIN01300106 pain06Document) {
 		super();
 		this.appHdr = appHdr;
 		this.pain06Document = pain06Document;
@@ -28,10 +28,10 @@ public class Pain06RequestBody {
 	public void setAppHdr(AppHdr appHdr) {
 		this.appHdr = appHdr;
 	}
-	public Pain06Document getPain06Document() {
+	public DocumentPAIN01300106 getPain06Document() {
 		return pain06Document;
 	}
-	public void setPain06Document(Pain06Document pain06Document) {
+	public void setPain06Document(DocumentPAIN01300106 pain06Document) {
 		this.pain06Document = pain06Document;
 	}
 }

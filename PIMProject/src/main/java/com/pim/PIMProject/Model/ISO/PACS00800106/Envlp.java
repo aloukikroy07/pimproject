@@ -12,7 +12,7 @@ public class Envlp {
 	private Creds creds;
 	@JacksonXmlProperty(localName = "ChannelInfo")
 	private ChannelInfo channelInfo;
-	@JacksonXmlProperty(localName = "DeviceInfo")
+	@JacksonXmlProperty(localName = "Device_Info")
 	private DeviceInfo device_Info;
 	@JacksonXmlProperty(localName = "Tx_Tracking_Info")
 	private Tx_Tracking_Info tx_Tracking_Info;

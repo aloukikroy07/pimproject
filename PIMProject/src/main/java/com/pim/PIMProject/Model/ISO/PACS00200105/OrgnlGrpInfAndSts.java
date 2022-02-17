@@ -1,7 +1,9 @@
 package com.pim.PIMProject.Model.ISO.PACS00200105;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class OrgnlGrpInfAndSts {
 	@JacksonXmlProperty(localName = "OrgnlMsgId")
 	private String orgnlMsgId;
@@ -13,18 +15,21 @@ public class OrgnlGrpInfAndSts {
 	private String grpSts;
 	@JacksonXmlProperty(localName = "StsRsnInf")
 	private StsRsnInf stsRsnInf;
+	@JacksonXmlProperty(localName = "OrgnlNbOfTxs")
+	private String orgnlNbOfTxs;
 	public OrgnlGrpInfAndSts() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public OrgnlGrpInfAndSts(String orgnlMsgId, String orgnlMsgNmId, String orgnlCreDtTm, String grpSts,
-			StsRsnInf stsRsnInf) {
+			StsRsnInf stsRsnInf, String orgnlNbOfTxs) {
 		super();
 		this.orgnlMsgId = orgnlMsgId;
 		this.orgnlMsgNmId = orgnlMsgNmId;
 		this.orgnlCreDtTm = orgnlCreDtTm;
 		this.grpSts = grpSts;
 		this.stsRsnInf = stsRsnInf;
+		this.orgnlNbOfTxs = orgnlNbOfTxs;
 	}
 	public String getOrgnlMsgId() {
 		return orgnlMsgId;
@@ -55,6 +60,12 @@ public class OrgnlGrpInfAndSts {
 	}
 	public void setStsRsnInf(StsRsnInf stsRsnInf) {
 		this.stsRsnInf = stsRsnInf;
+	}
+	public String getOrgnlNbOfTxs() {
+		return orgnlNbOfTxs;
+	}
+	public void setOrgnlNbOfTxs(String orgnlNbOfTxs) {
+		this.orgnlNbOfTxs = orgnlNbOfTxs;
 	}
 	
 }
