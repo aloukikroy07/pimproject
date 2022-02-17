@@ -24,6 +24,7 @@ import com.pim.PIMProject.Model.ValidateFIUser;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
 import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
+import com.pim.PIMProject.Model.Response.ISO.ResponseDataPDU;
 
 @RestController
 public class AppController<T> {
@@ -314,6 +315,29 @@ public class AppController<T> {
 			
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
+			
+			userRegService.interfaceLogsInsert(jc, pduData);
+			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
+			
+			return dataPDU;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return dataPDU;
+		}
+	}
+	
+	@PostMapping(value="/responsefundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public ResponseDataPDU responsedataPDU(@RequestBody ResponseDataPDU pduData) {
+		ResponseDataPDU dataPDU = new ResponseDataPDU();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(ResponseDataPDU.class);
+			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
+			
+			dataPDU.setRevision(pduData.getRevision());
+			dataPDU.setResponseBody(pduData.getResponseBody());
 			
 			userRegService.interfaceLogsInsert(jc, pduData);
 			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));

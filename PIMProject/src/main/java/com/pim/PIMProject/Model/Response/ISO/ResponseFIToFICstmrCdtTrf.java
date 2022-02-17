@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.pim.PIMProject.ISO.Model.GrpHdr;
 import com.pim.PIMProject.ISO.Model.SplmtryData;
 
-public class ResponseFIToFIPmtStsRpt {
+public class ResponseFIToFICstmrCdtTrf {
 	@JacksonXmlProperty(localName = "GrpHdr")
 	private GrpHdr grpHdr;
 	@JacksonXmlProperty(localName = "OrgnlGrpInfAndSts")
@@ -13,11 +13,11 @@ public class ResponseFIToFIPmtStsRpt {
 	private TxInfAndSts txInfAndSts;
 	@JacksonXmlProperty(localName = "SplmtryData")
 	private SplmtryData splmtryData;
-	public ResponseFIToFIPmtStsRpt() {
+	public ResponseFIToFICstmrCdtTrf() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ResponseFIToFIPmtStsRpt(GrpHdr grpHdr, OrgnlGrpInfAndSts orgnlGrpInfAndSts, TxInfAndSts txInfAndSts,
+	public ResponseFIToFICstmrCdtTrf(GrpHdr grpHdr, OrgnlGrpInfAndSts orgnlGrpInfAndSts, TxInfAndSts txInfAndSts,
 			SplmtryData splmtryData) {
 		super();
 		this.grpHdr = grpHdr;
@@ -49,4 +49,5 @@ public class ResponseFIToFIPmtStsRpt {
 	public void setSplmtryData(SplmtryData splmtryData) {
 		this.splmtryData = splmtryData;
 	}
+	
 }

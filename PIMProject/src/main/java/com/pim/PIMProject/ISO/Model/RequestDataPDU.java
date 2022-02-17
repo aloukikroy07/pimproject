@@ -1,8 +1,11 @@
 package com.pim.PIMProject.ISO.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+@XmlRootElement
 @JacksonXmlRootElement(localName="DataPDU")
 public class RequestDataPDU {
 	@JacksonXmlProperty(isAttribute = true)

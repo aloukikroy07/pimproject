@@ -1,10 +1,12 @@
 package com.pim.PIMProject.ISO.Model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.pim.PIMProject.Model.ChannelInfo;
 import com.pim.PIMProject.Model.Creds;
 import com.pim.PIMProject.Model.DeviceInfo;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Envlp {
 	@JacksonXmlProperty(localName = "Creds")
 	private Creds creds;
@@ -16,18 +18,24 @@ public class Envlp {
 	private Tx_Tracking_Info tx_Tracking_Info;
 	@JacksonXmlProperty(localName = "RTPInfo")
 	private RTPInfo rtpInfo;
+	@JacksonXmlProperty(localName = "IDTP_Status_Code")
+	private String idtpStatusCode;
+	@JacksonXmlProperty(localName = "IDTP_Status_Msg")
+	private String idtpStatusMsg;
 	public Envlp() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Envlp(Creds creds, ChannelInfo channelInfo, DeviceInfo device_Info, Tx_Tracking_Info tx_Tracking_Info,
-			RTPInfo rtpInfo) {
+			RTPInfo rtpInfo, String idtpStatusCode, String idtpStatusMsg) {
 		super();
 		this.creds = creds;
 		this.channelInfo = channelInfo;
 		this.device_Info = device_Info;
 		this.tx_Tracking_Info = tx_Tracking_Info;
 		this.rtpInfo = rtpInfo;
+		this.idtpStatusCode = idtpStatusCode;
+		this.idtpStatusMsg = idtpStatusMsg;
 	}
 	public Creds getCreds() {
 		return creds;
@@ -59,5 +67,18 @@ public class Envlp {
 	public void setRtpInfo(RTPInfo rtpInfo) {
 		this.rtpInfo = rtpInfo;
 	}
+	public String getIdtpStatusCode() {
+		return idtpStatusCode;
+	}
+	public void setIdtpStatusCode(String idtpStatusCode) {
+		this.idtpStatusCode = idtpStatusCode;
+	}
+	public String getIdtpStatusMsg() {
+		return idtpStatusMsg;
+	}
+	public void setIdtpStatusMsg(String idtpStatusMsg) {
+		this.idtpStatusMsg = idtpStatusMsg;
+	}
+	
 	
 }
