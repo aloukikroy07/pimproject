@@ -12,6 +12,8 @@ public class GrpHdr {
 	private String creDtTm;
 	@JacksonXmlProperty(localName = "NbOfTxs")
 	private String nbOfTxs;
+	@JacksonXmlProperty(localName = "CtrlSum")
+	private String ctrlSum;
 	@JacksonXmlProperty(localName = "TtlIntrBkSttlmAmt")
 	private String ttlIntrBkSttlmAmt;
 	@JacksonXmlProperty(localName = "IntrBkSttlmDt")
@@ -24,12 +26,13 @@ public class GrpHdr {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public GrpHdr(String msgId, String creDtTm, String nbOfTxs, String ttlIntrBkSttlmAmt, String intrBkSttlmDt,
-			SttlmInf sttlmInf, InitgPty initgPty) {
+	public GrpHdr(String msgId, String creDtTm, String nbOfTxs, String ctrlSum, String ttlIntrBkSttlmAmt,
+			String intrBkSttlmDt, SttlmInf sttlmInf, InitgPty initgPty) {
 		super();
 		this.msgId = msgId;
 		this.creDtTm = creDtTm;
 		this.nbOfTxs = nbOfTxs;
+		this.ctrlSum = ctrlSum;
 		this.ttlIntrBkSttlmAmt = ttlIntrBkSttlmAmt;
 		this.intrBkSttlmDt = intrBkSttlmDt;
 		this.sttlmInf = sttlmInf;
@@ -52,6 +55,12 @@ public class GrpHdr {
 	}
 	public void setNbOfTxs(String nbOfTxs) {
 		this.nbOfTxs = nbOfTxs;
+	}
+	public String getCtrlSum() {
+		return ctrlSum;
+	}
+	public void setCtrlSum(String ctrlSum) {
+		this.ctrlSum = ctrlSum;
 	}
 	public String getTtlIntrBkSttlmAmt() {
 		return ttlIntrBkSttlmAmt;

@@ -1,10 +1,15 @@
 package com.pim.PIMProject.Model.ISO.PACS00800106;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.pim.PIMProject.Model.ISO.PAIN01300106.Amt;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CdtTrfTxInf {
 	@JacksonXmlProperty(localName = "PmtId")
 	private PmtId pmtId;
+	@JacksonXmlProperty(localName = "Amt")
+	private Amt amt;
 	@JacksonXmlProperty(localName = "PmtTpInf")
 	private PmtTpInf pmtTpInf;
 	@JacksonXmlProperty(localName = "IntrBkSttlmAmt")
@@ -37,11 +42,12 @@ public class CdtTrfTxInf {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CdtTrfTxInf(PmtId pmtId, PmtTpInf pmtTpInf, IntrBkSttlmAmt intrBkSttlmAmt, String chrgBr, FIId instgAgt,
-			FIId instdAgt, Dbtr dbtr, DbtrAcct dbtrAcct, FIId dbtrAgt, DbtrAcct dbtrAgtAcct, FIId cdtrAgt,
-			DbtrAcct cdtrAgtAcct, Dbtr cdtr, DbtrAcct cdtrAcct, RmtInf rmtInf) {
+	public CdtTrfTxInf(PmtId pmtId, Amt amt, PmtTpInf pmtTpInf, IntrBkSttlmAmt intrBkSttlmAmt, String chrgBr,
+			FIId instgAgt, FIId instdAgt, Dbtr dbtr, DbtrAcct dbtrAcct, FIId dbtrAgt, DbtrAcct dbtrAgtAcct,
+			FIId cdtrAgt, DbtrAcct cdtrAgtAcct, Dbtr cdtr, DbtrAcct cdtrAcct, RmtInf rmtInf) {
 		super();
 		this.pmtId = pmtId;
+		this.amt = amt;
 		this.pmtTpInf = pmtTpInf;
 		this.intrBkSttlmAmt = intrBkSttlmAmt;
 		this.chrgBr = chrgBr;
@@ -62,6 +68,12 @@ public class CdtTrfTxInf {
 	}
 	public void setPmtId(PmtId pmtId) {
 		this.pmtId = pmtId;
+	}
+	public Amt getAmt() {
+		return amt;
+	}
+	public void setAmt(Amt amt) {
+		this.amt = amt;
 	}
 	public PmtTpInf getPmtTpInf() {
 		return pmtTpInf;
@@ -147,6 +159,5 @@ public class CdtTrfTxInf {
 	public void setRmtInf(RmtInf rmtInf) {
 		this.rmtInf = rmtInf;
 	}
-	
 	
 }

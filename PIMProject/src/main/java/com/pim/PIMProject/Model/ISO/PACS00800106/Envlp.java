@@ -8,6 +8,14 @@ import com.pim.PIMProject.Model.DeviceInfo;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Envlp {
+	@JacksonXmlProperty(localName = "Payment_Note")
+	private String paymentNote;
+	@JacksonXmlProperty(localName = "Bill_Number")
+	private String billNumber;
+	@JacksonXmlProperty(localName = "Transaction_Type")
+	private String transactionType;
+	@JacksonXmlProperty(localName = "VID")
+	private String vid;
 	@JacksonXmlProperty(localName = "Creds")
 	private Creds creds;
 	@JacksonXmlProperty(localName = "ChannelInfo")
@@ -28,9 +36,14 @@ public class Envlp {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Envlp(Creds creds, ChannelInfo channelInfo, DeviceInfo device_Info, Tx_Tracking_Info tx_Tracking_Info,
-			RTPInfo rtpInfo, String idtpStatusCode, String idtpStatusMsg, String callFrom) {
+	public Envlp(String paymentNote, String billNumber, String transactionType, String vid, Creds creds,
+			ChannelInfo channelInfo, DeviceInfo device_Info, Tx_Tracking_Info tx_Tracking_Info, RTPInfo rtpInfo,
+			String idtpStatusCode, String idtpStatusMsg, String callFrom) {
 		super();
+		this.paymentNote = paymentNote;
+		this.billNumber = billNumber;
+		this.transactionType = transactionType;
+		this.vid = vid;
 		this.creds = creds;
 		this.channelInfo = channelInfo;
 		this.device_Info = device_Info;
@@ -39,6 +52,30 @@ public class Envlp {
 		this.idtpStatusCode = idtpStatusCode;
 		this.idtpStatusMsg = idtpStatusMsg;
 		this.callFrom = callFrom;
+	}
+	public String getPaymentNote() {
+		return paymentNote;
+	}
+	public void setPaymentNote(String paymentNote) {
+		this.paymentNote = paymentNote;
+	}
+	public String getBillNumber() {
+		return billNumber;
+	}
+	public void setBillNumber(String billNumber) {
+		this.billNumber = billNumber;
+	}
+	public String getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+	public String getVid() {
+		return vid;
+	}
+	public void setVid(String vid) {
+		this.vid = vid;
 	}
 	public Creds getCreds() {
 		return creds;

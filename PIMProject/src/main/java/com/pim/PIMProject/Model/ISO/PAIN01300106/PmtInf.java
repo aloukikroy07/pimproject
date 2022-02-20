@@ -1,15 +1,20 @@
 package com.pim.PIMProject.Model.ISO.PAIN01300106;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.pim.PIMProject.Model.ISO.PACS00800106.CdtTrfTxInf;
 import com.pim.PIMProject.Model.ISO.PACS00800106.Dbtr;
 import com.pim.PIMProject.Model.ISO.PACS00800106.DbtrAcct;
 import com.pim.PIMProject.Model.ISO.PACS00800106.FIId;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PmtInf {
 	@JacksonXmlProperty(localName = "PmtInfId")
 	private String pmtInfId;
 	@JacksonXmlProperty(localName = "PmtMtd")
 	private String pmtMtd;
+	@JacksonXmlProperty(localName = "BtchBookg")
+	private String btchBookg;
 	@JacksonXmlProperty(localName = "ReqdExctnDt")
 	private String reqdExctnDt;
 	@JacksonXmlProperty(localName = "Dbtr")
@@ -20,20 +25,24 @@ public class PmtInf {
 	private FIId dbtrAgt;
 	@JacksonXmlProperty(localName = "CdtTrfTx")
 	private CdtTrfTx cdtTrfTx;
+	@JacksonXmlProperty(localName = "CdtTrfTxInf")
+	private CdtTrfTxInf cdtTrfTxInf;
 	public PmtInf() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PmtInf(String pmtInfId, String pmtMtd, String reqdExctnDt, Dbtr dbtr, DbtrAcct dbtrAcct, FIId dbtrAgt,
-			CdtTrfTx cdtTrfTx) {
+	public PmtInf(String pmtInfId, String pmtMtd, String btchBookg, String reqdExctnDt, Dbtr dbtr, DbtrAcct dbtrAcct,
+			FIId dbtrAgt, CdtTrfTx cdtTrfTx, CdtTrfTxInf cdtTrfTxInf) {
 		super();
 		this.pmtInfId = pmtInfId;
 		this.pmtMtd = pmtMtd;
+		this.btchBookg = btchBookg;
 		this.reqdExctnDt = reqdExctnDt;
 		this.dbtr = dbtr;
 		this.dbtrAcct = dbtrAcct;
 		this.dbtrAgt = dbtrAgt;
 		this.cdtTrfTx = cdtTrfTx;
+		this.cdtTrfTxInf = cdtTrfTxInf;
 	}
 	public String getPmtInfId() {
 		return pmtInfId;
@@ -46,6 +55,12 @@ public class PmtInf {
 	}
 	public void setPmtMtd(String pmtMtd) {
 		this.pmtMtd = pmtMtd;
+	}
+	public String getBtchBookg() {
+		return btchBookg;
+	}
+	public void setBtchBookg(String btchBookg) {
+		this.btchBookg = btchBookg;
 	}
 	public String getReqdExctnDt() {
 		return reqdExctnDt;
@@ -76,6 +91,12 @@ public class PmtInf {
 	}
 	public void setCdtTrfTx(CdtTrfTx cdtTrfTx) {
 		this.cdtTrfTx = cdtTrfTx;
+	}
+	public CdtTrfTxInf getCdtTrfTxInf() {
+		return cdtTrfTxInf;
+	}
+	public void setCdtTrfTxInf(CdtTrfTxInf cdtTrfTxInf) {
+		this.cdtTrfTxInf = cdtTrfTxInf;
 	}
 	
 }
