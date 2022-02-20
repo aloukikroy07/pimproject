@@ -14,7 +14,7 @@ public class InterfaceLogs<T, Class> {
 	private Timestamp requestTime;
 	private String requestName;
 	private T requestParams;
-	private String response;
+	private T response;
 	private Timestamp responseTime;
 	private String responseResult;
 	private Timestamp createdAt;
@@ -26,7 +26,7 @@ public class InterfaceLogs<T, Class> {
 	}
 
 	public InterfaceLogs(int id, int companyId, int apiProvidersId, int apiClassesId, String requestId,
-			Timestamp requestTime, String requestName, T requestParams, String response, Timestamp responseTime,
+			Timestamp requestTime, String requestName, T requestParams, T response, Timestamp responseTime,
 			String responseResult, Timestamp createdAt, Timestamp updatedAt) {
 		super();
 		this.id = id;
@@ -108,12 +108,12 @@ public class InterfaceLogs<T, Class> {
 		this.requestParams = tf;
 	}
 
-	public String getResponse() {
+	public T getResponse() {
 		return response;
 	}
 
-	public void setResponse(String response) {
-		this.response = response;
+	public void setResponse(T tf) {
+		this.response = tf;
 	}
 
 	public Timestamp getResponseTime() {

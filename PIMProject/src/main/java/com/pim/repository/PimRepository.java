@@ -46,15 +46,15 @@ public class PimRepository<T> {
 		return formattedDate;
 	}
 	
-	public int insertUserRegistration(JAXBContext reqClass, RegisterUser ru) {
+	public int insertUserRegistration(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUser response) {
 		LocalDateTime myDateObj = LocalDateTime.now();   
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
 	    String formattedDate = myDateObj.format(myFormatObj);
 	    
-		Info info = ru.getEntity().getInfo();
-		FinancialInstitutionInfo fi = ru.getEntity().getFinancialInstitutionInfo();
+		Info info = response.getEntity().getInfo();
+		FinancialInstitutionInfo fi = response.getEntity().getFinancialInstitutionInfo();
 		
-		String sqll = "select * from t_customer_profiles where nid = '"+ru.getEntity().getInfo().getnID()+"'";
+		String sqll = "select * from t_customer_profiles where nid = '"+response.getEntity().getInfo().getnID()+"'";
 		List <CustomerProfiles> userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
 		 /*ACTIVATED_BY,*/
 		if (userData.isEmpty()) {
@@ -95,18 +95,18 @@ public class PimRepository<T> {
 	
 
 	@SuppressWarnings("unchecked")
-	public  <T extends InterfaceLogs> int insertInterfaceLogs(JAXBContext reqClass, T ifl) throws Exception { 
+	public  <T extends InterfaceLogs> int insertInterfaceLogs(T ifl) throws Exception { 
 		
 	    int insertionStatus = 0;
 		LocalDateTime myDateObj = LocalDateTime.now();   
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
 	    String formattedDate = myDateObj.format(myFormatObj);
-	    String requestInfoXml =cf.makeXmlForInterfaceLogs(reqClass, ifl.getRequestParams());
+//	    String requestInfoXml =cf.makeXmlForInterfaceLogs(reqClass, ifl.getRequestParams());
 	    
 		try {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
 					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cf.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
-					+ifl.getRequestName()+"', '"+requestInfoXml+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+cf.setStringDefaultVal(ifl.getResponseResult())+"')";
+					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+cf.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			
