@@ -313,13 +313,13 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
+			logger.info("Request to transferFundsISO info : "+cms.convertToXmlFromModel(jc, (T) pduData));
 			
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
 			userRegService.interfaceLogsInsert(jc, pduData);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
+			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
 		}
@@ -337,13 +337,13 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) pduData));
+			logger.info("Request to processFundTransferRequest info : "+cms.convertToXmlFromModel(jc, (T) pduData));
 			
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
 			userRegService.interfaceLogsInsert(jc, pduData);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
+			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
 		}
@@ -360,13 +360,13 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) rtpISOCreate));
+			logger.info("Request to createRTPISO info : "+cms.convertToXmlFromModel(jc, (T) rtpISOCreate));
 			
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
 			userRegService.interfaceLogsInsert(jc, rtpISOCreate);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
+			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
 			return createRTPISO;
 		}
@@ -383,13 +383,13 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) isoCreateRTP));
+			logger.info("Request to processRTPRequest info : "+cms.convertToXmlFromModel(jc, (T) isoCreateRTP));
 			
 			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
 			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
 			
 			userRegService.interfaceLogsInsert(jc, processRTPRequest);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
+			logger.info("Response Data for processRTPRequest: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
 			
 			return processRTPRequest;
 		}
@@ -406,13 +406,13 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
-			logger.info("Request to GetFIUserInfo info : "+cms.convertToXmlFromModel(jc, (T) rtpDeclinedResponseProcess));
+			logger.info("Request to processRTPDeclinedResponse info : "+cms.convertToXmlFromModel(jc, (T) rtpDeclinedResponseProcess));
 			
 			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
 			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
 			
 			userRegService.interfaceLogsInsert(jc, processRTPDeclinedResponse);
-			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
+			logger.info("Response Data for processRTPDeclinedResponse: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
 			
 			return processRTPDeclinedResponse;
 		}
