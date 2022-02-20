@@ -34,41 +34,34 @@ public class PimRepository<T> {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	private CommonMethods<T> cf;
+	private CommonMethods<T> cms;
 	
-	public String formatedDate(String value) throws ParseException {
-//		Date date = new Date();
-//		Timestamp ts=new Timestamp(date.getTime());
-		
-		LocalDateTime myDateObj = LocalDateTime.now();   
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
-	    String formattedDate = myDateObj.format(myFormatObj);
-		return formattedDate;
-	}
-	
-	public int insertUserRegistration(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUser response) {
-		LocalDateTime myDateObj = LocalDateTime.now();   
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
-	    String formattedDate = myDateObj.format(myFormatObj);
-	    
+	public int insertUserRegistration(RegisterUser request, RegisterUser response) {
 		Info info = response.getEntity().getInfo();
 		FinancialInstitutionInfo fi = response.getEntity().getFinancialInstitutionInfo();
+		String sql = "";  int insertion = 0;
 		
 		String sqll = "select * from t_customer_profiles where nid = '"+response.getEntity().getInfo().getnID()+"'";
 		List <CustomerProfiles> userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
-		 /*ACTIVATED_BY,*/
+		
 		if (userData.isEmpty()) {
-			String sql = "insert into t_customer_profiles (APPLICATION_ID, ENTITY_TYPE, MOBILE_NO, EMAIL, BRANCH_ID, CUSTOMER_ID,"
-					+ " CUSTOMER_NAME, CUSTOMER_ADDRESS,"+ " GENDER, POST_CODE, NID, TIN_NO, PASSWORD, IDTP_PIN, APP_PASSWORD, "
-					+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE,  ACTIVATED_BY,"
-					+ "REMARKS, TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
-					
-					+ " values (0, '"+info.getEntityType()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
-					+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
-					+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
-							+ "to_date('"+formattedDate+"', 'dd-mm-yyyy'), to_date('"+formattedDate+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
-			
-			int insertion = jdbcTemplate.update(sql);
+			try {
+				sql = "insert into t_customer_profiles (APPLICATION_ID, ENTITY_TYPE, MOBILE_NO, EMAIL, BRANCH_ID, CUSTOMER_ID,"
+				+ " CUSTOMER_NAME, CUSTOMER_ADDRESS,"+ " GENDER, POST_CODE, NID, TIN_NO, PASSWORD, IDTP_PIN, APP_PASSWORD, "
+				+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE,  ACTIVATED_BY,"
+				+ "REMARKS, TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
+				
+				+ " values (0, '"+info.getEntityType()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
+				+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
+				+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
+				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
+				
+				insertion = jdbcTemplate.update(sql);
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if (insertion == 1) {
 				userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
@@ -78,14 +71,6 @@ public class PimRepository<T> {
 				 insertion = jdbcTemplate.update(sql2);
 			}
 			
-			if (insertion == 1) {
-				String sql2 = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
-						+ " values (1, "+1+", "+0+", "+0+", to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+"REQUEST_NAME"+"','REQUEST_PARAM', 'RESPONSE', to_date('"+formattedDate+"', 'dd-mm-yyyy'),'1')";
-				
-				 insertion = jdbcTemplate.update(sql2);
-			}
-			
-			
 			return insertion;
 		}
 		else {
@@ -93,20 +78,13 @@ public class PimRepository<T> {
 		}
 	}
 	
-
 	@SuppressWarnings("unchecked")
 	public  <T extends InterfaceLogs> int insertInterfaceLogs(T ifl) throws Exception { 
-		
 	    int insertionStatus = 0;
-		LocalDateTime myDateObj = LocalDateTime.now();   
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy"); 
-	    String formattedDate = myDateObj.format(myFormatObj);
-//	    String requestInfoXml =cf.makeXmlForInterfaceLogs(reqClass, ifl.getRequestParams());
-	    
 		try {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
-					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cf.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"
-					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+formattedDate+"', 'dd-mm-yyyy'), '"+cf.setStringDefaultVal(ifl.getResponseResult())+"')";
+					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cms.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
+					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			
@@ -116,9 +94,5 @@ public class PimRepository<T> {
 		
 		return insertionStatus;
 	}
-
-	
-	
-	
 	
 }

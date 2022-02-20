@@ -1,6 +1,7 @@
 package com.pim.service;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,22 @@ public class PimService<T> {
 	private PimRepository urRepository;
 	
 	@Autowired
-	private CommonMethods<T> cf;
+	private CommonMethods<T> cm;
 	
 	public int insertUserRegistrationData(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUser response) {
-		return urRepository.insertUserRegistration(request, requestName, reqClass, response);
+		Integer returnStatus = urRepository.insertUserRegistration(request, response);
+		
+		if (returnStatus == 1) {
+			try {
+				returnStatus = interfaceLogsInsert(request, requestName, reqClass, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			returnStatus = 0;
+		}
+		
+		return returnStatus;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -29,8 +42,8 @@ public class PimService<T> {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    
-	    String xmlRequest =cf.makeXmlForInterfaceLogs(reqClass, request);
-	    String xmlRespose =cf.makeXmlForInterfaceLogs(reqClass, response);
+	    String xmlRequest = cm.makeXmlForInterfaceLogs(reqClass, request);
+	    String xmlRespose = cm.makeXmlForInterfaceLogs(reqClass, response);
 	    
 	    ifl.setRequestName(requestName);
 	    ifl.setRequestParams(xmlRequest);

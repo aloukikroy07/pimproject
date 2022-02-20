@@ -1,8 +1,11 @@
 package com.pim.PIMProject.Model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+@XmlRootElement
 @JacksonXmlRootElement 
 public class RegisterUser {
 	@JacksonXmlProperty(localName = "xmlns:idtp", isAttribute = true)
