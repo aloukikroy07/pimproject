@@ -22,12 +22,14 @@ public class GrpHdr {
 	private SttlmInf sttlmInf;
 	@JacksonXmlProperty(localName = "InitgPty")
 	private InitgPty initgPty;
+	@JacksonXmlProperty(localName = "OrgnlBizQry")
+	private OrgnlBizQry orgnlBizQry;
 	public GrpHdr() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public GrpHdr(String msgId, String creDtTm, String nbOfTxs, String ctrlSum, String ttlIntrBkSttlmAmt,
-			String intrBkSttlmDt, SttlmInf sttlmInf, InitgPty initgPty) {
+			String intrBkSttlmDt, SttlmInf sttlmInf, InitgPty initgPty, OrgnlBizQry orgnlBizQry) {
 		super();
 		this.msgId = msgId;
 		this.creDtTm = creDtTm;
@@ -37,6 +39,7 @@ public class GrpHdr {
 		this.intrBkSttlmDt = intrBkSttlmDt;
 		this.sttlmInf = sttlmInf;
 		this.initgPty = initgPty;
+		this.orgnlBizQry = orgnlBizQry;
 	}
 	public String getMsgId() {
 		return msgId;
@@ -85,6 +88,12 @@ public class GrpHdr {
 	}
 	public void setInitgPty(InitgPty initgPty) {
 		this.initgPty = initgPty;
+	}
+	public OrgnlBizQry getOrgnlBizQry() {
+		return orgnlBizQry;
+	}
+	public void setOrgnlBizQry(OrgnlBizQry orgnlBizQry) {
+		this.orgnlBizQry = orgnlBizQry;
 	}
 	
 }

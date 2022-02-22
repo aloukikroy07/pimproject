@@ -8,16 +8,16 @@ public class DocumentCAMT00300105 {
 	@JacksonXmlProperty(isAttribute = true)
 	private String xmlns = "urn: iso:std: iso:20022:tech: xsd:camt.003.001.05";
 	@JacksonXmlProperty(localName = "GetAcct")
-	private GetAcct GetAcct;
+	private GetAcct getAcct;
 	public DocumentCAMT00300105() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DocumentCAMT00300105(String xsi, String xmlns, com.pim.PIMProject.Model.ISO.CAMT00300105.GetAcct getAcct) {
+	public DocumentCAMT00300105(String xsi, String xmlns, GetAcct getAcct) {
 		super();
 		this.xsi = xsi;
 		this.xmlns = xmlns;
-		GetAcct = getAcct;
+		this.getAcct = getAcct;
 	}
 	public String getXsi() {
 		return xsi;
@@ -32,10 +32,10 @@ public class DocumentCAMT00300105 {
 		this.xmlns = xmlns;
 	}
 	public GetAcct getGetAcct() {
-		return GetAcct;
+		return getAcct;
 	}
 	public void setGetAcct(GetAcct getAcct) {
-		GetAcct = getAcct;
+		this.getAcct = getAcct;
 	}
 	
 }

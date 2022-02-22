@@ -20,8 +20,14 @@ import com.pim.PIMProject.Model.InitiateFundTransfer;
 import com.pim.PIMProject.Model.RegisterUser;
 import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.PIMProject.Model.ValidateFIUser;
+import com.pim.PIMProject.Model.ISO.CAMT00300105.BodyCAMT00300105;
+import com.pim.PIMProject.Model.ISO.CAMT00300105.DataPDUCAMT00300105;
+import com.pim.PIMProject.Model.ISO.CAMT00400105.DataPDUCAMT00400105;
+import com.pim.PIMProject.Model.ISO.CAMT05400104.DataPDUCAMT05400104;
 import com.pim.PIMProject.Model.ISO.PACS00200105.DataPDUPACS05;
 import com.pim.PIMProject.Model.ISO.PACS00800106.DataPDUPACS06;
+import com.pim.PIMProject.Model.ISO.PAIN00100104.BodyPAIN00100104;
+import com.pim.PIMProject.Model.ISO.PAIN00100104.DataPDUPAIN00100104;
 import com.pim.PIMProject.Model.ISO.PAIN01300106.BodyPAIN01300106;
 import com.pim.PIMProject.Model.ISO.PAIN01400106.BodyPAIN01400106;
 import com.pim.PIMProject.Model.NotifyIDTPAccountChange;
@@ -330,7 +336,7 @@ public class AppController<T> {
 		}
 	}
 	
-	//
+
 	@PostMapping(value="/ProcessFundTransferRequest", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public DataPDUPACS06 processFundTransferRequest(@RequestBody DataPDUPACS06 pduData) {
 		DataPDUPACS06 dataPDU = new DataPDUPACS06();
@@ -422,4 +428,51 @@ public class AppController<T> {
 			return processRTPDeclinedResponse;
 		}
 	}
+	
+	@PostMapping(value="/InitiateFundTransferISO", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public DataPDUPAIN00100104 initiateFundTransferISO(@RequestBody DataPDUPAIN00100104 fundTransferISOInitiate) {
+		DataPDUPAIN00100104 initiateFundTransferISO = new DataPDUPAIN00100104();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(DataPDUPAIN00100104.class);
+			logger.info("Request to initiateFundTransferISO info : "+cms.convertToXmlFromModel(jc, (T) fundTransferISOInitiate));
+			
+			initiateFundTransferISO.setRevision(fundTransferISOInitiate.getRevision());
+			initiateFundTransferISO.setBodyPAIN00100104(fundTransferISOInitiate.getBodyPAIN00100104());
+			
+			userRegService.interfaceLogsInsert(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
+			logger.info("Response Data for initiateFundTransferISO: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransferISO));
+			
+			return initiateFundTransferISO;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return initiateFundTransferISO;
+		}
+	}
+	
+	@PostMapping(value="/GetAccountBalance", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
+	public DataPDUCAMT00300105 getAccountBalance(@RequestBody DataPDUCAMT00300105 accountBalanceGet) {
+		DataPDUCAMT00300105 getAccountBalance = new DataPDUCAMT00300105();
+		
+		try {
+			JAXBContext jc = JAXBContext.newInstance(DataPDUCAMT00300105.class);
+			logger.info("Request to getAccountBalance info : "+cms.convertToXmlFromModel(jc, (T) accountBalanceGet));
+			
+			getAccountBalance.setRevision(accountBalanceGet.getRevision());
+			getAccountBalance.setBody(accountBalanceGet.getBody());
+			
+			userRegService.interfaceLogsInsert(accountBalanceGet, "ProcessRTPDeclinedResponse", jc, getAccountBalance);
+			logger.info("Response Data for getAccountBalance: "+cms.convertToXmlFromModel(jc, (T) getAccountBalance));
+			
+			return getAccountBalance;
+		}
+		
+		catch (Exception e) {
+			logger.error("Error Data for DataPDU: "+ e);
+			return getAccountBalance;
+		}
+	}
+
 }

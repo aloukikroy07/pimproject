@@ -7,7 +7,7 @@ import com.pim.PIMProject.Model.ISO.PAIN01300106.InitgPty;
 public class RltdPties {
 	@JacksonXmlProperty(localName = "InitgPty")
 	private InitgPty initgPty;
-	@JacksonXmlProperty(localName = "Dbtr")
+	@JacksonXmlProperty(localName = "Cdtr")
 	private Dbtr dbtr;
 	public RltdPties() {
 		super();

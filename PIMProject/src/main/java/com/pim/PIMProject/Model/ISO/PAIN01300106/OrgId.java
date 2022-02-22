@@ -1,8 +1,10 @@
 package com.pim.PIMProject.Model.ISO.PAIN01300106;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.pim.PIMProject.Model.ISO.PACS00800106.Othr;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class OrgId {
 	@JacksonXmlProperty(localName = "Othr")
 	private Othr othr;

@@ -9,7 +9,7 @@ public class InitgPty {
 	@JacksonXmlProperty(localName = "Id")
 	private Id id;
 	@JacksonXmlProperty(localName = "Nm")
-	private String Nm;
+	private String nm;
 
 	public InitgPty() {
 		super();
@@ -19,7 +19,7 @@ public class InitgPty {
 	public InitgPty(Id id, String nm) {
 		super();
 		this.id = id;
-		Nm = nm;
+		this.nm = nm;
 	}
 
 	public Id getId() {
@@ -31,10 +31,12 @@ public class InitgPty {
 	}
 
 	public String getNm() {
-		return Nm;
+		return nm;
 	}
 
 	public void setNm(String nm) {
-		Nm = nm;
+		this.nm = nm;
 	}
+
+	
 }

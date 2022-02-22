@@ -1,8 +1,13 @@
 package com.pim.PIMProject.Model.ISO.CAMT00300105;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.pim.PIMProject.Model.ISO.PACS00800106.AppHdr;
 
+@XmlRootElement
+@JacksonXmlRootElement(localName = "Body")
 public class BodyCAMT00300105 {
 	@JacksonXmlProperty(localName = "AppHdr")
 	private AppHdr appHdr;

@@ -7,14 +7,17 @@ public class Refs {
 	private String instrId;
 	@JacksonXmlProperty(localName = "EndToEndId")
 	private String endToEndId;
+	@JacksonXmlProperty(localName = "TxId")
+	private String txId;
 	public Refs() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Refs(String instrId, String endToEndId) {
+	public Refs(String instrId, String endToEndId, String txId) {
 		super();
 		this.instrId = instrId;
 		this.endToEndId = endToEndId;
+		this.txId = txId;
 	}
 	public String getInstrId() {
 		return instrId;
@@ -28,5 +31,12 @@ public class Refs {
 	public void setEndToEndId(String endToEndId) {
 		this.endToEndId = endToEndId;
 	}
+	public String getTxId() {
+		return txId;
+	}
+	public void setTxId(String txId) {
+		this.txId = txId;
+	}
+	
 	
 }
