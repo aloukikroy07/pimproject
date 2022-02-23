@@ -1,13 +1,7 @@
 package com.pim.repository;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +10,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pim.PIMProject.Model.CustomerProfiles;
 import com.pim.PIMProject.Model.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Info;
 import com.pim.PIMProject.Model.InterfaceLogs;
 import com.pim.PIMProject.Model.RegisterUser;
-import com.pim.PIMProject.Model.TransferFunds;
 import com.pim.util.CommonMethods;
 
 @Repository
