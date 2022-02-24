@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.TransferFunds;
+import com.pim.db.mapping.model.Transactions;
 import com.pim.repository.PimRepository;
 import com.pim.util.CommonMethods;
 
@@ -26,7 +27,7 @@ public class PimService<T> {
 		
 		if (returnStatus == 1) {
 			try {
-				returnStatus = interfaceLogsInsert(request, requestName, reqClass, response);
+				returnStatus = interfaceLogsInsertion(request, requestName, reqClass, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -38,7 +39,7 @@ public class PimService<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int interfaceLogsInsert(T request, String requestName, JAXBContext reqClass, T response) throws Exception {
+	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response) throws Exception {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    
@@ -52,5 +53,10 @@ public class PimService<T> {
 		return urRepository.insertInterfaceLogs(ifl);
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> int transactionInsertion(T request, Transactions ts, T response) throws Exception {
+	    
+		return urRepository.insertTransactions(ts);
+	}
 	
 }

@@ -15,6 +15,7 @@ import com.pim.PIMProject.Model.Request.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Request.Info;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.db.mapping.model.Transactions;
 import com.pim.util.CommonMethods;
 
 @Repository
@@ -51,8 +52,7 @@ public class PimRepository<T> {
 				insertion = jdbcTemplate.update(sql);
 				
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Error Info: "+e);
 			}
 			
 			if (insertion == 1) {
@@ -77,6 +77,25 @@ public class PimRepository<T> {
 			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
 					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cms.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
+			
+			insertionStatus = jdbcTemplate.update(sql);
+			
+		} catch (Exception e) {
+			logger.error("Error Info: "+e);
+		}
+		
+		return insertionStatus;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public  <T extends Transactions> int insertTransactions(T t) throws Exception { 
+	    int insertionStatus = 0;
+		try {
+			String sql = "insert into t_interface_logs (TRANS_ID, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_ACCOUNT, RECEIVER_IDTP_VID, TRANS_AMT, CHARGE_AMT, TAX_AMT,"
+					+ " DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
+					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+t.getProfileId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+t.getSenderAccount()+"', '"+t.getReceiverIdtpVid()+"',"
+							+t.getTransAmt()+", "+t.getChargeAmt()+", '"+t.getTaxAmt()+"', '"+t.getDescription()+"', '"+t.getPurpose()+"','"+t.getTrStatus()+"',"
+							+ "'"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()+"', '"+t.getUserId()+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			

@@ -31,6 +31,7 @@ import com.pim.PIMProject.Model.Request.NotifyIDTPAccountChange;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.PIMProject.Model.Request.ValidateFIUser;
+import com.pim.db.mapping.model.Transactions;
 import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
 
@@ -83,6 +84,7 @@ public class AppController<T> {
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
 		TransferFunds transferFunds = new TransferFunds();
+		Transactions ts = new Transactions();
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
@@ -93,7 +95,8 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			userRegService.interfaceLogsInsert(fundTransfer, "transferfunds", jc, transferFunds);
+			userRegService.transactionInsertion(fundTransfer, ts, transferFunds);
+			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
 			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
 			
 			return transferFunds;
@@ -119,7 +122,7 @@ public class AppController<T> {
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
-			userRegService.interfaceLogsInsert(rtpCreation, "creatertp", jc, createRTP);
+			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP);
 			logger.info("Response Data for CreateRTP: "+cms.convertToXmlFromModel(jc, (T) createRTP));
 			
 			return createRTP;
@@ -145,7 +148,7 @@ public class AppController<T> {
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
-			userRegService.interfaceLogsInsert(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
+			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
 			logger.info("Response Data for InitiateFundTransfer: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
 			return initiateFundTransfer;
@@ -171,7 +174,7 @@ public class AppController<T> {
 			getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
 			getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
 			
-			userRegService.interfaceLogsInsert(getFITransactions, "gettransactionsbyfi", jc, getTransactionsbyFI);
+			userRegService.interfaceLogsInsertion(getFITransactions, "gettransactionsbyfi", jc, getTransactionsbyFI);
 			logger.info("Response Data for GetTransactionsbyFI: "+cms.convertToXmlFromModel(jc, (T) getTransactionsbyFI));
 			
 			return getTransactionsbyFI;
@@ -197,7 +200,7 @@ public class AppController<T> {
 			getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
 			getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
 			
-			userRegService.interfaceLogsInsert(getListSentRTP, "getrtplistsent", jc, getRTPListSent);
+			userRegService.interfaceLogsInsertion(getListSentRTP, "getrtplistsent", jc, getRTPListSent);
 			logger.info("Response Data for GetRTPListSent: "+cms.convertToXmlFromModel(jc, (T) getRTPListSent));
 			
 			return getRTPListSent;
@@ -222,7 +225,7 @@ public class AppController<T> {
 			getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
 			getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
 			
-			userRegService.interfaceLogsInsert(getListReceivedRTP, "getrtplistreceived", jc, getRTPListReceived);
+			userRegService.interfaceLogsInsertion(getListReceivedRTP, "getrtplistreceived", jc, getRTPListReceived);
 			logger.info("Response Data for GetRTPListReceived: "+cms.convertToXmlFromModel(jc, (T) getRTPListReceived));
 			
 			return getRTPListReceived;
@@ -248,7 +251,7 @@ public class AppController<T> {
 			validateFIUser.setUserInfo(userFIValidate.getUserInfo());
 			validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
 			
-			userRegService.interfaceLogsInsert(userFIValidate, "ValidateFIUser", jc, validateFIUser);
+			userRegService.interfaceLogsInsertion(userFIValidate, "ValidateFIUser", jc, validateFIUser);
 			logger.info("Response Data for ValidateFIUser: "+cms.convertToXmlFromModel(jc, (T) validateFIUser));
 			
 			return validateFIUser;
@@ -275,7 +278,7 @@ public class AppController<T> {
 			notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
 			notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
 			
-			userRegService.interfaceLogsInsert(accountChangeNotifyIDTPAccountChange, "NotifyIDTPAccountChange", jc, notifyIDTPAccountChange);
+			userRegService.interfaceLogsInsertion(accountChangeNotifyIDTPAccountChange, "NotifyIDTPAccountChange", jc, notifyIDTPAccountChange);
 			logger.info("Response Data for NotifyIDTPAccountChange: "+cms.convertToXmlFromModel(jc, (T) notifyIDTPAccountChange));
 			
 			return notifyIDTPAccountChange;
@@ -301,7 +304,7 @@ public class AppController<T> {
 			getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
 			getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
 			
-			userRegService.interfaceLogsInsert(getInfoFIUser, "GetFIUserInfo", jc, getInfoFIUser);
+			userRegService.interfaceLogsInsertion(getInfoFIUser, "GetFIUserInfo", jc, getInfoFIUser);
 			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) getFIUserInfo));
 			
 			return getFIUserInfo;
@@ -324,7 +327,7 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
-			userRegService.interfaceLogsInsert(pduData, "transferfundsiso", jc, pduData);
+			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData);
 			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
@@ -348,7 +351,7 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
-			userRegService.interfaceLogsInsert(pduData, "ProcessFundTransferRequest", jc, pduData);
+			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData);
 			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
@@ -371,7 +374,7 @@ public class AppController<T> {
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
-			userRegService.interfaceLogsInsert(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
+			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
 			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
 			return createRTPISO;
@@ -394,7 +397,7 @@ public class AppController<T> {
 			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
 			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
 			
-			userRegService.interfaceLogsInsert(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest);
+			userRegService.interfaceLogsInsertion(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest);
 			logger.info("Response Data for processRTPRequest: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
 			
 			return processRTPRequest;
@@ -417,7 +420,7 @@ public class AppController<T> {
 			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
 			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
 			
-			userRegService.interfaceLogsInsert(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse);
+			userRegService.interfaceLogsInsertion(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse);
 			logger.info("Response Data for processRTPDeclinedResponse: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
 			
 			return processRTPDeclinedResponse;
@@ -440,7 +443,7 @@ public class AppController<T> {
 			initiateFundTransferISO.setRevision(fundTransferISOInitiate.getRevision());
 			initiateFundTransferISO.setBodyPAIN00100104(fundTransferISOInitiate.getBodyPAIN00100104());
 			
-			userRegService.interfaceLogsInsert(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
+			userRegService.interfaceLogsInsertion(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
 			logger.info("Response Data for initiateFundTransferISO: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransferISO));
 			
 			return initiateFundTransferISO;
@@ -463,7 +466,7 @@ public class AppController<T> {
 			getAccountBalance.setRevision(accountBalanceGet.getRevision());
 			getAccountBalance.setBody(accountBalanceGet.getBody());
 			
-			userRegService.interfaceLogsInsert(accountBalanceGet, "ProcessRTPDeclinedResponse", jc, getAccountBalance);
+			userRegService.interfaceLogsInsertion(accountBalanceGet, "ProcessRTPDeclinedResponse", jc, getAccountBalance);
 			logger.info("Response Data for getAccountBalance: "+cms.convertToXmlFromModel(jc, (T) getAccountBalance));
 			
 			return getAccountBalance;
