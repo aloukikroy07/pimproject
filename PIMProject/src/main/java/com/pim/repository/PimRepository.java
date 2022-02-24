@@ -39,12 +39,12 @@ public class PimRepository<T> {
 		
 		if (userData.isEmpty()) {
 			try {
-				sql = "insert into t_customer_profiles (APPLICATION_ID, ENTITY_TYPE, MOBILE_NO, EMAIL, BRANCH_ID, CUSTOMER_ID,"
+				sql = "INSERT INTO T_CUSTOMER_PROFILES (APPLICATION_ID, ENTITY_TYPE, IDTP_VID, MOBILE_NO, EMAIL, BRANCH_ID, CUSTOMER_ID,"
 				+ " CUSTOMER_NAME, CUSTOMER_ADDRESS,"+ " GENDER, POST_CODE, NID, TIN_NO, PASSWORD, IDTP_PIN, APP_PASSWORD, "
 				+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE,  ACTIVATED_BY,"
 				+ "REMARKS, TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
 				
-				+ " values (0, '"+info.getEntityType()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
+				+ " values (0, '"+info.getEntityType()+"', '"+request.getEntity().getRequestedVirtualID()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
 				+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
 				+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
 				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
@@ -57,8 +57,8 @@ public class PimRepository<T> {
 			
 			if (insertion == 1) {
 				userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
-				String sql2 = "insert into t_customer_accounts (PROFILE_ID, ACCOUNT_NO, ACC_TITLE, BRANCH_ID, REG_TYPE, DEBIT_ALLOWED, STATUS)"
-						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", 'Acc_title', 1,'B', '1',1)";
+				String sql2 = "INSERT INTO T_CUSTOMER_ACCOUNTS (PROFILE_ID, ACCOUNT_NO, IDTP_ACC_VID, ACC_TITLE, BRANCH_ID, REG_TYPE, STATUS)"
+						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", '"+request.getEntity().getRequestedVirtualID()+"', 'Acc_title', 1,'B',1)";
 				
 				 insertion = jdbcTemplate.update(sql2);
 			}
@@ -74,7 +74,7 @@ public class PimRepository<T> {
 	public  <T extends InterfaceLogs> int insertInterfaceLogs(T ifl) throws Exception { 
 	    int insertionStatus = 0;
 		try {
-			String sql = "insert into t_interface_logs (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
+			String sql = "INSERT INTO T_INTERFACE_LOGS (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
 					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cms.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
@@ -90,12 +90,22 @@ public class PimRepository<T> {
 	@SuppressWarnings("unchecked")
 	public  <T extends Transactions> int insertTransactions(T t) throws Exception { 
 	    int insertionStatus = 0;
+	    
+	    if (t.getTransCode() == null) t.setTransCode(2);
+		if (t.getProfileId() == null) t.setProfileId(15);
+		if (t.getTrStatus() == null) t.setTrStatus("n");
+		if (t.getReconciled() == null) t.setReconciled("n");
+		if (t.getApiSuccess() == null)t.setApiSuccess("n");
+		if (t.getUserId() == null) t.setUserId(1);
+		
 		try {
-			String sql = "insert into t_interface_logs (TRANS_ID, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_ACCOUNT, RECEIVER_IDTP_VID, TRANS_AMT, CHARGE_AMT, TAX_AMT,"
-					+ " DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
-					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+t.getProfileId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+t.getSenderAccount()+"', '"+t.getReceiverIdtpVid()+"',"
-							+t.getTransAmt()+", "+t.getChargeAmt()+", '"+t.getTaxAmt()+"', '"+t.getDescription()+"', '"+t.getPurpose()+"','"+t.getTrStatus()+"',"
-							+ "'"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()+"', '"+t.getUserId()+"')";
+			String sql = "INSERT INTO T_TRANSACTIONS (TRANS_ID, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_ACCOUNT, RECEIVER_IDTP_VID, TRANS_AMT, "
+					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
+					
+					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+t.getProfileId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
+					+t.getSenderAccount()+"', '"+t.getReceiverIdtpVid()+"', "+t.getTransAmt()+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
+					+"', '"+t.getPurpose()+"', '"+t.getTrStatus()+"', '"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()
+					+"', "+t.getUserId()+")";
 			
 			insertionStatus = jdbcTemplate.update(sql);
 			

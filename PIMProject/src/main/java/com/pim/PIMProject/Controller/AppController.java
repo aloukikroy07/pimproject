@@ -112,6 +112,7 @@ public class AppController<T> {
 	@PostMapping(value="/creatertp", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public CreateRTP createRTP(@RequestBody CreateRTP rtpCreation){
 		CreateRTP createRTP = new CreateRTP();
+		Transactions ts = new Transactions();
 			
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(CreateRTP.class);
@@ -122,6 +123,7 @@ public class AppController<T> {
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
+			userRegService.transactionInsertion(rtpCreation, ts, createRTP);
 			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP);
 			logger.info("Response Data for CreateRTP: "+cms.convertToXmlFromModel(jc, (T) createRTP));
 			
@@ -138,6 +140,7 @@ public class AppController<T> {
 	@PostMapping(value="/initiatefundtransfer", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public InitiateFundTransfer initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
 		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(InitiateFundTransfer.class);
@@ -148,6 +151,7 @@ public class AppController<T> {
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
+			userRegService.transactionInsertion(fundTransferInitiate, ts, initiateFundTransfer);
 			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
 			logger.info("Response Data for InitiateFundTransfer: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
@@ -164,6 +168,7 @@ public class AppController<T> {
 	@PostMapping(value="/gettransactionsbyfi", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetTransactionsbyFI getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
 		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();	
+		Transactions ts = new Transactions();
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(GetTransactionsbyFI.class);
@@ -189,7 +194,8 @@ public class AppController<T> {
 	
 	@PostMapping(value="/getrtplistsent", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public GetRTPListSent getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
-		GetRTPListSent getRTPListSent = new GetRTPListSent();	
+		GetRTPListSent getRTPListSent = new GetRTPListSent();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(GetRTPListSent.class);
@@ -319,6 +325,7 @@ public class AppController<T> {
 	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public DataPDUPACS06 transferFundsISO(@RequestBody DataPDUPACS06 pduData) {
 		DataPDUPACS06 dataPDU = new DataPDUPACS06();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
@@ -327,6 +334,7 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
+			userRegService.transactionInsertion(pduData, ts, pduData);
 			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData);
 			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
@@ -343,6 +351,7 @@ public class AppController<T> {
 	@PostMapping(value="/ProcessFundTransferRequest", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public DataPDUPACS06 processFundTransferRequest(@RequestBody DataPDUPACS06 pduData) {
 		DataPDUPACS06 dataPDU = new DataPDUPACS06();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
@@ -351,6 +360,7 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
+			userRegService.transactionInsertion(pduData, ts, pduData);
 			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData);
 			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
@@ -366,6 +376,7 @@ public class AppController<T> {
 	@PostMapping(value="/creatertpiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public BodyPAIN01300106 createRTPISO(@RequestBody BodyPAIN01300106 rtpISOCreate) {
 		BodyPAIN01300106 createRTPISO = new BodyPAIN01300106();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
@@ -374,6 +385,7 @@ public class AppController<T> {
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
+			userRegService.transactionInsertion(rtpISOCreate, ts, rtpISOCreate);
 			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
 			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
@@ -389,6 +401,7 @@ public class AppController<T> {
 	@PostMapping(value="/ProcessRTPRequest", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public BodyPAIN01300106 processRTPRequest(@RequestBody BodyPAIN01300106 isoCreateRTP) {
 		BodyPAIN01300106 processRTPRequest = new BodyPAIN01300106();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
@@ -397,6 +410,7 @@ public class AppController<T> {
 			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
 			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
 			
+			userRegService.transactionInsertion(isoCreateRTP, ts, processRTPRequest);
 			userRegService.interfaceLogsInsertion(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest);
 			logger.info("Response Data for processRTPRequest: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
 			
@@ -412,6 +426,7 @@ public class AppController<T> {
 	@PostMapping(value="/ProcessRTPDeclinedResponse", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public BodyPAIN01300106 processRTPDeclinedResponse(@RequestBody BodyPAIN01300106 rtpDeclinedResponseProcess) {
 		BodyPAIN01300106 processRTPDeclinedResponse = new BodyPAIN01300106();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
@@ -420,6 +435,7 @@ public class AppController<T> {
 			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
 			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
 			
+			userRegService.transactionInsertion(rtpDeclinedResponseProcess, ts, processRTPDeclinedResponse);
 			userRegService.interfaceLogsInsertion(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse);
 			logger.info("Response Data for processRTPDeclinedResponse: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
 			
@@ -435,6 +451,7 @@ public class AppController<T> {
 	@PostMapping(value="/InitiateFundTransferISO", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public DataPDUPAIN00100104 initiateFundTransferISO(@RequestBody DataPDUPAIN00100104 fundTransferISOInitiate) {
 		DataPDUPAIN00100104 initiateFundTransferISO = new DataPDUPAIN00100104();
+		Transactions ts = new Transactions();
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPAIN00100104.class);
@@ -443,6 +460,7 @@ public class AppController<T> {
 			initiateFundTransferISO.setRevision(fundTransferISOInitiate.getRevision());
 			initiateFundTransferISO.setBodyPAIN00100104(fundTransferISOInitiate.getBodyPAIN00100104());
 			
+			userRegService.transactionInsertion(fundTransferISOInitiate, ts, initiateFundTransferISO);
 			userRegService.interfaceLogsInsertion(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
 			logger.info("Response Data for initiateFundTransferISO: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransferISO));
 			
