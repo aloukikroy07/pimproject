@@ -10,8 +10,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.springframework.context.annotation.Configuration;
 
-import com.pim.PIMProject.Model.InterfaceLogs;
-import com.pim.PIMProject.Model.TransferFunds;
+import com.pim.PIMProject.Model.Request.InterfaceLogs;
+import com.pim.PIMProject.Model.Request.TransferFunds;
 
 @Configuration
 public class CommonMethods<T> {

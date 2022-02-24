@@ -6,9 +6,9 @@ import javax.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pim.PIMProject.Model.InterfaceLogs;
-import com.pim.PIMProject.Model.RegisterUser;
-import com.pim.PIMProject.Model.TransferFunds;
+import com.pim.PIMProject.Model.Request.InterfaceLogs;
+import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.repository.PimRepository;
 import com.pim.util.CommonMethods;
 

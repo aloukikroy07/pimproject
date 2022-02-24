@@ -10,11 +10,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.pim.PIMProject.Model.CustomerProfiles;
-import com.pim.PIMProject.Model.FinancialInstitutionInfo;
-import com.pim.PIMProject.Model.Info;
-import com.pim.PIMProject.Model.InterfaceLogs;
-import com.pim.PIMProject.Model.RegisterUser;
+import com.pim.PIMProject.Model.Request.CustomerProfiles;
+import com.pim.PIMProject.Model.Request.FinancialInstitutionInfo;
+import com.pim.PIMProject.Model.Request.Info;
+import com.pim.PIMProject.Model.Request.InterfaceLogs;
+import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.util.CommonMethods;
 
 @Repository

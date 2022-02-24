@@ -2,9 +2,9 @@ package com.pim.PIMProject.Model.ISO.PACS00800106;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.pim.PIMProject.Model.ChannelInfo;
-import com.pim.PIMProject.Model.Creds;
-import com.pim.PIMProject.Model.DeviceInfo;
+import com.pim.PIMProject.Model.Request.ChannelInfo;
+import com.pim.PIMProject.Model.Request.Creds;
+import com.pim.PIMProject.Model.Request.DeviceInfo;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Envlp {
