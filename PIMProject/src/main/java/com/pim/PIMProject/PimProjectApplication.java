@@ -41,6 +41,7 @@ public class PimProjectApplication {
 			  .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			  .authorizeRequests()
 			  .antMatchers(HttpMethod.POST, "/Signin").permitAll()
+			  .antMatchers(HttpMethod.POST, "/Signup").permitAll()
 		      .anyRequest().authenticated();
 		}
 	}

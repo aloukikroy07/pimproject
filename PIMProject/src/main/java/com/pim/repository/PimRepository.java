@@ -1,5 +1,6 @@
 package com.pim.repository;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.pim.PIMProject.Model.Request.CustomerProfiles;
 import com.pim.PIMProject.Model.Request.FinancialInstitutionInfo;
@@ -31,6 +33,9 @@ public class PimRepository<T> {
 	
 	@Autowired
 	private CommonMethods<T> cms;
+	
+	@Autowired
+    private PlatformTransactionManager transactionManager;
 	
 	public int insertUserRegistration(RegisterUser request, RegisterUser response) {
 		Info info = response.getEntity().getInfo();
@@ -53,8 +58,9 @@ public class PimRepository<T> {
 				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
 				
 				insertion = jdbcTemplate.update(sql);
+				jdbcTemplate.getDataSource().getConnection().commit();
 				
-			} catch (ParseException e) {
+			} catch (ParseException | SQLException e) {
 				logger.error("Error Info: "+e);
 			}
 			
@@ -64,6 +70,13 @@ public class PimRepository<T> {
 						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", '"+request.getEntity().getRequestedVirtualID()+"', 'Acc_title', 1,'B',1)";
 				
 				 insertion = jdbcTemplate.update(sql2);
+				 try {
+					jdbcTemplate.getDataSource().getConnection().commit();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
 			}
 			
 			return insertion;
@@ -82,6 +95,7 @@ public class PimRepository<T> {
 					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
 			insertionStatus = jdbcTemplate.update(sql);
+			jdbcTemplate.getDataSource().getConnection().commit();
 			
 		} catch (Exception e) {
 			logger.error("Error Info: "+e);
@@ -110,6 +124,7 @@ public class PimRepository<T> {
 					+"', "+t.getUserId()+")";
 			
 			insertionStatus = jdbcTemplate.update(sql);
+			jdbcTemplate.getDataSource().getConnection().commit();
 			
 		} catch (Exception e) {
 			logger.error("Error Info: "+e);
