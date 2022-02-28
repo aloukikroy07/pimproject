@@ -47,7 +47,7 @@ public class PimRepository<T> {
 				+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE,  ACTIVATED_BY,"
 				+ "REMARKS, TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
 				
-				+ " values (0, '"+info.getEntityType()+"', '"+request.getEntity().getRequestedVirtualID()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
+				+ " values (0, '"+info.getEntityType()+"', '"+request.getEntity().getRequestedVirtualID().getValue()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
 				+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
 				+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
 				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
@@ -93,7 +93,6 @@ public class PimRepository<T> {
 	@SuppressWarnings("unchecked")
 	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData) throws Exception { 
 	    int insertionStatus = 0;
-	    
 	    if (t.getTransCode() == null) t.setTransCode(2);
 		if (t.getProfileId() == null) t.setProfileId(15);
 		if (t.getTrStatus() == null) t.setTrStatus("n");

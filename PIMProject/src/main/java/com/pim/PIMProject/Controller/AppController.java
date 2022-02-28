@@ -135,7 +135,7 @@ public class AppController<T> {
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
-			String vid = rtpCreation.getRequestInfo().getSenderInfo().getSenderVID().toString();
+			String vid = rtpCreation.getRequestInfo().getSenderInfo().getSenderVID().getValue().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpCreation, ts, createRTP, cpData);
@@ -166,7 +166,7 @@ public class AppController<T> {
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
-			String vid = fundTransferInitiate.getTransactionInfo().getSenderInfo().getSenderVID().toString();
+			String vid = fundTransferInitiate.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(fundTransferInitiate, ts, initiateFundTransfer, cpData);
