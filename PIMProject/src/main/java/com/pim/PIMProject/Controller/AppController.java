@@ -1,5 +1,7 @@
 package com.pim.PIMProject.Controller;
 
+import java.util.List;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
@@ -7,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ import com.pim.PIMProject.Model.ISO.PAIN00100104.DataPDUPAIN00100104;
 import com.pim.PIMProject.Model.ISO.PAIN01300106.BodyPAIN01300106;
 import com.pim.PIMProject.Model.ISO.PAIN01400106.BodyPAIN01400106;
 import com.pim.PIMProject.Model.Request.CreateRTP;
+import com.pim.PIMProject.Model.Request.CustomerProfiles;
 import com.pim.PIMProject.Model.Request.GetFIUserInfo;
 import com.pim.PIMProject.Model.Request.GetRTPListReceived;
 import com.pim.PIMProject.Model.Request.GetRTPListSent;
@@ -29,9 +33,11 @@ import com.pim.PIMProject.Model.Request.GetTransactionsbyFI;
 import com.pim.PIMProject.Model.Request.InitiateFundTransfer;
 import com.pim.PIMProject.Model.Request.NotifyIDTPAccountChange;
 import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.PIMProject.Model.Request.ValidateFIUser;
 import com.pim.db.mapping.model.Transactions;
+import com.pim.repository.PimRepository;
 import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
 
@@ -45,6 +51,9 @@ public class AppController<T> {
 	
 	@Autowired
 	private PimService userRegService;
+	
+	@Autowired
+	private PimRepository urRepository;
 	
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
@@ -95,7 +104,10 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			userRegService.transactionInsertion(fundTransfer, ts, transferFunds);
+			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(fundTransfer, ts, transferFunds, cpData);
 			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
 			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
 			
@@ -123,7 +135,10 @@ public class AppController<T> {
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
-			userRegService.transactionInsertion(rtpCreation, ts, createRTP);
+			String vid = rtpCreation.getRequestInfo().getSenderInfo().getSenderVID().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(rtpCreation, ts, createRTP, cpData);
 			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP);
 			logger.info("Response Data for CreateRTP: "+cms.convertToXmlFromModel(jc, (T) createRTP));
 			
@@ -151,7 +166,10 @@ public class AppController<T> {
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
-			userRegService.transactionInsertion(fundTransferInitiate, ts, initiateFundTransfer);
+			String vid = fundTransferInitiate.getTransactionInfo().getSenderInfo().getSenderVID().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(fundTransferInitiate, ts, initiateFundTransfer, cpData);
 			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
 			logger.info("Response Data for InitiateFundTransfer: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
@@ -334,7 +352,10 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
-			userRegService.transactionInsertion(pduData, ts, pduData);
+			String vid = pduData.getBody().getDocument().getFiToFICstmrCdtTrf().getCdtTrfTxInf().getDbtrAcct().getId().getOthr().getId();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
 			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData);
 			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
@@ -360,7 +381,10 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
-			userRegService.transactionInsertion(pduData, ts, pduData);
+			String vid = pduData.getBody().getDocument().getFiToFICstmrCdtTrf().getCdtTrfTxInf().getCdtrAcct().getId().getOthr().getId().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
 			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData);
 			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
@@ -385,7 +409,10 @@ public class AppController<T> {
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
-			userRegService.transactionInsertion(rtpISOCreate, ts, rtpISOCreate);
+			String vid = rtpISOCreate.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(rtpISOCreate, ts, rtpISOCreate, cpData);
 			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
 			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
@@ -410,7 +437,10 @@ public class AppController<T> {
 			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
 			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
 			
-			userRegService.transactionInsertion(isoCreateRTP, ts, processRTPRequest);
+			String vid = isoCreateRTP.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(isoCreateRTP, ts, processRTPRequest, cpData);
 			userRegService.interfaceLogsInsertion(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest);
 			logger.info("Response Data for processRTPRequest: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
 			
@@ -435,7 +465,10 @@ public class AppController<T> {
 			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
 			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
 			
-			userRegService.transactionInsertion(rtpDeclinedResponseProcess, ts, processRTPDeclinedResponse);
+			String vid = rtpDeclinedResponseProcess.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtr().getNm().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(rtpDeclinedResponseProcess, ts, processRTPDeclinedResponse, cpData);
 			userRegService.interfaceLogsInsertion(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse);
 			logger.info("Response Data for processRTPDeclinedResponse: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
 			
@@ -460,7 +493,10 @@ public class AppController<T> {
 			initiateFundTransferISO.setRevision(fundTransferISOInitiate.getRevision());
 			initiateFundTransferISO.setBodyPAIN00100104(fundTransferISOInitiate.getBodyPAIN00100104());
 			
-			userRegService.transactionInsertion(fundTransferISOInitiate, ts, initiateFundTransferISO);
+			String vid = fundTransferISOInitiate.getBodyPAIN00100104().getDocument().getCstmrCdtTrfInitn().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			
+			userRegService.transactionInsertion(fundTransferISOInitiate, ts, initiateFundTransferISO, cpData);
 			userRegService.interfaceLogsInsertion(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
 			logger.info("Response Data for initiateFundTransferISO: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransferISO));
 			
@@ -495,5 +531,7 @@ public class AppController<T> {
 			return getAccountBalance;
 		}
 	}
+	
+	
 
 }

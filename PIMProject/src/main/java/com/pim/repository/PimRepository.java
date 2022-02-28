@@ -3,6 +3,8 @@ package com.pim.repository;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.pim.PIMProject.Model.Request.FinancialInstitutionInfo;
 import com.pim.PIMProject.Model.Request.Info;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.util.CommonMethods;
 
@@ -88,7 +91,7 @@ public class PimRepository<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public  <T extends Transactions> int insertTransactions(T t) throws Exception { 
+	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData) throws Exception { 
 	    int insertionStatus = 0;
 	    
 	    if (t.getTransCode() == null) t.setTransCode(2);
@@ -102,8 +105,8 @@ public class PimRepository<T> {
 			String sql = "INSERT INTO T_TRANSACTIONS (TRANS_ID, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_ACCOUNT, RECEIVER_IDTP_VID, TRANS_AMT, "
 					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
 					
-					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+t.getProfileId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
-					+t.getSenderAccount()+"', '"+t.getReceiverIdtpVid()+"', "+t.getTransAmt()+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
+					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+cpData.get(0).getId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
+					+cpData.get(0).getPrimaryAccountNo()+"', '"+t.getReceiverIdtpVid()+"', "+t.getTransAmt()+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
 					+"', '"+t.getPurpose()+"', '"+t.getTrStatus()+"', '"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()
 					+"', "+t.getUserId()+")";
 			
@@ -114,6 +117,12 @@ public class PimRepository<T> {
 		}
 		
 		return insertionStatus;
+	}
+	
+	public List <CustomerProfiles> selectProfileData(String vid) {
+		String query = "select * from t_customer_profiles where idtp_vid = '"+vid+"'";
+		List<CustomerProfiles> data = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
+		return data;
 	}
 	
 }

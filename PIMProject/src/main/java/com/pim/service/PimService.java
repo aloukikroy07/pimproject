@@ -1,13 +1,18 @@
 package com.pim.service;
 
+import java.util.List;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
+import com.pim.PIMProject.Model.Request.CustomerProfiles;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.repository.PimRepository;
@@ -54,9 +59,10 @@ public class PimService<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int transactionInsertion(T request, Transactions ts, T response) throws Exception {
-	    
-		return urRepository.insertTransactions(ts);
+	public <T> int transactionInsertion(T request, Transactions ts, T response, List<CustomerProfiles> cpData) throws Exception {
+		return urRepository.insertTransactions(ts, cpData);
 	}
+	
+	
 	
 }
