@@ -381,10 +381,10 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
-			String vid = pduData.getBody().getDocument().getFiToFICstmrCdtTrf().getCdtTrfTxInf().getCdtrAcct().getId().getOthr().getId().toString();
-			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
-			
-			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
+//			String vid = pduData.getBody().getDocument().getFiToFICstmrCdtTrf().getCdtTrfTxInf().getCdtrAcct().getId().getOthr().getId().toString();
+//			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+//			
+//			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
 			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData);
 			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
@@ -409,7 +409,7 @@ public class AppController<T> {
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
-			String vid = rtpISOCreate.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			String vid = rtpISOCreate.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtr().getNm().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpISOCreate, ts, rtpISOCreate, cpData);
@@ -437,7 +437,7 @@ public class AppController<T> {
 			processRTPRequest.setAppHdr(isoCreateRTP.getAppHdr());
 			processRTPRequest.setPain06Document(isoCreateRTP.getPain06Document());
 			
-			String vid = isoCreateRTP.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			String vid = isoCreateRTP.getPain06Document().getCdtrPmtActvtnReq().getOrgnlPmtInfAndSts().getTxInfAndSts().getOrgnlTxRef().getCdtr().getNm().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(isoCreateRTP, ts, processRTPRequest, cpData);
@@ -465,7 +465,7 @@ public class AppController<T> {
 			processRTPDeclinedResponse.setAppHdr(rtpDeclinedResponseProcess.getAppHdr());
 			processRTPDeclinedResponse.setPain06Document(rtpDeclinedResponseProcess.getPain06Document());
 			
-			String vid = rtpDeclinedResponseProcess.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtr().getNm().toString();
+			String vid = rtpDeclinedResponseProcess.getPain06Document().getCdtrPmtActvtnReq().getOrgnlPmtInfAndSts().getTxInfAndSts().getOrgnlTxRef().getCdtr().getNm().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpDeclinedResponseProcess, ts, processRTPDeclinedResponse, cpData);
@@ -493,7 +493,7 @@ public class AppController<T> {
 			initiateFundTransferISO.setRevision(fundTransferISOInitiate.getRevision());
 			initiateFundTransferISO.setBodyPAIN00100104(fundTransferISOInitiate.getBodyPAIN00100104());
 			
-			String vid = fundTransferISOInitiate.getBodyPAIN00100104().getDocument().getCstmrCdtTrfInitn().getPmtInf().getCdtTrfTx().getCdtrAcct().getId().getOthr().getId().toString();
+			String vid = fundTransferISOInitiate.getBodyPAIN00100104().getDocument().getCstmrCdtTrfInitn().getSplmtryData().getEnvlp().getVid().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(fundTransferISOInitiate, ts, initiateFundTransferISO, cpData);
