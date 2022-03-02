@@ -539,7 +539,4 @@ public class AppController<T> {
 			return getAccountBalance;
 		}
 	}
-	
-	
-
 }
