@@ -1,5 +1,6 @@
 package com.pim.repository;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.pim.PIMProject.Model.Request.CustomerProfiles;
 import com.pim.PIMProject.Model.Request.FinancialInstitutionInfo;
@@ -32,6 +34,9 @@ public class PimRepository<T> {
 	@Autowired
 	private CommonMethods<T> cms;
 	
+	@Autowired
+    private PlatformTransactionManager transactionManager;
+	
 	public int insertUserRegistration(RegisterUser request, RegisterUser response) {
 		Info info = response.getEntity().getInfo();
 		FinancialInstitutionInfo fi = response.getEntity().getFinancialInstitutionInfo();
@@ -47,14 +52,14 @@ public class PimRepository<T> {
 				+ "FIN_NAME,"+" PRIMARY_ACCOUNT_NO, BIRTH_DATE, REGISTRATION_DATE, ACTIVATION_DATE,  ACTIVATED_BY,"
 				+ "REMARKS, TRANS_COUNT, TODAY_TRANS_AMT, TICKET_SIZE, DAILY_LIMIT)"
 				
-				+ " values (0, '"+info.getEntityType()+"', '"+request.getEntity().getRequestedVirtualID()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
+				+ " values (0, '"+info.getEntityType()+"', '"+request.getEntity().getRequestedVirtualID().getValue()+"', '"+info.getMobileNumber()+"', '"+info.getEmail()+"', 2, 0,"
 				+ " 'Customer Name', 'Customer Address',"+" 'Gender',"+info.getPostalCode()+", '"+info.getnID()+"', '"+info.gettIN()+"', '"+info.getPassword()
 				+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
 				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
 				
 				insertion = jdbcTemplate.update(sql);
 				
-			} catch (ParseException e) {
+			} catch (Exception e) {
 				logger.error("Error Info: "+e);
 			}
 			
@@ -65,7 +70,6 @@ public class PimRepository<T> {
 				
 				 insertion = jdbcTemplate.update(sql2);
 			}
-			
 			return insertion;
 		}
 		else {
@@ -93,7 +97,6 @@ public class PimRepository<T> {
 	@SuppressWarnings("unchecked")
 	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData) throws Exception { 
 	    int insertionStatus = 0;
-	    
 	    if (t.getTransCode() == null) t.setTransCode(2);
 		if (t.getProfileId() == null) t.setProfileId(15);
 		if (t.getTrStatus() == null) t.setTrStatus("n");
@@ -113,7 +116,7 @@ public class PimRepository<T> {
 			insertionStatus = jdbcTemplate.update(sql);
 			
 		} catch (Exception e) {
-			logger.error("Error Info: "+e);
+			logger.info("Error Info: "+e);
 		}
 		
 		return insertionStatus;
