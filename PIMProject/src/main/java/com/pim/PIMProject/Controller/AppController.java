@@ -8,11 +8,15 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.pim.PIMProject.Model.ISO.CAMT00300105.BodyCAMT00300105;
 import com.pim.PIMProject.Model.ISO.CAMT00300105.DataPDUCAMT00300105;
@@ -36,6 +40,7 @@ import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.PIMProject.Model.Request.ValidateFIUser;
+import com.pim.PIMProject.Model.Response.RegisterUserResponse;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.repository.PimRepository;
 import com.pim.service.PimService;
@@ -68,6 +73,11 @@ public class AppController<T> {
 			registerUser.setReq(userReg.getReq());
 			registerUser.setChannelInfo(userReg.getChannelInfo());
 			
+			RestTemplate restTemplate = new RestTemplate();
+			HttpHeaders headers = new HttpHeaders();
+			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
+			ResponseEntity<RegisterUserResponse> registerUserResponse = restTemplate.postForEntity("http://192.168.70.16:9001/RegisterIDTPUser", request, RegisterUserResponse.class);
+			
 			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUser);
 			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc, (T) registerUser));
 			
@@ -76,9 +86,7 @@ public class AppController<T> {
 //			RestTemplate restTemplate = new RestTemplate();
 //			HttpHeaders headers = new HttpHeaders();
 //			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
-//			getFIUserInfo = restTemplate.postForEntity("http://localhost:8080/getfiuserinfo/", request, GetFIUserInfo.class);
-//			
-//			logger.info("Response Data: "+registerUser);			
+//			getFIUserInfo = restTemplate.postForEntity("http://localhost:8080/getfiuserinfo/", request, GetFIUserInfo.class);		
 //			
 //			return getFIUserInfo.getBody();
 		}
