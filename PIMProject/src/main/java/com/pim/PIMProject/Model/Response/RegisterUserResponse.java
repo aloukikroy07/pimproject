@@ -37,4 +37,10 @@ public class RegisterUserResponse {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
+	@Override
+	public String toString() {
+		return "RegisterUserResponse [code=" + code + ", message=" + message + ", userInfo=" + userInfo + "]";
+	}
+	
+	
 }

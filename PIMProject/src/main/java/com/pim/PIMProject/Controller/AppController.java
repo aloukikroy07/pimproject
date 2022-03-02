@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -40,7 +41,12 @@ import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.PIMProject.Model.Request.ValidateFIUser;
+import com.pim.PIMProject.Model.Response.CreateRTPResponse;
+import com.pim.PIMProject.Model.Response.GetRTPListReceivedResponse;
+import com.pim.PIMProject.Model.Response.GetRTPListSentResponse;
+import com.pim.PIMProject.Model.Response.GetTransactionsbyFIResponse;
 import com.pim.PIMProject.Model.Response.RegisterUserResponse;
+import com.pim.PIMProject.Model.Response.TransactionResponse;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.repository.PimRepository;
 import com.pim.service.PimService;
@@ -60,9 +66,16 @@ public class AppController<T> {
 	@Autowired
 	private PimRepository urRepository;
 	
+	@Value("${icp.server.url}")
+	private String icpServerUrl;
+	
+	RestTemplate restTemplate = new RestTemplate();
+	HttpHeaders headers = new HttpHeaders();
+	
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public RegisterUser registerUser(@RequestBody RegisterUser userReg){
+	public T registerUser(@RequestBody RegisterUser userReg){
 		RegisterUser registerUser = new RegisterUser();	
+		ResponseEntity<RegisterUserResponse> registerUserResponse = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
@@ -73,15 +86,11 @@ public class AppController<T> {
 			registerUser.setReq(userReg.getReq());
 			registerUser.setChannelInfo(userReg.getChannelInfo());
 			
-			RestTemplate restTemplate = new RestTemplate();
-			HttpHeaders headers = new HttpHeaders();
 			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
-			ResponseEntity<RegisterUserResponse> registerUserResponse = restTemplate.postForEntity("http://192.168.70.16:9001/RegisterIDTPUser", request, RegisterUserResponse.class);
+			registerUserResponse = restTemplate.postForEntity(icpServerUrl, request, RegisterUserResponse.class);
 			
 			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUser);
 			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc, (T) registerUser));
-			
-			return registerUser;
 			
 //			RestTemplate restTemplate = new RestTemplate();
 //			HttpHeaders headers = new HttpHeaders();
@@ -89,19 +98,20 @@ public class AppController<T> {
 //			getFIUserInfo = restTemplate.postForEntity("http://localhost:8080/getfiuserinfo/", request, GetFIUserInfo.class);		
 //			
 //			return getFIUserInfo.getBody();
+			
+			return  (T) registerUserResponse;
 		}
-		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return registerUser;
+			return (T) ("Error Data: "+ e);
 		}
-		
 	}
 	
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public TransferFunds transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
+	public T transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
 		TransferFunds transferFunds = new TransferFunds();
 		Transactions ts = new Transactions();
+		ResponseEntity<TransactionResponse> transactionResponse = null;
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
@@ -115,24 +125,27 @@ public class AppController<T> {
 			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
+			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
+			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
+			
 			userRegService.transactionInsertion(fundTransfer, ts, transferFunds, cpData);
 			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
 			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
 			
-			return transferFunds;
+			return (T) transactionResponse;
 		}
-		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return transferFunds;
+			return (T) ("Error Data: "+ e);
 		}
 		
 	}
 	
 	@PostMapping(value="/creatertp", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public CreateRTP createRTP(@RequestBody CreateRTP rtpCreation){
+	public T createRTP(@RequestBody CreateRTP rtpCreation){
 		CreateRTP createRTP = new CreateRTP();
 		Transactions ts = new Transactions();
+		ResponseEntity<CreateRTPResponse> createRTPResponse = null;
 			
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(CreateRTP.class);
@@ -143,6 +156,9 @@ public class AppController<T> {
 			createRTP.setChannelInfo(rtpCreation.getChannelInfo());
 			createRTP.setRequestInfo(rtpCreation.getRequestInfo());
 			
+			HttpEntity<CreateRTP> request = new HttpEntity<CreateRTP>(rtpCreation, headers);
+			createRTPResponse = restTemplate.postForEntity(icpServerUrl, request, CreateRTPResponse.class);
+			
 			String vid = rtpCreation.getRequestInfo().getSenderInfo().getSenderVID().getValue().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
@@ -150,20 +166,20 @@ public class AppController<T> {
 			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP);
 			logger.info("Response Data for CreateRTP: "+cms.convertToXmlFromModel(jc, (T) createRTP));
 			
-			return createRTP;
+			return (T) createRTPResponse;
 		}
-		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return createRTP;
+			return (T) ("Error Data: "+ e);
 		}
 		
 	}
 	
 	@PostMapping(value="/initiatefundtransfer", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public InitiateFundTransfer initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
+	public T initiateFundTransfer(@RequestBody InitiateFundTransfer fundTransferInitiate){
 		InitiateFundTransfer initiateFundTransfer = new InitiateFundTransfer();
 		Transactions ts = new Transactions();
+		ResponseEntity<TransactionResponse> transactionResponse = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(InitiateFundTransfer.class);
@@ -174,6 +190,9 @@ public class AppController<T> {
 			initiateFundTransfer.setChannelInfo(fundTransferInitiate.getChannelInfo());
 			initiateFundTransfer.setTransactionInfo(fundTransferInitiate.getTransactionInfo());
 			
+			HttpEntity<InitiateFundTransfer> request = new HttpEntity<InitiateFundTransfer>(fundTransferInitiate, headers);
+			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
+			
 			String vid = fundTransferInitiate.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
@@ -181,20 +200,21 @@ public class AppController<T> {
 			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
 			logger.info("Response Data for InitiateFundTransfer: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
-			return initiateFundTransfer;
+			return (T) transactionResponse;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return initiateFundTransfer;
+			return (T) ("Error Data: "+ e);
 		}
 		
 	}
 	
 	@PostMapping(value="/gettransactionsbyfi", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public GetTransactionsbyFI getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
+	public T getTransactionsbyFI(@RequestBody GetTransactionsbyFI getFITransactions){
 		GetTransactionsbyFI getTransactionsbyFI = new GetTransactionsbyFI();	
 		Transactions ts = new Transactions();
+		ResponseEntity<GetTransactionsbyFIResponse> transactionsbyFIResponse = null;
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(GetTransactionsbyFI.class);
@@ -205,23 +225,27 @@ public class AppController<T> {
 			getTransactionsbyFI.setChannelInfo(getFITransactions.getChannelInfo());
 			getTransactionsbyFI.setReqInfo(getFITransactions.getReqInfo());
 			
+			HttpEntity<GetTransactionsbyFI> request = new HttpEntity<GetTransactionsbyFI>(getFITransactions, headers);
+			transactionsbyFIResponse = restTemplate.postForEntity(icpServerUrl, request, GetTransactionsbyFIResponse.class);
+			
 			userRegService.interfaceLogsInsertion(getFITransactions, "gettransactionsbyfi", jc, getTransactionsbyFI);
 			logger.info("Response Data for GetTransactionsbyFI: "+cms.convertToXmlFromModel(jc, (T) getTransactionsbyFI));
 			
-			return getTransactionsbyFI;
+			return (T) transactionsbyFIResponse;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return getTransactionsbyFI;
+			return (T) ("Error Data: "+ e);
 		}
 		
 	}
 	
 	@PostMapping(value="/getrtplistsent", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public GetRTPListSent getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
+	public T getRTPListSent(@RequestBody GetRTPListSent getListSentRTP){
 		GetRTPListSent getRTPListSent = new GetRTPListSent();
 		Transactions ts = new Transactions();
+		ResponseEntity<GetRTPListSentResponse> rtpListSentResponse = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(GetRTPListSent.class);
@@ -232,21 +256,25 @@ public class AppController<T> {
 			getRTPListSent.setChannelInfo(getListSentRTP.getChannelInfo());
 			getRTPListSent.setReqInfo(getListSentRTP.getReqInfo());
 			
+			HttpEntity<GetRTPListSent> request = new HttpEntity<GetRTPListSent>(getListSentRTP, headers);
+			rtpListSentResponse = restTemplate.postForEntity(icpServerUrl, request, GetRTPListSentResponse.class);
+			
 			userRegService.interfaceLogsInsertion(getListSentRTP, "getrtplistsent", jc, getRTPListSent);
 			logger.info("Response Data for GetRTPListSent: "+cms.convertToXmlFromModel(jc, (T) getRTPListSent));
 			
-			return getRTPListSent;
+			return (T) rtpListSentResponse;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return getRTPListSent;
+			return (T) ("Error Data: "+ e);
 		}
 	}
 	
 	@PostMapping(value="/getrtplistreceived", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public GetRTPListReceived getRTPListReceived(@RequestBody GetRTPListReceived getListReceivedRTP){
+	public T getRTPListReceived(@RequestBody GetRTPListReceived getListReceivedRTP){
 		GetRTPListReceived getRTPListReceived = new GetRTPListReceived();
+		ResponseEntity<GetRTPListReceivedResponse> rtpListReceivedResponse = null;
 			
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(GetRTPListReceived.class);
@@ -257,15 +285,18 @@ public class AppController<T> {
 			getRTPListReceived.setChannelInfo(getListReceivedRTP.getChannelInfo());
 			getRTPListReceived.setReqInfo(getListReceivedRTP.getReqInfo());
 			
+			HttpEntity<GetRTPListReceived> request = new HttpEntity<GetRTPListReceived>(getListReceivedRTP, headers);
+			rtpListReceivedResponse = restTemplate.postForEntity(icpServerUrl, request, GetRTPListReceivedResponse.class);
+			
 			userRegService.interfaceLogsInsertion(getListReceivedRTP, "getrtplistreceived", jc, getRTPListReceived);
 			logger.info("Response Data for GetRTPListReceived: "+cms.convertToXmlFromModel(jc, (T) getRTPListReceived));
 			
-			return getRTPListReceived;
+			return (T) rtpListReceivedResponse;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
-			return getRTPListReceived;
+			return (T) ("Error Data: "+ e);
 		}
 		
 	}
@@ -349,9 +380,10 @@ public class AppController<T> {
 	}
 	
 	@PostMapping(value="/transferfundsiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public DataPDUPACS06 transferFundsISO(@RequestBody DataPDUPACS06 pduData) {
+	public T transferFundsISO(@RequestBody DataPDUPACS06 pduData) {
 		DataPDUPACS06 dataPDU = new DataPDUPACS06();
 		Transactions ts = new Transactions();
+		ResponseEntity<DataPDUPACS06> dataPDUPACS06 = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(DataPDUPACS06.class);
@@ -360,6 +392,9 @@ public class AppController<T> {
 			dataPDU.setRevision(pduData.getRevision());
 			dataPDU.setBody(pduData.getBody());
 			
+			HttpEntity<DataPDUPACS06> request = new HttpEntity<DataPDUPACS06>(pduData, headers);
+			dataPDUPACS06 = restTemplate.postForEntity(icpServerUrl, request, DataPDUPACS06.class);
+			
 			String vid = pduData.getBody().getDocument().getFiToFICstmrCdtTrf().getCdtTrfTxInf().getDbtrAcct().getId().getOthr().getId();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
@@ -367,12 +402,12 @@ public class AppController<T> {
 			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData);
 			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
-			return dataPDU;
+			return (T) dataPDUPACS06;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data for DataPDU: "+ e);
-			return dataPDU;
+			return (T) ("Error Data for DataPDU: "+ e);
 		}
 	}
 	
@@ -406,9 +441,10 @@ public class AppController<T> {
 	}
 	
 	@PostMapping(value="/creatertpiso", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public BodyPAIN01300106 createRTPISO(@RequestBody BodyPAIN01300106 rtpISOCreate) {
+	public T createRTPISO(@RequestBody BodyPAIN01300106 rtpISOCreate) {
 		BodyPAIN01300106 createRTPISO = new BodyPAIN01300106();
 		Transactions ts = new Transactions();
+		ResponseEntity<DataPDUPACS06> dataPDUPACS06 = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(BodyPAIN01300106.class);
@@ -417,6 +453,9 @@ public class AppController<T> {
 			createRTPISO.setAppHdr(rtpISOCreate.getAppHdr());
 			createRTPISO.setPain06Document(rtpISOCreate.getPain06Document());
 			
+			HttpEntity<BodyPAIN01300106> request = new HttpEntity<BodyPAIN01300106>(rtpISOCreate, headers);
+			dataPDUPACS06 = restTemplate.postForEntity(icpServerUrl, request, DataPDUPACS06.class);
+			
 			String vid = rtpISOCreate.getPain06Document().getCdtrPmtActvtnReq().getPmtInf().getCdtTrfTx().getCdtr().getNm().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
@@ -424,12 +463,12 @@ public class AppController<T> {
 			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
 			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
-			return createRTPISO;
+			return (T) dataPDUPACS06;
 		}
 		
 		catch (Exception e) {
 			logger.error("Error Data for DataPDU: "+ e);
-			return createRTPISO;
+			return (T) ("Error Data for DataPDU: "+ e);
 		}
 	}
 	
