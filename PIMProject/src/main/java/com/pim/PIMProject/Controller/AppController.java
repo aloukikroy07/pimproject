@@ -128,7 +128,8 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().toString();
+			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
+			System.out.println(vid);
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);

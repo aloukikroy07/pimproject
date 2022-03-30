@@ -123,7 +123,7 @@ public class PimRepository<T> {
 	}
 	
 	public List <CustomerProfiles> selectProfileData(String vid) {
-		String query = "select * from t_customer_profiles where idtp_vid = '"+vid+"'";
+		String query = "select * from t_customer_profiles where idtp_vid = '"+vid.toString()+"'";
 		List<CustomerProfiles> data = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
 		return data;
 	}
