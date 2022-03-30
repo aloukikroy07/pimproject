@@ -2,8 +2,10 @@ package com.pim.PIMProject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +21,7 @@ import com.pim.PIMProject.JWT.Security.JWTAuthorizationFilter;
 		"com.pim.PIMProject.JWT.Models","com.pim.PIMProject.JWT.Repository",
 		"com.pim.PIMProject.JWT.Security",})
 
-public class PimProjectApplication {
+public class PimProjectApplication implements CommandLineRunner  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PimProjectApplication.class);
 	
@@ -44,6 +46,12 @@ public class PimProjectApplication {
 			  .antMatchers(HttpMethod.POST, "/Signup").permitAll()
 		      .anyRequest().authenticated();
 		}
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("PIMProject runing has completed !");
+		
 	}
 
 }

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pim.PIMProject.JWT.Models.User;
 import com.pim.PIMProject.JWT.Repository.UserRepo;
 import com.pim.PIMProject.Model.Request.RegisterUser;
+import com.pim.repository.PimRepository;
+import com.pim.service.PimService;
 import com.pim.util.CommonMethods;
 
 import io.jsonwebtoken.Jwts;
@@ -35,6 +37,9 @@ public class AuthController<T> {
 	@Autowired
 	private UserRepo userRepo;
 	
+	@Autowired
+	private PimService userRegService;
+	
 	@PostMapping(value="/Signin", produces= MediaType.APPLICATION_JSON_VALUE, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public T Signin(@RequestBody User u) {
 		try {
@@ -49,6 +54,7 @@ public class AuthController<T> {
 				user.setEmailaddress(u.getEmailaddress());
 				user.setToken(token);		
 				
+				userRegService.interfaceLogsInsertion(u, "Signin", jc, "User signin successful.");
 				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc, (T) user));
 				
 				return (T) user;
@@ -71,6 +77,7 @@ public class AuthController<T> {
 		try {
 			JAXBContext jc = JAXBContext.newInstance(User.class);
 			logger.info("Request for Signup info: "+cms.convertToXmlFromModel(jc, (T) u));
+			userRegService.interfaceLogsInsertion(u, "Signup", jc, "User registration/signup successful.");
 			
 			int result = userRepo.AddUser(u);
 			if(result == 1) {
@@ -103,7 +110,7 @@ public class AuthController<T> {
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + 3600000))
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 
