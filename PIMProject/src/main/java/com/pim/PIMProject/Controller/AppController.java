@@ -86,8 +86,8 @@ public class AppController<T> {
 			registerUser.setReq(userReg.getReq());
 			registerUser.setChannelInfo(userReg.getChannelInfo());
 			
-			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
-			registerUserResponse = restTemplate.postForEntity(icpServerUrl, request, RegisterUserResponse.class);
+//			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
+//			registerUserResponse = restTemplate.postForEntity(icpServerUrl, request, RegisterUserResponse.class);
 			
 			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUser);
 			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc, (T) registerUser));
@@ -99,7 +99,8 @@ public class AppController<T> {
 //			
 //			return getFIUserInfo.getBody();
 			
-			return  (T) registerUserResponse;
+			//return  (T) registerUserResponse;
+			return (T) registerUser;
 		}
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
@@ -125,14 +126,15 @@ public class AppController<T> {
 			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().toString();
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
-			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
-			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
+//			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
+//			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
 			
 			userRegService.transactionInsertion(fundTransfer, ts, transferFunds, cpData);
 			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
 			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
 			
-			return (T) transactionResponse;
+			//return (T) transactionResponse;
+			return (T) transferFunds;
 		}
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);

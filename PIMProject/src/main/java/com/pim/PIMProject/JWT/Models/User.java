@@ -1,10 +1,12 @@
 package com.pim.PIMProject.JWT.Models;
 
 import javax.persistence.Column;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
+@XmlRootElement
 public class User {
 	@NotNull
 	@Column(name="name")
