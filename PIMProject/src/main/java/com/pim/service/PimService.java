@@ -14,6 +14,7 @@ import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
+import com.pim.PIMProject.Model.Response.RegisterUserResponse;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.repository.PimRepository;
 import com.pim.util.CommonMethods;
@@ -27,12 +28,12 @@ public class PimService<T> {
 	@Autowired
 	private CommonMethods<T> cm;
 	
-	public int insertUserRegistrationData(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUser response) {
+	public int insertUserRegistrationData(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUserResponse response, JAXBContext resClass) {
 		Integer returnStatus = urRepository.insertUserRegistration(request, response);
 		
 		if (returnStatus == 1) {
 			try {
-				returnStatus = interfaceLogsInsertion(request, requestName, reqClass, response);
+				returnStatus = interfaceLogsInsertion(request, requestName, reqClass, response, resClass);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -44,12 +45,12 @@ public class PimService<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response) throws Exception {
+	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response, JAXBContext resClass) throws Exception {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    
 	    String xmlRequest = cm.makeXmlForInterfaceLogs(reqClass, request);
-	    String xmlRespose = cm.makeXmlForInterfaceLogs(reqClass, response);
+	    String xmlRespose = cm.makeXmlForInterfaceLogs(resClass, response);
 	    
 	    ifl.setRequestName(requestName);
 	    ifl.setRequestParams(xmlRequest);

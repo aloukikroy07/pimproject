@@ -20,6 +20,7 @@ import com.pim.PIMProject.Model.Request.Info;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
+import com.pim.PIMProject.Model.Response.RegisterUserResponse;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.util.CommonMethods;
 
@@ -37,12 +38,12 @@ public class PimRepository<T> {
 	@Autowired
     private PlatformTransactionManager transactionManager;
 	
-	public int insertUserRegistration(RegisterUser request, RegisterUser response) {
-		Info info = response.getEntity().getInfo();
-		FinancialInstitutionInfo fi = response.getEntity().getFinancialInstitutionInfo();
+	public int insertUserRegistration(RegisterUser request, RegisterUserResponse response) {
+		Info info = request.getEntity().getInfo();
+		FinancialInstitutionInfo fi = request.getEntity().getFinancialInstitutionInfo();
 		String sql = "";  int insertion = 0;
 		
-		String sqll = "select * from t_customer_profiles where nid = '"+response.getEntity().getInfo().getnID()+"'";
+		String sqll = "select * from t_customer_profiles where nid = '"+request.getEntity().getInfo().getnID()+"'";
 		List <CustomerProfiles> userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
 		
 		if (userData.isEmpty()) {

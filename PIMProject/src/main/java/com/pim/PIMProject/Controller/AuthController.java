@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pim.PIMProject.JWT.Models.User;
 import com.pim.PIMProject.JWT.Repository.UserRepo;
+import com.pim.PIMProject.Model.General.ErrorMessage;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.repository.PimRepository;
 import com.pim.service.PimService;
@@ -40,12 +42,14 @@ public class AuthController<T> {
 	@Autowired
 	private PimService userRegService;
 	
+	ErrorMessage errorMessage= new ErrorMessage();
+	
 	@PostMapping(value="/Signin", produces= MediaType.APPLICATION_JSON_VALUE, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public T Signin(@RequestBody User u) {
-		try {
-			JAXBContext jc = JAXBContext.newInstance(User.class);
+	public T Signin(@RequestBody User u) throws Exception {	
+		JAXBContext jc = JAXBContext.newInstance(User.class);
+		JAXBContext jc1 = JAXBContext.newInstance(ErrorMessage.class);
+		try {			
 			logger.info("Request for Signin info: "+cms.convertToXmlFromModel(jc, (T) u));
-			
 			int result = userRepo.VerifyUser(u);
 			if(result==1) {
 				String token = getJWTToken(u.getUsername());
@@ -54,21 +58,26 @@ public class AuthController<T> {
 				user.setEmailaddress(u.getEmailaddress());
 				user.setToken(token);		
 				
-				userRegService.interfaceLogsInsertion(u, "Signin", jc, "User signin successful.");
+				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) user, jc);
 				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc, (T) user));
 				
 				return (T) user;
 			}
 			
 			else {
+				errorMessage.setMessage("Login failed, wrong credentials");
+				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
+				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc1, (T) errorMessage));
 				return (T) "Username or password don't match.";
 			}
 			
 		}
 				
 		catch(Exception e) {
-			logger.error("Error Data: "+ e);
-			return (T) "Username or password don't match.";
+			errorMessage.setMessage(e.toString());
+			userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
+			logger.error("Login failed: "+ e);
+			return (T) e;
 		}
 	}
 	
@@ -77,7 +86,7 @@ public class AuthController<T> {
 		try {
 			JAXBContext jc = JAXBContext.newInstance(User.class);
 			logger.info("Request for Signup info: "+cms.convertToXmlFromModel(jc, (T) u));
-			userRegService.interfaceLogsInsertion(u, "Signup", jc, "User registration/signup successful.");
+			userRegService.interfaceLogsInsertion(u, "Signup", jc, u, jc);
 			
 			int result = userRepo.AddUser(u);
 			if(result == 1) {

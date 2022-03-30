@@ -80,6 +80,7 @@ public class AppController<T> {
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
+			JAXBContext jc1 = JAXBContext.newInstance(RegisterUserResponse.class);
 			logger.info("Request to RegisterUser info: "+cms.convertToXmlFromModel(jc, (T) userReg));
 			
 			registerUser.setHead(userReg.getHead());
@@ -94,8 +95,8 @@ public class AppController<T> {
 			registerUserResponse.setCode("200");
 			registerUserResponse.setMessage("Registration successful");
 			
-			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUser);
-			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc, (T) registerUser));
+			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUserResponse, jc1);
+			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc1, (T) registerUserResponse));
 			
 //			RestTemplate restTemplate = new RestTemplate();
 //			HttpHeaders headers = new HttpHeaders();
@@ -121,6 +122,7 @@ public class AppController<T> {
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
+			JAXBContext jc1 = JAXBContext.newInstance(TransactionResponse.class);
 			logger.info("Request to TransferFunds info : "+cms.convertToXmlFromModel(jc, (T) fundTransfer));
 			
 			transferFunds.setHead(fundTransfer.getHead());
@@ -139,9 +141,9 @@ public class AppController<T> {
 			transactionResponse.setCode("200");
 			transactionResponse.setMessage("Success");
 			
-			userRegService.transactionInsertion(fundTransfer, ts, transferFunds, cpData);
-			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
-			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
+			userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData);
+			userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1);
+			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
 			
 			//return (T) transactionResponse;
 			return (T) transactionResponse;
@@ -175,7 +177,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpCreation, ts, createRTP, cpData);
-			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP);
+			userRegService.interfaceLogsInsertion(rtpCreation, "creatertp", jc, createRTP, jc);
 			logger.info("Response Data for CreateRTP: "+cms.convertToXmlFromModel(jc, (T) createRTP));
 			
 			return (T) createRTPResponse;
@@ -209,7 +211,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(fundTransferInitiate, ts, initiateFundTransfer, cpData);
-			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer);
+			userRegService.interfaceLogsInsertion(fundTransferInitiate, "initiatefundtransfer", jc, initiateFundTransfer, jc);
 			logger.info("Response Data for InitiateFundTransfer: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransfer));
 			
 			return (T) transactionResponse;
@@ -240,7 +242,7 @@ public class AppController<T> {
 			HttpEntity<GetTransactionsbyFI> request = new HttpEntity<GetTransactionsbyFI>(getFITransactions, headers);
 			transactionsbyFIResponse = restTemplate.postForEntity(icpServerUrl, request, GetTransactionsbyFIResponse.class);
 			
-			userRegService.interfaceLogsInsertion(getFITransactions, "gettransactionsbyfi", jc, getTransactionsbyFI);
+			userRegService.interfaceLogsInsertion(getFITransactions, "gettransactionsbyfi", jc, getTransactionsbyFI, jc);
 			logger.info("Response Data for GetTransactionsbyFI: "+cms.convertToXmlFromModel(jc, (T) getTransactionsbyFI));
 			
 			return (T) transactionsbyFIResponse;
@@ -271,7 +273,7 @@ public class AppController<T> {
 			HttpEntity<GetRTPListSent> request = new HttpEntity<GetRTPListSent>(getListSentRTP, headers);
 			rtpListSentResponse = restTemplate.postForEntity(icpServerUrl, request, GetRTPListSentResponse.class);
 			
-			userRegService.interfaceLogsInsertion(getListSentRTP, "getrtplistsent", jc, getRTPListSent);
+			userRegService.interfaceLogsInsertion(getListSentRTP, "getrtplistsent", jc, getRTPListSent, jc);
 			logger.info("Response Data for GetRTPListSent: "+cms.convertToXmlFromModel(jc, (T) getRTPListSent));
 			
 			return (T) rtpListSentResponse;
@@ -300,7 +302,7 @@ public class AppController<T> {
 			HttpEntity<GetRTPListReceived> request = new HttpEntity<GetRTPListReceived>(getListReceivedRTP, headers);
 			rtpListReceivedResponse = restTemplate.postForEntity(icpServerUrl, request, GetRTPListReceivedResponse.class);
 			
-			userRegService.interfaceLogsInsertion(getListReceivedRTP, "getrtplistreceived", jc, getRTPListReceived);
+			userRegService.interfaceLogsInsertion(getListReceivedRTP, "getrtplistreceived", jc, getRTPListReceived, jc);
 			logger.info("Response Data for GetRTPListReceived: "+cms.convertToXmlFromModel(jc, (T) getRTPListReceived));
 			
 			return (T) rtpListReceivedResponse;
@@ -326,7 +328,7 @@ public class AppController<T> {
 			validateFIUser.setUserInfo(userFIValidate.getUserInfo());
 			validateFIUser.setOtherInfo(userFIValidate.getOtherInfo());
 			
-			userRegService.interfaceLogsInsertion(userFIValidate, "ValidateFIUser", jc, validateFIUser);
+			userRegService.interfaceLogsInsertion(userFIValidate, "ValidateFIUser", jc, validateFIUser, jc);
 			logger.info("Response Data for ValidateFIUser: "+cms.convertToXmlFromModel(jc, (T) validateFIUser));
 			
 			return validateFIUser;
@@ -353,7 +355,7 @@ public class AppController<T> {
 			notifyIDTPAccountChange.setDeviceInfo(accountChangeNotifyIDTPAccountChange.getDeviceInfo());
 			notifyIDTPAccountChange.setUserInfo(accountChangeNotifyIDTPAccountChange.getUserInfo());
 			
-			userRegService.interfaceLogsInsertion(accountChangeNotifyIDTPAccountChange, "NotifyIDTPAccountChange", jc, notifyIDTPAccountChange);
+			userRegService.interfaceLogsInsertion(accountChangeNotifyIDTPAccountChange, "NotifyIDTPAccountChange", jc, notifyIDTPAccountChange, jc);
 			logger.info("Response Data for NotifyIDTPAccountChange: "+cms.convertToXmlFromModel(jc, (T) notifyIDTPAccountChange));
 			
 			return notifyIDTPAccountChange;
@@ -379,7 +381,7 @@ public class AppController<T> {
 			getFIUserInfo.setUserInfo(getInfoFIUser.getUserInfo());
 			getFIUserInfo.setOtherInfo(getInfoFIUser.getOtherInfo());
 			
-			userRegService.interfaceLogsInsertion(getInfoFIUser, "GetFIUserInfo", jc, getInfoFIUser);
+			userRegService.interfaceLogsInsertion(getInfoFIUser, "GetFIUserInfo", jc, getInfoFIUser, jc);
 			logger.info("Response Data for GetFIUserInfo: "+cms.convertToXmlFromModel(jc, (T) getFIUserInfo));
 			
 			return getFIUserInfo;
@@ -411,7 +413,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
-			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData);
+			userRegService.interfaceLogsInsertion(pduData, "transferfundsiso", jc, pduData, jc);
 			logger.info("Response Data for transferFundsISO: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return (T) dataPDUPACS06;
@@ -440,7 +442,7 @@ public class AppController<T> {
 //			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 //			
 //			userRegService.transactionInsertion(pduData, ts, pduData, cpData);
-			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData);
+			userRegService.interfaceLogsInsertion(pduData, "ProcessFundTransferRequest", jc, pduData, jc);
 			logger.info("Response Data for processFundTransferRequest: "+cms.convertToXmlFromModel(jc, (T) dataPDU));
 			
 			return dataPDU;
@@ -472,7 +474,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpISOCreate, ts, rtpISOCreate, cpData);
-			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate);
+			userRegService.interfaceLogsInsertion(rtpISOCreate, "creatertpiso", jc, rtpISOCreate, jc);
 			logger.info("Response Data for createRTPISO: "+cms.convertToXmlFromModel(jc, (T) createRTPISO));
 			
 			return (T) dataPDUPACS06;
@@ -500,7 +502,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(isoCreateRTP, ts, processRTPRequest, cpData);
-			userRegService.interfaceLogsInsertion(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest);
+			userRegService.interfaceLogsInsertion(isoCreateRTP, "ProcessRTPRequest", jc, processRTPRequest, jc);
 			logger.info("Response Data for processRTPRequest: "+cms.convertToXmlFromModel(jc, (T) processRTPRequest));
 			
 			return processRTPRequest;
@@ -528,7 +530,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(rtpDeclinedResponseProcess, ts, processRTPDeclinedResponse, cpData);
-			userRegService.interfaceLogsInsertion(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse);
+			userRegService.interfaceLogsInsertion(rtpDeclinedResponseProcess, "ProcessRTPDeclinedResponse", jc, processRTPDeclinedResponse, jc);
 			logger.info("Response Data for processRTPDeclinedResponse: "+cms.convertToXmlFromModel(jc, (T) processRTPDeclinedResponse));
 			
 			return processRTPDeclinedResponse;
@@ -556,7 +558,7 @@ public class AppController<T> {
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 			userRegService.transactionInsertion(fundTransferISOInitiate, ts, initiateFundTransferISO, cpData);
-			userRegService.interfaceLogsInsertion(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO);
+			userRegService.interfaceLogsInsertion(fundTransferISOInitiate, "ProcessRTPDeclinedResponse", jc, initiateFundTransferISO, jc);
 			logger.info("Response Data for initiateFundTransferISO: "+cms.convertToXmlFromModel(jc, (T) initiateFundTransferISO));
 			
 			return initiateFundTransferISO;
@@ -579,7 +581,7 @@ public class AppController<T> {
 			getAccountBalance.setRevision(accountBalanceGet.getRevision());
 			getAccountBalance.setBody(accountBalanceGet.getBody());
 			
-			userRegService.interfaceLogsInsertion(accountBalanceGet, "ProcessRTPDeclinedResponse", jc, getAccountBalance);
+			userRegService.interfaceLogsInsertion(accountBalanceGet, "ProcessRTPDeclinedResponse", jc, getAccountBalance, jc);
 			logger.info("Response Data for getAccountBalance: "+cms.convertToXmlFromModel(jc, (T) getAccountBalance));
 			
 			return getAccountBalance;

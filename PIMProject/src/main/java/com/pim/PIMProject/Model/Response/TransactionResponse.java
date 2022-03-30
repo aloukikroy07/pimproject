@@ -1,7 +1,10 @@
 package com.pim.PIMProject.Model.Response;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+@XmlRootElement
 public class TransactionResponse {
 	@JacksonXmlProperty(localName = "Code")
 	private String code;
