@@ -40,6 +40,7 @@ import com.pim.PIMProject.Model.Request.NotifyIDTPAccountChange;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
 import com.pim.PIMProject.Model.Request.TransferFunds;
+import com.pim.PIMProject.Model.Request.UserInfo;
 import com.pim.PIMProject.Model.Request.ValidateFIUser;
 import com.pim.PIMProject.Model.Response.CreateRTPResponse;
 import com.pim.PIMProject.Model.Response.GetRTPListReceivedResponse;
@@ -75,7 +76,7 @@ public class AppController<T> {
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public T registerUser(@RequestBody RegisterUser userReg){
 		RegisterUser registerUser = new RegisterUser();	
-		ResponseEntity<RegisterUserResponse> registerUserResponse = null;
+		//ResponseEntity<RegisterUserResponse> registerUserResponse = null;
 		
 		try {
 			JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
@@ -89,6 +90,10 @@ public class AppController<T> {
 //			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
 //			registerUserResponse = restTemplate.postForEntity(icpServerUrl, request, RegisterUserResponse.class);
 			
+			RegisterUserResponse registerUserResponse = new RegisterUserResponse();
+			registerUserResponse.setCode("200");
+			registerUserResponse.setMessage("Registration successful");
+			
 			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUser);
 			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc, (T) registerUser));
 			
@@ -100,7 +105,7 @@ public class AppController<T> {
 //			return getFIUserInfo.getBody();
 			
 			//return  (T) registerUserResponse;
-			return (T) registerUser;
+			return (T) registerUserResponse;
 		}
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
@@ -112,7 +117,7 @@ public class AppController<T> {
 	public T transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
 		TransferFunds transferFunds = new TransferFunds();
 		Transactions ts = new Transactions();
-		ResponseEntity<TransactionResponse> transactionResponse = null;
+		//ResponseEntity<TransactionResponse> transactionResponse = null;
 		
 		try {	
 			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
@@ -129,12 +134,16 @@ public class AppController<T> {
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
 //			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
 			
+			TransactionResponse transactionResponse = new TransactionResponse();
+			transactionResponse.setCode("200");
+			transactionResponse.setMessage("Success");
+			
 			userRegService.transactionInsertion(fundTransfer, ts, transferFunds, cpData);
 			userRegService.interfaceLogsInsertion(fundTransfer, "transferfunds", jc, transferFunds);
 			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc, (T) transferFunds));
 			
 			//return (T) transactionResponse;
-			return (T) transferFunds;
+			return (T) transactionResponse;
 		}
 		catch (Exception e) {
 			logger.error("Error Data: "+ e);
