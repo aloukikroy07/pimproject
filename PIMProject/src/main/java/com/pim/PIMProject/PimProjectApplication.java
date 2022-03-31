@@ -43,7 +43,6 @@ public class PimProjectApplication extends SpringBootServletInitializer implemen
 			  .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			  .authorizeRequests()
 			  .antMatchers(HttpMethod.POST, "/Signin").permitAll()
-			  .antMatchers(HttpMethod.POST, "/Signup").permitAll()
 		      .anyRequest().authenticated();
 		}
 	}

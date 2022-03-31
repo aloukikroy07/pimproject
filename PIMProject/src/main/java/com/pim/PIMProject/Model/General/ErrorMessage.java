@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ErrorMessage {
+	private String code;
 	private String message;
 
 	public ErrorMessage() {
@@ -11,9 +12,18 @@ public class ErrorMessage {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ErrorMessage(String message) {
+	public ErrorMessage(String code, String message) {
 		super();
+		this.code = code;
 		this.message = message;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getMessage() {
@@ -23,5 +33,7 @@ public class ErrorMessage {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	
 	
 }

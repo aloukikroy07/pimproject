@@ -65,19 +65,21 @@ public class AuthController<T> {
 			}
 			
 			else {
+				errorMessage.setCode("201");
 				errorMessage.setMessage("Login failed, wrong credentials");
 				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
 				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc1, (T) errorMessage));
-				return (T) "Username or password don't match.";
+				return (T) errorMessage;
 			}
 			
 		}
 				
 		catch(Exception e) {
+			errorMessage.setCode("201");
 			errorMessage.setMessage(e.toString());
 			userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
 			logger.error("Login failed: "+ e);
-			return (T) e;
+			return (T) errorMessage;
 		}
 	}
 	
