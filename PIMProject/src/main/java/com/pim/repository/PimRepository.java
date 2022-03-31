@@ -10,6 +10,7 @@ import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,7 +61,11 @@ public class PimRepository<T> {
 				+"', '"+info.getiDTPKey()+"', 'App Password', 'Fin Name', 'Primary Acc No.', to_date('"+info.getDateOfBirth()+"', 'dd-mm-yyyy'),"
 				+ "to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), 1, 'Remarks', 0, 0, 0, 0)";
 				
-				insertion = jdbcTemplate.update(sql);
+				try {
+					insertion = jdbcTemplate.update(sql);
+				} catch (Exception e) {
+				    logger.error("Error Info: "+e);
+				}
 				
 			} catch (Exception e) {
 				logger.error("Error Info: "+e);
@@ -71,7 +76,12 @@ public class PimRepository<T> {
 				String sql2 = "INSERT INTO T_CUSTOMER_ACCOUNTS (PROFILE_ID, ACCOUNT_NO, IDTP_ACC_VID, ACC_TITLE, BRANCH_ID, REG_TYPE, STATUS)"
 						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", '"+request.getEntity().getRequestedVirtualID()+"', 'Acc_title', 1,'B',1)";
 				
-				 insertion = jdbcTemplate.update(sql2);
+				try {
+					insertion = jdbcTemplate.update(sql2);
+				} catch (Exception e) {
+				    logger.error("Error Info: "+e);
+				}
+				 
 			}
 			return insertion;
 		}
@@ -88,7 +98,11 @@ public class PimRepository<T> {
 					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cms.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
 			
-			insertionStatus = jdbcTemplate.update(sql);
+			try {
+				insertionStatus = jdbcTemplate.update(sql);
+			} catch (Exception e) {
+			    logger.error("Error Info: "+e);
+			}
 			
 		} catch (Exception e) {
 			logger.error("Error Info: "+e);
@@ -116,7 +130,12 @@ public class PimRepository<T> {
 					+"', '"+t.getPurpose()+"', '"+t.getTrStatus()+"', '"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()
 					+"', "+t.getUserId()+")";
 			
-			insertionStatus = jdbcTemplate.update(sql);
+			
+			try {
+				insertionStatus = jdbcTemplate.update(sql);
+			} catch (Exception e) {
+			    logger.error("Error Info: "+e);
+			}
 			
 		} catch (Exception e) {
 			logger.info("Error Info: "+e);
