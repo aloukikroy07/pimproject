@@ -32,16 +32,6 @@ public class PimService<T> {
 	public int insertUserRegistrationData(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUserResponse response, JAXBContext resClass) {
 		Integer returnStatus = urRepository.insertUserRegistration(request, response);
 		
-		if (returnStatus == 1) {
-			try {
-				returnStatus = interfaceLogsInsertion(request, requestName, reqClass, response, resClass);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else {
-			returnStatus = 0;
-		}
-		
 		return returnStatus;
 	}
 
