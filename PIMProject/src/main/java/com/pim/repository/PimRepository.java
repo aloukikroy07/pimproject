@@ -115,9 +115,6 @@ public class PimRepository<T> {
 	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData, Map map) throws Exception { 
 	    int insertionStatus = 0;
 		if (t.getProfileId() == null) t.setProfileId(15);
-		if (t.getTrStatus() == null) t.setTrStatus("n");
-		if (t.getReconciled() == null) t.setReconciled("n");
-		if (t.getApiSuccess() == null)t.setApiSuccess("n");
 		if (t.getUserId() == null) t.setUserId(1);
 		
 		try {
