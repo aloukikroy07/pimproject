@@ -21,7 +21,7 @@ import com.pim.PIMProject.JWT.Security.JWTAuthorizationFilter;
 		"com.pim.PIMProject.JWT.Models","com.pim.PIMProject.JWT.Repository",
 		"com.pim.PIMProject.JWT.Security",})
 
-public class PimProjectApplication implements CommandLineRunner  {
+public class PimProjectApplication extends SpringBootServletInitializer implements CommandLineRunner  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PimProjectApplication.class);
 	
