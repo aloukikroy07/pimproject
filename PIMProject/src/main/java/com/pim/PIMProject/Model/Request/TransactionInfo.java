@@ -15,6 +15,8 @@ public class TransactionInfo {
 	private ReceiverInfo receiverInfo;
 	@JacksonXmlProperty(localName = "ReqInfo")
 	private ReqInfo reqInfo;
+	@JacksonXmlProperty(localName = "TxnInfo")
+	private TxnInfo txnInfo;
 	@JacksonXmlProperty(localName = "OtherInfo")
 	private OtherInfo otherInfo;
 	@JacksonXmlProperty(localName = "Creds")
@@ -24,7 +26,7 @@ public class TransactionInfo {
 		// TODO Auto-generated constructor stub
 	}
 	public TransactionInfo(String addr, String type, SenderInfo senderInfo, DeviceInfo deviceInfo,
-			ReceiverInfo receiverInfo, ReqInfo reqInfo, OtherInfo otherInfo, Creds creds) {
+			ReceiverInfo receiverInfo, ReqInfo reqInfo, TxnInfo txnInfo, OtherInfo otherInfo, Creds creds) {
 		super();
 		this.addr = addr;
 		this.type = type;
@@ -32,6 +34,7 @@ public class TransactionInfo {
 		this.deviceInfo = deviceInfo;
 		this.receiverInfo = receiverInfo;
 		this.reqInfo = reqInfo;
+		this.txnInfo = txnInfo;
 		this.otherInfo = otherInfo;
 		this.creds = creds;
 	}
@@ -70,6 +73,12 @@ public class TransactionInfo {
 	}
 	public void setReqInfo(ReqInfo reqInfo) {
 		this.reqInfo = reqInfo;
+	}
+	public TxnInfo getTxnInfo() {
+		return txnInfo;
+	}
+	public void setTxnInfo(TxnInfo txnInfo) {
+		this.txnInfo = txnInfo;
 	}
 	public OtherInfo getOtherInfo() {
 		return otherInfo;

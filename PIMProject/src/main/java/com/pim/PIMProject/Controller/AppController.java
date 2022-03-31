@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -76,14 +77,20 @@ public class AppController<T> {
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
 	
+	Random random = new Random();
+	
 	@PostMapping(value="/registeruser", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public T registerUser(@RequestBody RegisterUser userReg){
+	public T registerUser(@RequestBody RegisterUser userReg) throws Exception{
 		RegisterUser registerUser = new RegisterUser();	
 		//ResponseEntity<RegisterUserResponse> registerUserResponse = null;
+		com.pim.PIMProject.Model.Response.UserInfo userInfo = new com.pim.PIMProject.Model.Response.UserInfo();
+		
+		RegisterUserResponse registerUserResponse = new RegisterUserResponse();	
+		
+		JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
+		JAXBContext jc1 = JAXBContext.newInstance(RegisterUserResponse.class);
 		
 		try {
-			JAXBContext jc = JAXBContext.newInstance(RegisterUser.class);
-			JAXBContext jc1 = JAXBContext.newInstance(RegisterUserResponse.class);
 			logger.info("Request to RegisterUser info: "+cms.convertToXmlFromModel(jc, (T) userReg));
 			
 			registerUser.setHead(userReg.getHead());
@@ -94,12 +101,21 @@ public class AppController<T> {
 //			HttpEntity<RegisterUser> request = new HttpEntity<RegisterUser>(userReg, headers);
 //			registerUserResponse = restTemplate.postForEntity(icpServerUrl, request, RegisterUserResponse.class);
 			
-			RegisterUserResponse registerUserResponse = new RegisterUserResponse();
-			registerUserResponse.setCode("200");
-			registerUserResponse.setMessage("Registration successful");
+					
 			
-			userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUserResponse, jc1);
-			logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc1, (T) registerUserResponse));
+			int i = userRegService.insertUserRegistrationData(userReg, "registerUser", jc, registerUserResponse, jc1);
+			
+			if(i==1) {
+				userInfo.setSeqNum("1");
+				userInfo.setStatus("1");
+				userInfo.setVirtualID(registerUser.getEntity().getRequestedVirtualID().getValue());
+				registerUserResponse.setCode("200");
+				registerUserResponse.setMessage("Registration successful");
+				registerUserResponse.setUserInfo(userInfo);
+				userRegService.interfaceLogsInsertion(userReg, "user registration", jc, registerUserResponse, jc1);
+				logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc1, (T) registerUserResponse));
+				return (T) registerUserResponse;
+			}
 			
 //			RestTemplate restTemplate = new RestTemplate();
 //			HttpHeaders headers = new HttpHeaders();
@@ -109,23 +125,45 @@ public class AppController<T> {
 //			return getFIUserInfo.getBody();
 			
 			//return  (T) registerUserResponse;
-			return (T) registerUserResponse;
+			else {
+				userInfo.setSeqNum("1");
+				userInfo.setStatus("0");
+				userInfo.setVirtualID(registerUser.getEntity().getRequestedVirtualID().getValue());
+				userInfo.setReason("Duplicate NID found");
+				registerUserResponse.setCode("201");
+				registerUserResponse.setMessage("Registration failed for user");
+				registerUserResponse.setUserInfo(userInfo);
+				userRegService.interfaceLogsInsertion(userReg, "user registration", jc, registerUserResponse, jc1);
+				logger.info("Response Data for RegisterUser: "+cms.convertToXmlFromModel(jc1, (T) registerUserResponse));
+				return (T) registerUserResponse;
+			}
+			
 		}
 		catch (Exception e) {
+			userInfo.setSeqNum("1");
+			userInfo.setStatus("0");
+			userInfo.setVirtualID(registerUser.getEntity().getRequestedVirtualID().getValue());
+			userInfo.setReason(e.toString());
+			registerUserResponse.setCode("201");
+			registerUserResponse.setMessage("Registration failed for user");
+			registerUserResponse.setUserInfo(userInfo);
+			userRegService.interfaceLogsInsertion(userReg, "user registration", jc, registerUserResponse, jc1);
 			logger.error("Error Data: "+ e);
-			return (T) ("Error Data: "+ e);
+			return (T) registerUserResponse;
 		}
 	}
 	
 	@PostMapping(value="/transferfunds", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
-	public T transferFunds(@RequestBody TransferFunds fundTransfer) throws JAXBException{		
+	public T transferFunds(@RequestBody TransferFunds fundTransfer) throws Exception{		
 		TransferFunds transferFunds = new TransferFunds();
 		Transactions ts = new Transactions();
 		//ResponseEntity<TransactionResponse> transactionResponse = null;
+		TransactionResponse transactionResponse = new TransactionResponse();
+		JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
+		JAXBContext jc1 = JAXBContext.newInstance(TransactionResponse.class);
 		
 		try {	
-			JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
-			JAXBContext jc1 = JAXBContext.newInstance(TransactionResponse.class);
+			
 			logger.info("Request to TransferFunds info : "+cms.convertToXmlFromModel(jc, (T) fundTransfer));
 			
 			transferFunds.setHead(fundTransfer.getHead());
@@ -140,25 +178,49 @@ public class AppController<T> {
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
 //			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
 			
-			TransactionResponse transactionResponse = new TransactionResponse();
-			transactionResponse.setCode("200");
-			transactionResponse.setMessage("Success");
+			long a = random.nextLong();
+			
 			Map map = new HashMap();
 			map.put("ReceiverVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
+						
+			int i = userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
 			
-			userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
-			userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1);
-			logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
+			if(i==1) {
+				transactionResponse.setCode("200");
+				transactionResponse.setMessage("Success");
+				transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+				transactionResponse.setRefNoReceivingBank(Long.toString(Math.abs(a)));
+				transactionResponse.setRefNoIDTP("IDTP"+transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+				
+				userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1);
+				logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
+				
+				//return (T) transactionResponse;
+				return (T) transactionResponse;
+			}
+			else {
+				transactionResponse.setCode("201");
+				transactionResponse.setMessage("Receiver FI Rejected the transaction");
+				transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+				
+				userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1);
+				logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
+				
+				return (T) transactionResponse;
+			}
 			
-			//return (T) transactionResponse;
-			return (T) transactionResponse;
 		}
 		catch (Exception e) {
+			transactionResponse.setCode("201");
+			transactionResponse.setMessage(e.toString());
+			transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());			
+			userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1);
 			logger.error("Error Data: "+ e);
-			return (T) ("Error Data: "+ e);
+			return (T) transactionResponse;
 		}
 		
 	}
+	
 	
 	@PostMapping(value="/creatertp", produces= MediaType.APPLICATION_XML_VALUE, consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.TEXT_XML_VALUE})
 	public T createRTP(@RequestBody CreateRTP rtpCreation){
