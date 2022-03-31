@@ -172,7 +172,6 @@ public class AppController<T> {
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
 			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
-			System.out.println(vid);
 			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
 			
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
@@ -181,7 +180,13 @@ public class AppController<T> {
 			long a = random.nextLong();
 			
 			Map map = new HashMap();
-			map.put("ReceiverVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
+			map.put("SendingBankRefNo", transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+			map.put("ReceivingBankRefNo", Long.toString(Math.abs(a)));
+			map.put("IDTPRefNo", "IDTP"+transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+			map.put("TransCode", "2");
+			map.put("SenderIdtpVid", vid);
+			map.put("ReceiverIdtpVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
+			map.put("TransAmt", transferFunds.getTransactionInfo().getTxnInfo().getTxnAmount().getValue());
 						
 			int i = userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
 			
