@@ -1,6 +1,7 @@
 package com.pim.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -59,9 +60,16 @@ public class PimService<T> {
 		return urRepository.insertInterfaceLogs(ifl);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> int transactionInsertion(T request, Transactions ts, T response, List<CustomerProfiles> cpData) throws Exception {
-		return urRepository.insertTransactions(ts, cpData);
+	@SuppressWarnings({ "unchecked", "hiding" })
+	public <T> int transactionInsertion(T request, Transactions ts, T response, List<CustomerProfiles> cpData, Map map) {
+		int insertion = 0;
+		try {
+			insertion = urRepository.insertTransactions(ts, cpData, map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return insertion;
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.pim.repository;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 
@@ -20,6 +21,7 @@ import com.pim.PIMProject.Model.Request.Info;
 import com.pim.PIMProject.Model.Request.InterfaceLogs;
 import com.pim.PIMProject.Model.Request.RegisterUser;
 import com.pim.PIMProject.Model.Request.SenderVID;
+import com.pim.PIMProject.Model.Request.TransferFunds;
 import com.pim.PIMProject.Model.Response.RegisterUserResponse;
 import com.pim.db.mapping.model.Transactions;
 import com.pim.util.CommonMethods;
@@ -96,7 +98,7 @@ public class PimRepository<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData) throws Exception { 
+	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData, Map map) throws Exception { 
 	    int insertionStatus = 0;
 	    if (t.getTransCode() == null) t.setTransCode(2);
 		if (t.getProfileId() == null) t.setProfileId(15);
@@ -110,7 +112,7 @@ public class PimRepository<T> {
 					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
 					
 					+ " values ('"+t.getTransId()+"', "+t.getTransCode()+", "+cpData.get(0).getId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
-					+cpData.get(0).getPrimaryAccountNo()+"', '"+t.getReceiverIdtpVid()+"', "+t.getTransAmt()+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
+					+cpData.get(0).getPrimaryAccountNo()+"', '"+map.get("ReceiverVid")+"', "+t.getTransAmt()+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
 					+"', '"+t.getPurpose()+"', '"+t.getTrStatus()+"', '"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()
 					+"', "+t.getUserId()+")";
 			
