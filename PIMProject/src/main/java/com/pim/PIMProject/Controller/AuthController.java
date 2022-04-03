@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
@@ -45,11 +46,12 @@ public class AuthController<T> {
 	ErrorMessage errorMessage= new ErrorMessage();
 	
 	@PostMapping(value="/Signin", produces= MediaType.APPLICATION_JSON_VALUE, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public T Signin(@RequestBody User u) throws Exception {	
+	public T Signin(@RequestBody User u, HttpServletRequest request) throws Exception {	
 		JAXBContext jc = JAXBContext.newInstance(User.class);
 		JAXBContext jc1 = JAXBContext.newInstance(ErrorMessage.class);
-		try {			
-			logger.info("Request for Signin info: "+cms.convertToXmlFromModel(jc, (T) u));
+		logger.info("Request for Signin info: Request from IP: "+request.getRemoteAddr()+" Request Body: \n"+cms.convertToXmlFromModel(jc, (T) u));
+		
+		try {						
 			int result = userRepo.VerifyUser(u);
 			if(result==1) {
 				String token = getJWTToken(u.getUsername());
@@ -58,7 +60,7 @@ public class AuthController<T> {
 				user.setEmailaddress(u.getEmailaddress());
 				user.setToken(token);		
 				
-				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) user, jc);
+				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) user, jc, "Signin Request", "Success");
 				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc, (T) user));
 				
 				return (T) user;
@@ -67,7 +69,7 @@ public class AuthController<T> {
 			else {
 				errorMessage.setCode("201");
 				errorMessage.setMessage("Login failed, wrong credentials");
-				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
+				userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1, "Signin Rquest", "Failed");
 				logger.info("Response Data for Signin: "+cms.convertToXmlFromModel(jc1, (T) errorMessage));
 				return (T) errorMessage;
 			}
@@ -77,18 +79,18 @@ public class AuthController<T> {
 		catch(Exception e) {
 			errorMessage.setCode("201");
 			errorMessage.setMessage(e.toString());
-			userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1);
+			userRegService.interfaceLogsInsertion(u, "Signin", jc, (T) errorMessage, jc1, "Signin Reqest", "Failed");
 			logger.error("Login failed: "+ e);
 			return (T) errorMessage;
 		}
 	}
 	
 	@PostMapping(value="/Signup", produces= MediaType.APPLICATION_JSON_VALUE, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public String Signup(@RequestBody User u) {
+	public String Signup(@RequestBody User u, HttpServletRequest request) {
 		try {
 			JAXBContext jc = JAXBContext.newInstance(User.class);
 			logger.info("Request for Signup info: "+cms.convertToXmlFromModel(jc, (T) u));
-			userRegService.interfaceLogsInsertion(u, "Signup", jc, u, jc);
+			userRegService.interfaceLogsInsertion(u, "Signup", jc, u, jc, "Signup Request", "Success");
 			
 			int result = userRepo.AddUser(u);
 			if(result == 1) {
