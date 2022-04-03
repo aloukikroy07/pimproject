@@ -36,7 +36,7 @@ public class PimService<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response, JAXBContext resClass) throws Exception {
+	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response, JAXBContext resClass, String reqId) throws Exception {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    
@@ -46,6 +46,8 @@ public class PimService<T> {
 	    ifl.setRequestName(requestName);
 	    ifl.setRequestParams(xmlRequest);
 	    ifl.setResponse(xmlRespose);
+	    ifl.setRequestId(reqId);
+	    
 	    
 		return urRepository.insertInterfaceLogs(ifl);
 	}
