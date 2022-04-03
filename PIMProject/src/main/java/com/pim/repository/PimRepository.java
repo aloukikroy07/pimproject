@@ -74,7 +74,7 @@ public class PimRepository<T> {
 			if (insertion == 1) {
 				userData = jdbcTemplate.query(sqll, BeanPropertyRowMapper.newInstance(CustomerProfiles.class));
 				String sql2 = "INSERT INTO T_CUSTOMER_ACCOUNTS (PROFILE_ID, ACCOUNT_NO, IDTP_ACC_VID, ACC_TITLE, BRANCH_ID, REG_TYPE, STATUS)"
-						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", '"+request.getEntity().getRequestedVirtualID()+"', 'Acc_title', 1,'B',1)";
+						+ "values ("+userData.get(0).getId()+", "+fi.getAccountNumber()+", '"+request.getEntity().getRequestedVirtualID().getValue()+"', 'Acc_title', 1,'B',1)";
 				
 				try {
 					insertion = jdbcTemplate.update(sql2);
@@ -94,9 +94,9 @@ public class PimRepository<T> {
 	public  <T extends InterfaceLogs> int insertInterfaceLogs(T ifl) throws Exception { 
 	    int insertionStatus = 0;
 		try {
-			String sql = "INSERT INTO T_INTERFACE_LOGS (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_TIME, RESPONSE_RESULT)"
-					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ cms.setStringDefaultVal(ifl.getRequestId())+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
-					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"+cms.setStringDefaultVal(ifl.getResponseResult())+"')";
+			String sql = "INSERT INTO T_INTERFACE_LOGS (COMPANY_ID, API_PROVIDERS_ID, API_CLASSES_ID, REQUEST_ID, REQUEST_TIME, REQUEST_NAME, REQUEST_PARAMS, RESPONSE, RESPONSE_RESULT)"
+					+ " values (1, "+ifl.getApiProvidersId()+", "+ifl.getApiClassesId()+", '"+ ifl.getRequestId()+"', to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
+					+ifl.getRequestName()+"', '"+ifl.getRequestParams()+"', '"+ifl.getResponse()+"', '"+ifl.getResponseResult()+"')";
 			
 			try {
 				insertionStatus = jdbcTemplate.update(sql);

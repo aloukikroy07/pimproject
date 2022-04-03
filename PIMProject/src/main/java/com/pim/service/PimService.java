@@ -32,21 +32,11 @@ public class PimService<T> {
 	public int insertUserRegistrationData(RegisterUser request, String requestName, JAXBContext reqClass, RegisterUserResponse response, JAXBContext resClass) {
 		Integer returnStatus = urRepository.insertUserRegistration(request, response);
 		
-		if (returnStatus == 1) {
-			try {
-				returnStatus = interfaceLogsInsertion(request, requestName, reqClass, response, resClass);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else {
-			returnStatus = 0;
-		}
-		
 		return returnStatus;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response, JAXBContext resClass) throws Exception {
+	public <T> int interfaceLogsInsertion(T request, String requestName, JAXBContext reqClass, T response, JAXBContext resClass, String reqId, String resResult) throws Exception {
 		
 		InterfaceLogs ifl = new InterfaceLogs();
 	    
@@ -56,6 +46,9 @@ public class PimService<T> {
 	    ifl.setRequestName(requestName);
 	    ifl.setRequestParams(xmlRequest);
 	    ifl.setResponse(xmlRespose);
+	    ifl.setRequestId(reqId);
+	    ifl.setResponseResult(resResult);
+	    
 	    
 		return urRepository.insertInterfaceLogs(ifl);
 	}
@@ -70,8 +63,5 @@ public class PimService<T> {
 			e.printStackTrace();
 		}
 		return insertion;
-	}
-	
-	
-	
+	}	
 }
