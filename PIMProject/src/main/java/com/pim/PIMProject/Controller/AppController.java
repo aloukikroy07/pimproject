@@ -183,7 +183,7 @@ public class AppController<T> {
 			map.put("SendingBankRefNo", transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
 			map.put("ReceivingBankRefNo", Long.toString(Math.abs(a)));
 			map.put("IDTPRefNo", "IDTP"+transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
-			map.put("TransCode", "2");
+			map.put("TransCode", "1");
 			map.put("SenderIdtpVid", vid);
 			map.put("ReceiverIdtpVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
 			map.put("TransAmt", transferFunds.getTransactionInfo().getTxnInfo().getTxnAmount().getValue());

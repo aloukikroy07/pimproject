@@ -115,17 +115,18 @@ public class PimRepository<T> {
 	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData, Map map) throws Exception { 
 	   
 		int insertionStatus = 0;
+		String trStatus = t.getTrStatus();
 		if (t.getProfileId() == null) t.setProfileId(15);
 		if (t.getUserId() == null) t.setUserId(1);
+		if (t.getTrStatus() == null) trStatus = "0";
 		
 		try {
 			String sql = "INSERT INTO T_TRANSACTIONS (SENDING_BANK_REF_NO, RECEIVING_BANK_REF_NO, IDTP_REF_NO, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_IDTP_VID, RECEIVER_IDTP_VID, TRANS_AMT, "
-					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, REASON, CBS_REF, RECONCILED, API_SUCCESS, USER_ID)"
+					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, USER_ID)"
 					
 					+ " values ('"+map.get("SendingBankRefNo")+"', '"+map.get("ReceivingBankRefNo")+"', '"+map.get("IDTPRefNo")+"', "+map.get("TransCode")+", "+cpData.get(0).getId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+map.get("SenderIdtpVid")+"', '"+map.get("ReceiverIdtpVid")+"', "+map.get("TransAmt")+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
-					+"', '"+t.getPurpose()+"', '"+t.getTrStatus()+"', '"+t.getReason()+"', '"+t.getCbsRef()+"', '"+t.getReconciled()+"', '"+t.getApiSuccess()
-					+"', "+t.getUserId()+")";
+					+ "', '" + t.getPurpose() + "', '" +trStatus+ "', "+t.getUserId()+")";
 			
 			
 			try {
