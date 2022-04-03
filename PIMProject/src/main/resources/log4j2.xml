@@ -25,6 +25,7 @@
 			<AppenderRef ref="Console" />
         </Logger>
         <Root level="info">
+        	<AppenderRef ref="appLog" />
             <AppenderRef ref="Console" />
         </Root>
     </Loggers>
