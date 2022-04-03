@@ -212,9 +212,9 @@ public class AppController<T> {
 				logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
 				
 				return (T) transactionResponse;
-			}
-			
+			}			
 		}
+		
 		catch (Exception e) {
 			transactionResponse.setCode("201");
 			transactionResponse.setMessage(e.toString());
