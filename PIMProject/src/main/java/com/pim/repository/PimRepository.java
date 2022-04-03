@@ -113,7 +113,8 @@ public class PimRepository<T> {
 	
 	@SuppressWarnings("unchecked")
 	public  <T extends Transactions> int insertTransactions(T t,  List<CustomerProfiles> cpData, Map map) throws Exception { 
-	    int insertionStatus = 0;
+	   
+		int insertionStatus = 0;
 		if (t.getProfileId() == null) t.setProfileId(15);
 		if (t.getUserId() == null) t.setUserId(1);
 		
