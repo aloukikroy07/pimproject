@@ -214,9 +214,7 @@ public class AppController<T> {
 //				
 //				return (T) transactionResponse;
 //			}			
-		}
-		
-		catch (Exception e) {
+		}catch (Exception e) {
 			if(insertionStatus == 0) {
 				map.put("ApiStatus", "0");
 				cpData = urRepository.selectProfileData(vid);
