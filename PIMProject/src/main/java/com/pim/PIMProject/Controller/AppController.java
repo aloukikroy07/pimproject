@@ -162,6 +162,19 @@ public class AppController<T> {
 		TransactionResponse transactionResponse = new TransactionResponse();
 		JAXBContext jc = JAXBContext.newInstance(TransferFunds.class);
 		JAXBContext jc1 = JAXBContext.newInstance(TransactionResponse.class);
+		long a = random.nextLong();
+		String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
+		int insertionStatus = 0;
+		List<CustomerProfiles> cpData = null;
+		
+		Map map = new HashMap();
+		map.put("SendingBankRefNo", transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+		map.put("ReceivingBankRefNo", Long.toString(Math.abs(a)));
+		map.put("IDTPRefNo", "IDTP"+transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+		map.put("TransCode", "1");
+		map.put("SenderIdtpVid", vid);
+		map.put("ReceiverIdtpVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
+		map.put("TransAmt", transferFunds.getTransactionInfo().getTxnInfo().getTxnAmount().getValue());
 		
 		logger.info("Request to TransferFunds info : Request from IP: "+request.getRemoteAddr()+" Request Body: \n"+cms.convertToXmlFromModel(jc, (T) fundTransfer));
 		
@@ -171,26 +184,14 @@ public class AppController<T> {
 			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
 			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
 			
-			String vid = fundTransfer.getTransactionInfo().getSenderInfo().getSenderVID().getValue().toString();
-			List<CustomerProfiles> cpData = urRepository.selectProfileData(vid);
+			cpData = urRepository.selectProfileData(vid);
 			
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
 //			transactionResponse = restTemplate.postForEntity(icpServerUrl, request, TransactionResponse.class);
+			map.put("ApiStatus", "1");			
+			insertionStatus = userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
 			
-			long a = random.nextLong();
-			
-			Map map = new HashMap();
-			map.put("SendingBankRefNo", transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
-			map.put("ReceivingBankRefNo", Long.toString(Math.abs(a)));
-			map.put("IDTPRefNo", "IDTP"+transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
-			map.put("TransCode", "1");
-			map.put("SenderIdtpVid", vid);
-			map.put("ReceiverIdtpVid", fundTransfer.getTransactionInfo().getReceiverInfo().getReceiverVID().getValue().toString());
-			map.put("TransAmt", transferFunds.getTransactionInfo().getTxnInfo().getTxnAmount().getValue());
-						
-			int i = userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
-			
-			if(i==1) {
+//			if(i==1) {
 				transactionResponse.setCode("200");
 				transactionResponse.setMessage("Success");
 				transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
@@ -202,20 +203,25 @@ public class AppController<T> {
 				
 				//return (T) transactionResponse;
 				return (T) transactionResponse;
-			}
-			else {
-				transactionResponse.setCode("201");
-				transactionResponse.setMessage("Receiver FI Rejected the transaction");
-				transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
-				
-				userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1, transferFunds.getReq().getId(), "Failed");
-				logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
-				
-				return (T) transactionResponse;
-			}			
+//			}
+//			else {
+//				transactionResponse.setCode("201");
+//				transactionResponse.setMessage("Receiver FI Rejected the transaction");
+//				transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
+//				
+//				userRegService.interfaceLogsInsertion(transferFunds, "transferfunds", jc, transactionResponse, jc1, transferFunds.getReq().getId(), "Failed");
+//				logger.info("Response Data for TransferFunds: "+cms.convertToXmlFromModel(jc1, (T) transactionResponse));
+//				
+//				return (T) transactionResponse;
+//			}			
 		}
 		
 		catch (Exception e) {
+			if(insertionStatus == 0) {
+				map.put("ApiStatus", "0");
+				cpData = urRepository.selectProfileData(vid);
+				insertionStatus = userRegService.transactionInsertion(transferFunds, ts, transactionResponse, cpData, map);
+			}
 			transactionResponse.setCode("201");
 			transactionResponse.setMessage(e.toString());
 			transactionResponse.setRefNoSendingBank(transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());			

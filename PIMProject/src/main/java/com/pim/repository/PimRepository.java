@@ -126,7 +126,7 @@ public class PimRepository<T> {
 					
 					+ " values ('"+map.get("SendingBankRefNo")+"', '"+map.get("ReceivingBankRefNo")+"', '"+map.get("IDTPRefNo")+"', "+map.get("TransCode")+", "+cpData.get(0).getId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+map.get("SenderIdtpVid")+"', '"+map.get("ReceiverIdtpVid")+"', "+map.get("TransAmt")+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
-					+ "', '" + t.getPurpose() + "', '" +trStatus+ "', "+t.getUserId()+")";
+					+ "', '" + t.getPurpose() + "', '" +trStatus+ "', "+t.getUserId()+", "+map.get("ApiStatus")+")";
 			
 			
 			try {
