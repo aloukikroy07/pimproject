@@ -167,6 +167,11 @@ public class AppController<T> {
 		int insertionStatus = 0;
 		List<CustomerProfiles> cpData = null;
 		
+		transferFunds.setHead(fundTransfer.getHead());
+		transferFunds.setReq(fundTransfer.getReq());
+		transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
+		transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
+		
 		Map map = new HashMap();
 		map.put("SendingBankRefNo", transferFunds.getTransactionInfo().getTxnInfo().getReferenceNo().getValue());
 		map.put("ReceivingBankRefNo", Long.toString(Math.abs(a)));
@@ -178,12 +183,7 @@ public class AppController<T> {
 		
 		logger.info("Request to TransferFunds info : Request from IP: "+request.getRemoteAddr()+" Request Body: \n"+cms.convertToXmlFromModel(jc, (T) fundTransfer));
 		
-		try {	
-			transferFunds.setHead(fundTransfer.getHead());
-			transferFunds.setReq(fundTransfer.getReq());
-			transferFunds.setChannelInfo(fundTransfer.getChannelInfo());
-			transferFunds.setTransactionInfo(fundTransfer.getTransactionInfo());
-			
+		try {				
 			cpData = urRepository.selectProfileData(vid);
 			
 //			HttpEntity<TransferFunds> request = new HttpEntity<TransferFunds>(fundTransfer, headers);
