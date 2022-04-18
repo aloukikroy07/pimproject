@@ -122,7 +122,7 @@ public class PimRepository<T> {
 		
 		try {
 			String sql = "INSERT INTO T_TRANSACTIONS (SENDING_BANK_REF_NO, RECEIVING_BANK_REF_NO, IDTP_REF_NO, TRANS_CODE, PROFILE_ID, TRANS_DATE, SENDER_IDTP_VID, RECEIVER_IDTP_VID, TRANS_AMT, "
-					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, USER_ID)"
+					+ "CHARGE_AMT, TAX_AMT, DESCRIPTION, PURPOSE, TR_STATUS, USER_ID, API_SUCCESS)"
 					
 					+ " values ('"+map.get("SendingBankRefNo")+"', '"+map.get("ReceivingBankRefNo")+"', '"+map.get("IDTPRefNo")+"', "+map.get("TransCode")+", "+cpData.get(0).getId()+", to_date('"+cms.formatedTodayDate()+"', 'dd-mm-yyyy'), '"
 					+map.get("SenderIdtpVid")+"', '"+map.get("ReceiverIdtpVid")+"', "+map.get("TransAmt")+", "+t.getChargeAmt()+", "+t.getTaxAmt()+", '"+t.getDescription()
